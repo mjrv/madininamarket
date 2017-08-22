@@ -282,28 +282,4 @@ class Items
     {
         return $this->tva;
     }
-
-    /**
-     * Set category
-     *
-     * @param \MarketplaceBundle\Entity\Category $category
-     *
-     * @return Items
-     */
-    public function setCategory(\MarketplaceBundle\Entity\Category $category = null)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \MarketplaceBundle\Entity\Category
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
 }

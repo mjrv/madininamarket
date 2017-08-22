@@ -1,0 +1,32 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+    <h1>Tva</h1>
+
+    <table class="table table-responsive table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tva.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ tva.value }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tva_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('tva_edit', { 'id': tva.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
