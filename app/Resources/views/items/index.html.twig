@@ -3,6 +3,8 @@
 {% block body %}
     <h1>Items list</h1>
 
+
+
     <table class="table table-responsive table-striped">
         <thead>
             <tr>
@@ -23,7 +25,7 @@
                 <td><a href="{{ path('items_show', { 'id': item.id }) }}">{{ item.id }}</a></td>
                 <td>{{ item.reference }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.picture }}</td>
+                <td><img src="{{ item.picture }}" alt="{{ item.name }}" title="{{ item.name }}" style="width: 197px !important; hieght: 197px !important;"></td>
                 <td>{{ item.description }}</td>
                 <td>{{ item.priceHt }}</td>
                 <td>{{ item.discount }}</td>

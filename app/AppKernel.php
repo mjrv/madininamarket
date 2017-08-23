@@ -16,14 +16,15 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
-            new MarketplaceBundle\MarketplaceBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
+            new MarketplaceBundle\MarketplaceBundle(),// Bundle de travail un bundle est dossier qui contient l'ensemble des fichiers du site
+            new FOS\UserBundle\FOSUserBundle(),// Bundle gestion des utilisateurs doc FOSUserBundle
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();// pour Bundle de test -- DoctrineFixturesBundle
 
             if ('dev' === $this->getEnvironment()) {
                 $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

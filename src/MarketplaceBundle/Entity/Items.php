@@ -45,7 +45,7 @@ class Items
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="text")
      */
     private $description;
 
@@ -80,6 +80,13 @@ class Items
      * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Category",cascade={"persist","remove"})
      */
     private $category;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="verify", type="integer")
+     */
+    private $verify;//valeur acceptee 0 pour en attente 1 accepter 2 pour refuser
 
     /**
      * Get id
@@ -305,5 +312,29 @@ class Items
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set verify
+     *
+     * @param integer $verify
+     *
+     * @return Items
+     */
+    public function setVerify($verify)
+    {
+        $this->verify = $verify;
+
+        return $this;
+    }
+
+    /**
+     * Get verify
+     *
+     * @return integer
+     */
+    public function getVerify()
+    {
+        return $this->verify;
     }
 }

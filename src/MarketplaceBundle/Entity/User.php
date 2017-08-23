@@ -25,10 +25,16 @@ class User extends BaseUser
     */
     private $adress;
 
+    /**
+    * @ORM\ManyToMany(targetEntity="MarketplaceBundle\Entity\Shop",mappedBy="user")
+    */
+    private $shop;
+
     public function __construct()
     {
         parent::__construct();
         $this->adress= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->shop= new \Doctrine\Common\Collections\ArrayCollection();
         // your own logic
     }
 
@@ -64,5 +70,39 @@ class User extends BaseUser
     public function getAdress()
     {
         return $this->adress;
+    }
+
+    /**
+     * Add shop
+     *
+     * @param \MarketplaceBundle\Entity\Shop $shop
+     *
+     * @return User
+     */
+    public function addShop(\MarketplaceBundle\Entity\Shop $shop)
+    {
+        $this->shop[] = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Remove shop
+     *
+     * @param \MarketplaceBundle\Entity\Shop $shop
+     */
+    public function removeShop(\MarketplaceBundle\Entity\Shop $shop)
+    {
+        $this->shop->removeElement($shop);
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getShop()
+    {
+        return $this->shop;
     }
 }

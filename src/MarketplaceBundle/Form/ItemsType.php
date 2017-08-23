@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ItemsType extends AbstractType
 {
@@ -33,7 +34,10 @@ class ItemsType extends AbstractType
                                                 'expanded' => false,  
                                                 ))
             ->add('discount')
-            ->add('stock');
+            ->add('stock',IntegerType::class, array('attr' =>array(
+                'min' => '0',
+                'max' => '10000',
+                )));
     }
     
     /**
