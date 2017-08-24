@@ -26,7 +26,9 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setStock('30')
 			->setTva($this->getReference('18.5'))
 			->setCategory($this->getReference('Bricolage'))
-			->setVerify('1');
+			->setVerify('1')
+			->setUpdateAt(new \DateTime())
+			->setUser($this->getReference('mjrv'));
 		$manager->persist($items1);//prepare l objet a etre mis en base de donnee
 
 
@@ -41,8 +43,9 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setStock('20')
 			->setTva($this->getReference('18.5'))
 			->setCategory($this->getReference('loisir'))
-			->setVerify('0');
-
+			->setVerify('0')
+			->setUpdateAt(new \DateTime())
+			->setUser($this->getReference('tata'));
 		$manager->persist($items2);//prepare l objet a etre mis en base de donnee
 
 
@@ -61,7 +64,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 		// the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded
         //l'ordre dans lequel la fonction va etre executee
-        return 3;
+        return 4;
 
 	}
 }

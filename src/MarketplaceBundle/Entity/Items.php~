@@ -89,6 +89,19 @@ class Items
     private $verify;//valeur acceptee 0 pour en attente 1 accepter 2 pour refuser
 
     /**
+    *@var \Datetime
+    * @ORM\Column(type="datetime")
+    */
+    private $updateAt;
+
+    /**
+    * @ORM\OneToOne(targetEntity="MarketplaceBundle\Entity\User")
+    */
+    private $user;
+
+
+
+    /**
      * Get id
      *
      * @return int
@@ -313,4 +326,29 @@ class Items
     {
         return $this->category;
     }
+
+    /**
+     * Set verify
+     *
+     * @param integer $verify
+     *
+     * @return Items
+     */
+    public function setVerify($verify)
+    {
+        $this->verify = $verify;
+
+        return $this;
+    }
+
+    /**
+     * Get verify
+     *
+     * @return integer
+     */
+    public function getVerify()
+    {
+        return $this->verify;
+    }
+
 }

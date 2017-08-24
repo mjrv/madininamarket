@@ -1,0 +1,3 @@
+gestion du shop(3 utilisateurs)
+avec changement mdp suite premiere connection
+CRUD d'articles avec validation par admin
