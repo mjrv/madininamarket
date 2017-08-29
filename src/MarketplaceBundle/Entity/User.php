@@ -30,6 +30,16 @@ class User extends BaseUser
     */
     private $shop;
 
+    /**
+    *@ORM\Column(nullable=true, type="string")
+    */
+    private $lastname;
+
+    /**
+    *@ORM\Column(nullable=true, type="string")
+    */
+    private $firstname;
+
     public function __construct()
     {
         parent::__construct();
@@ -104,5 +114,45 @@ class User extends BaseUser
     public function getShop()
     {
         return $this->shop;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param mixed $lastname
+     *
+     * @return self
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param mixed $firstname
+     *
+     * @return self
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
     }
 }

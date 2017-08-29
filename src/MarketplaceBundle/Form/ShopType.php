@@ -5,6 +5,7 @@ namespace MarketplaceBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ShopType extends AbstractType
 {
@@ -28,7 +29,12 @@ class ShopType extends AbstractType
             ->add('logo')
             ->add('cover')
             ->add('active')
-            // ->add('user')
+            ->add('user',EntityType::class, array(
+                                                'class'=> 'MarketplaceBundle\Entity\User',
+                                                'choice_label' => 'username',
+                                                'multiple' => true,
+                                                'expanded' => false,  
+                                                ))
             ;
     }
     

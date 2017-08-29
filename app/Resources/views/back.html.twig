@@ -104,7 +104,7 @@
             </li>
           </ul>
         </li>
-{#
+
         <li class="dropdown">
           <a href="#">Gestion user</a>
           <ul class="dropdown-menu">
@@ -116,12 +116,12 @@
             </li>
           </ul>
         </li>
-#}
+
 
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="{{'fos_user_security_login '}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         {% if is_granted('ROLE_EDITOR') %}
           <li><a href="{{path('seller')}}">seller</a></li>
         {% endif %}
