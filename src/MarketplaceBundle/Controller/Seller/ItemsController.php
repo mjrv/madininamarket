@@ -1,8 +1,9 @@
 <?php
 
-namespace MarketplaceBundle\Controller\Back;
+namespace MarketplaceBundle\Controller\Seller;
 
 use MarketplaceBundle\Entity\Items;
+use MarketplaceBundle\Entity\HistoryItem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -18,7 +19,7 @@ class ItemsController extends Controller
     /**
      * Lists all item entities.
      *
-     * @Route("/", name="admin_items_index")
+     * @Route("/", name="items_index")
      * @Method("GET")
      */
     public function indexAction(Request $request)
@@ -34,7 +35,7 @@ class ItemsController extends Controller
             10/*limit per page*/
         );
 
-        return $this->render('back\items/index.html.twig', array(
+        return $this->render('seller/items/index.html.twig', array(
             'items' => $pagination,
         ));
     }
@@ -42,7 +43,7 @@ class ItemsController extends Controller
     /**
      * Creates a new item entity.
      *
-     * @Route("/new", name="admin_items_new")
+     * @Route("/new", name="items_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -59,7 +60,7 @@ class ItemsController extends Controller
             return $this->redirectToRoute('items_show', array('id' => $item->getId()));
         }
 
-        return $this->render('back\items/new.html.twig', array(
+        return $this->render('seller/items/new.html.twig', array(
             'item' => $item,
             'form' => $form->createView(),
         ));
@@ -68,14 +69,19 @@ class ItemsController extends Controller
     /**
      * Finds and displays a item entity.
      *
-     * @Route("/{id}", name="admin_items_show")
+     * @Route("/{id}", name="items_show")
      * @Method("GET")
      */
-    public function showAction(Items $item)
+    public function showAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $item = $em->getRepository('MarketplaceBundle:Items')->find($id);
+
+        if (!$item) throw $this->createNotFoundException("la page demandee n'existe pas");
+
         $deleteForm = $this->createDeleteForm($item);
 
-        return $this->render('back\items/show.html.twig', array(
+        return $this->render('seller/items/show.html.twig', array(
             'item' => $item,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -84,22 +90,32 @@ class ItemsController extends Controller
     /**
      * Displays a form to edit an existing item entity.
      *
-     * @Route("/{id}/edit", name="admin_items_edit")
+     * @Route("/{id}/edit", name="items_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Items $item)
+    public function editAction(Request $request, $id)
     {
+        $history = new HistoryItem();
+        $em = $this->getDoctrine()->getManager();
+        $item = $em->getRepository('MarketplaceBundle:Items')->find($id);
+
+        if (!$item) throw $this->createNotFoundException("la page demandee n'existe pas");
+
         $deleteForm = $this->createDeleteForm($item);
         $editForm = $this->createForm('MarketplaceBundle\Form\ItemsType', $item);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $history->setUser($this->getUser());
+            $history->setItem($item);
+            $em->persist($history);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('items_edit', array('id' => $item->getId()));
         }
 
-        return $this->render('back\items/edit.html.twig', array(
+        return $this->render('seller/items/edit.html.twig', array(
             'item' => $item,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -109,7 +125,7 @@ class ItemsController extends Controller
     /**
      * Deletes a item entity.
      *
-     * @Route("/{id}", name="admin_items_delete")
+     * @Route("/{id}", name="items_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Items $item)
@@ -123,7 +139,7 @@ class ItemsController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('admin_items_index');
+        return $this->redirectToRoute('items_index');
     }
 
     /**

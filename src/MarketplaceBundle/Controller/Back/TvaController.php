@@ -18,7 +18,7 @@ class TvaController extends Controller
     /**
      * Lists all tva entities.
      *
-     * @Route("/", name="tva_index")
+     * @Route("/", name="admin_tva_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -27,7 +27,7 @@ class TvaController extends Controller
 
         $tvas = $em->getRepository('MarketplaceBundle:Tva')->findAll();
 
-        return $this->render('tva/index.html.twig', array(
+        return $this->render('back\tva/index.html.twig', array(
             'tvas' => $tvas,
         ));
     }
@@ -35,7 +35,7 @@ class TvaController extends Controller
     /**
      * Creates a new tva entity.
      *
-     * @Route("/new", name="tva_new")
+     * @Route("/new", name="admin_tva_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -52,7 +52,7 @@ class TvaController extends Controller
             return $this->redirectToRoute('tva_show', array('id' => $tva->getId()));
         }
 
-        return $this->render('tva/new.html.twig', array(
+        return $this->render('back\tva/new.html.twig', array(
             'tva' => $tva,
             'form' => $form->createView(),
         ));
@@ -61,14 +61,14 @@ class TvaController extends Controller
     /**
      * Finds and displays a tva entity.
      *
-     * @Route("/{id}", name="tva_show")
+     * @Route("/{id}", name="admin_tva_show")
      * @Method("GET")
      */
     public function showAction(Tva $tva)
     {
         $deleteForm = $this->createDeleteForm($tva);
 
-        return $this->render('tva/show.html.twig', array(
+        return $this->render('back\tva/show.html.twig', array(
             'tva' => $tva,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -77,7 +77,7 @@ class TvaController extends Controller
     /**
      * Displays a form to edit an existing tva entity.
      *
-     * @Route("/{id}/edit", name="tva_edit")
+     * @Route("/{id}/edit", name="admin_tva_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Tva $tva)
@@ -92,7 +92,7 @@ class TvaController extends Controller
             return $this->redirectToRoute('tva_edit', array('id' => $tva->getId()));
         }
 
-        return $this->render('tva/edit.html.twig', array(
+        return $this->render('back\tva/edit.html.twig', array(
             'tva' => $tva,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -116,7 +116,7 @@ class TvaController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('tva_index');
+        return $this->redirectToRoute('admin_tva_index');
     }
 
     /**

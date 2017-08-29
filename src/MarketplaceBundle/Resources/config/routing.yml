@@ -1,0 +1,9 @@
+marketplace:
+    resource: "@MarketplaceBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+back:
+    resource: "@MarketplaceBundle/Controller/Back"
+    type:     annotation
+    prefix:   /back

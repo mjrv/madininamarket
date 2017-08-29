@@ -56,20 +56,33 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+        <li class="dropdown">
+          <a href="#">Gestion produits</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ path('items_new') }}">Creer</a>
+            </li>
+            <li>
+              <a href="{{ path('items_index') }}">Liste</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+        <a href="#">modification shop</a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="{{ path('shop_index')}} ">liste des boutiques possedées</a>
+          </li>
+        </ul>
+        </li>
+        <li><a href="#">gestion ventes</a></li>
+<!--         <li><a href="#">Contact</a></li>
+ -->      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        {% if is_granted('ROLE_EDITOR') %}
-          <li><a href="{{path('seller')}}">seller</a></li>
-        {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
           <li><a href="{{path('admin')}}">admin</a></li>
         {% endif %}
-
       </ul>
     </div>
   </div>

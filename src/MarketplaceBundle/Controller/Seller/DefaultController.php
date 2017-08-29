@@ -1,6 +1,6 @@
 <?php
 
-namespace MarketplaceBundle\Controller;
+namespace MarketplaceBundle\Controller\Seller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="seller")
      */
     public function indexAction()
     {
-        return $this->render('front\index.html.twig');
+        return $this->render('seller\index.html.twig');
     }
 }

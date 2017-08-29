@@ -14,15 +14,15 @@
         <tbody>
         {% for tva in tvas %}
             <tr>
-                <td><a href="{{ path('tva_show', { 'id': tva.id }) }}">{{ tva.id }}</a></td>
+                <td><a href="{{ path('admin_tva_show', { 'id': tva.id }) }}">{{ tva.id }}</a></td>
                 <td>{{ tva.value }}</td>
                 <td>
                     <ul>
                         <li>
-                            <a href="{{ path('tva_show', { 'id': tva.id }) }}">show</a>
+                            <a href="{{ path('admin_tva_show', { 'id': tva.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('tva_edit', { 'id': tva.id }) }}">edit</a>
+                            <a href="{{ path('admin_tva_edit', { 'id': tva.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
@@ -33,7 +33,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('tva_new') }}">Create a new tva</a>
+            <a href="{{ path('admin_tva_new') }}">Create a new tva</a>
         </li>
     </ul>
 {% endblock %}

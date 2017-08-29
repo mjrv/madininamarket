@@ -1,0 +1,80 @@
+{% extends 'shop.html.twig' %}
+
+{% block body %}
+    <h1>Shop</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ shop.id }}</td>
+            </tr>
+            <tr>
+                <th>Commercialname</th>
+                <td>{{ shop.commercialName }}</td>
+            </tr>
+            <tr>
+                <th>Raisonsocial</th>
+                <td>{{ shop.raisonSocial }}</td>
+            </tr>
+            <tr>
+                <th>Immatriculation</th>
+                <td>{{ shop.immatriculation }}</td>
+            </tr>
+            <tr>
+                <th>Apecode</th>
+                <td>{{ shop.apeCode }}</td>
+            </tr>
+            <tr>
+                <th>Namegerant</th>
+                <td>{{ shop.nameGerant }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ shop.phone }}</td>
+            </tr>
+            <tr>
+                <th>Phone2</th>
+                <td>{{ shop.phone2 }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ shop.email }}</td>
+            </tr>
+            <tr>
+                <th>Adress</th>
+                <td>{{ shop.adress }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ shop.city }}</td>
+            </tr>
+            <tr>
+                <th>Zipcode</th>
+                <td>{{ shop.zipcode }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td><img src="{{ shop.logo }}" alt="logo {{shop.commercialName}}"></td>
+            </tr>
+            <tr>
+                <th>Cover</th>
+                <td><img src="{{ shop.cover }}" alt="couverture {{ shop.commercialName }}"></td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{% if shop.active %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('shop_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('shop_edit', { 'id': shop.id }) }}">Edit</a>
+        </li>
+       
+    </ul>
+{% endblock %}

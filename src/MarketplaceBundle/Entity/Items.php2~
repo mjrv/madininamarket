@@ -3,7 +3,6 @@
 namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Items
@@ -21,12 +20,6 @@ class Items
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-    *@Gedmo\Timestampable(on="create")
-    *@ORM\Column(type="datetime")
-    */
-    private $createdAt;
 
     /**
      * @var string
@@ -96,13 +89,18 @@ class Items
     private $verify;//valeur acceptee 0 pour en attente 1 accepter 2 pour refuser
 
     /**
-    *@ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\HistoryItem", cascade={"persist"})
-    *@ORM\column(nullable=true)
+    *@var \Datetime
+    * @ORM\Column(type="datetime")
     */
-    private $history;
-   
+    private $updateAt;
 
-    
+    /**
+    * @ORM\OneToOne(targetEntity="MarketplaceBundle\Entity\User")
+    */
+    private $user;
+
+
+
     /**
      * Get id
      *
@@ -353,52 +351,4 @@ class Items
         return $this->verify;
     }
 
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Items
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set history
-     *
-     * @param string $history
-     *
-     * @return Items
-     */
-    public function setHistory($history)
-    {
-        $this->history = $history;
-
-        return $this;
-    }
-
-    /**
-     * Get history
-     *
-     * @return string
-     */
-    public function getHistory()
-    {
-        return $this->history;
-    }
 }

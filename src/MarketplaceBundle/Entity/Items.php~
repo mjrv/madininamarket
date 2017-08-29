@@ -3,6 +3,7 @@
 namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Items
@@ -20,6 +21,12 @@ class Items
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+    *@Gedmo\Timestampable(on="create")
+    *@ORM\Column(type="datetime")
+    */
+    private $createdAt;
 
     /**
      * @var string
@@ -89,18 +96,13 @@ class Items
     private $verify;//valeur acceptee 0 pour en attente 1 accepter 2 pour refuser
 
     /**
-    *@var \Datetime
-    * @ORM\Column(type="datetime")
+    *@ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\HistoryItem", cascade={"persist"})
+    *@ORM\column(nullable=true)
     */
-    private $updateAt;
+    private $history;
+   
 
-    /**
-    * @ORM\OneToOne(targetEntity="MarketplaceBundle\Entity\User")
-    */
-    private $user;
-
-
-
+    
     /**
      * Get id
      *

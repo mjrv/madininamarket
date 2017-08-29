@@ -3,10 +3,16 @@ marketplace:
     type:     annotation
     prefix:   /
 
+seller:
+    resource: "@MarketplaceBundle/Controller/Seller"
+    type:     annotation
+    prefix:   /seller
+
+
 back:
     resource: "@MarketplaceBundle/Controller/Back"
     type:     annotation
-    prefix:   /back
+    prefix:   /admin
 
 app:
     resource: '@AppBundle/Controller/'

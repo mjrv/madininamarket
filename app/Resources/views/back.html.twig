@@ -56,20 +56,75 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Contact</a></li>
+
+        <li class="dropdown">
+          <a href="#">Gestion des produit</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ path('admin_items_new') }}">Creer</a>
+            </li>
+            <li>
+              <a href="{{ path('admin_items_index') }}">Liste</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#">Gestion shop</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ path('admin_shop_new') }}">Creer</a>
+            </li>
+            <li>
+              <a href="{{ path('admin_shop_index') }}">Liste</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#">Gestion category</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ path('admin_category_new') }}">Creer</a>
+            </li>
+            <li>
+              <a href="{{ path('admin_category_index') }}">Liste</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#">Gestion tva</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ path('admin_tva_new') }}">Creer</a>
+            </li>
+            <li>
+              <a href="{{ path('admin_tva_index') }}">Liste</a>
+            </li>
+          </ul>
+        </li>
+{#
+        <li class="dropdown">
+          <a href="#">Gestion user</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ path('admin_user_new') }}">Creer</a>
+            </li>
+            <li>
+              <a href="{{ path('admin_user_index') }}">Liste</a>
+            </li>
+          </ul>
+        </li>
+#}
+
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         {% if is_granted('ROLE_EDITOR') %}
           <li><a href="{{path('seller')}}">seller</a></li>
         {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-          <li><a href="{{path('admin')}}">admin</a></li>
-        {% endif %}
-
       </ul>
     </div>
   </div>

@@ -18,7 +18,7 @@ class CategoryController extends Controller
     /**
      * Lists all category entities.
      *
-     * @Route("/", name="category_index")
+     * @Route("/", name="admin_category_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -27,7 +27,7 @@ class CategoryController extends Controller
 
         $categories = $em->getRepository('MarketplaceBundle:Category')->findAll();
 
-        return $this->render('category/index.html.twig', array(
+        return $this->render('back\category/index.html.twig', array(
             'categories' => $categories,
         ));
     }
@@ -35,7 +35,7 @@ class CategoryController extends Controller
     /**
      * Creates a new category entity.
      *
-     * @Route("/new", name="category_new")
+     * @Route("/new", name="admin_category_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -49,10 +49,10 @@ class CategoryController extends Controller
             $em->persist($category);
             $em->flush();
 
-            return $this->redirectToRoute('category_show', array('id' => $category->getId()));
+            return $this->redirectToRoute('admin_category_show', array('id' => $category->getId()));
         }
 
-        return $this->render('category/new.html.twig', array(
+        return $this->render('back\category/new.html.twig', array(
             'category' => $category,
             'form' => $form->createView(),
         ));
@@ -61,14 +61,14 @@ class CategoryController extends Controller
     /**
      * Finds and displays a category entity.
      *
-     * @Route("/{id}", name="category_show")
+     * @Route("/{id}", name="admin_category_show")
      * @Method("GET")
      */
     public function showAction(Category $category)
     {
         $deleteForm = $this->createDeleteForm($category);
 
-        return $this->render('category/show.html.twig', array(
+        return $this->render('back\category/show.html.twig', array(
             'category' => $category,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -77,7 +77,7 @@ class CategoryController extends Controller
     /**
      * Displays a form to edit an existing category entity.
      *
-     * @Route("/{id}/edit", name="category_edit")
+     * @Route("/{id}/edit", name="admin_category_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Category $category)
@@ -89,10 +89,10 @@ class CategoryController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('category_edit', array('id' => $category->getId()));
+            return $this->redirectToRoute('admin_category_edit', array('id' => $category->getId()));
         }
 
-        return $this->render('category/edit.html.twig', array(
+        return $this->render('back\category/edit.html.twig', array(
             'category' => $category,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -102,7 +102,7 @@ class CategoryController extends Controller
     /**
      * Deletes a category entity.
      *
-     * @Route("/{id}", name="category_delete")
+     * @Route("/{id}", name="admin_category_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Category $category)
@@ -116,7 +116,7 @@ class CategoryController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('category_index');
+        return $this->redirectToRoute('admin_category_index');
     }
 
     /**
@@ -129,7 +129,7 @@ class CategoryController extends Controller
     private function createDeleteForm(Category $category)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('category_delete', array('id' => $category->getId())))
+            ->setAction($this->generateUrl('admin_category_delete', array('id' => $category->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

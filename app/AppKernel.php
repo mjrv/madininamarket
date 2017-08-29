@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new MarketplaceBundle\MarketplaceBundle(),// Bundle de travail un bundle est dossier qui contient l'ensemble des fichiers du site
             new FOS\UserBundle\FOSUserBundle(),// Bundle gestion des utilisateurs doc FOSUserBundle
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),//Bundle pour pagination
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),//gerer des extentios doctrine symfony
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
