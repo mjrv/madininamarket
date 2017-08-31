@@ -20,6 +20,7 @@ class LoadTvaData extends AbstractFixture implements OrderedFixtureInterface
 		$manager->persist($tva1);//prepare l objet a etre mis en base de donnee
 
 
+
 		$tva2 = new Tva();
 		$tva2->setValue('5.5');
 		$manager->persist($tva2);
