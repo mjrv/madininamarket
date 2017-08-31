@@ -102,7 +102,6 @@ class Items
 
     /**
     *@ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Shop", inversedBy="items")
-    *@ORM\Column(nullable=true)
     */
     private $shop;
 
@@ -112,8 +111,10 @@ class Items
     public function __construct()
     {
         $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
+        // $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+    
 
     /**
      * Get id
@@ -342,30 +343,6 @@ class Items
     }
 
     /**
-     * Set shop
-     *
-     * @param string $shop
-     *
-     * @return Items
-     */
-    public function setShop($shop)
-    {
-        $this->shop = $shop;
-
-        return $this;
-    }
-
-    /**
-     * Get shop
-     *
-     * @return string
-     */
-    public function getShop()
-    {
-        return $this->shop;
-    }
-
-    /**
      * Add picture
      *
      * @param \MarketplaceBundle\Entity\Picture $picture
@@ -445,5 +422,29 @@ class Items
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param \MarketplaceBundle\Entity\Shop $shop
+     *
+     * @return Items
+     */
+    public function setShop(\MarketplaceBundle\Entity\Shop $shop = null)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \MarketplaceBundle\Entity\Shop
+     */
+    public function getShop()
+    {
+        return $this->shop;
     }
 }

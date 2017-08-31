@@ -127,7 +127,6 @@ class Shop
 
     /**
     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop",)
-    * @ORM\Column(nullable=true)
     */
     private $items;
 
@@ -459,63 +458,8 @@ class Shop
     public function __construct()
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->items = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add user
-     *
-     * @param \MarketplaceBundle\Entity\User $user
-     *
-     * @return Shop
-     */
-    public function addUser(\MarketplaceBundle\Entity\User $user)
-    {
-        $this->user[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user
-     *
-     * @param \MarketplaceBundle\Entity\User $user
-     */
-    public function removeUser(\MarketplaceBundle\Entity\User $user)
-    {
-        $this->user->removeElement($user);
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set active
-     *
-     * @param boolean $active
-     *
-     * @return Shop
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return boolean
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
+    
 }

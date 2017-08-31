@@ -37,7 +37,7 @@ class DefaultController extends Controller
     		// 	# code...
     		// }
     		 dump($params);
-    		 die;
+    		 
         return $this->render('front\index.html.twig',$params);
     }
 }

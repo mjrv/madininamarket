@@ -127,7 +127,6 @@ class Shop
 
     /**
     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop",)
-    * @ORM\Column(nullable=true)
     */
     private $items;
 
@@ -459,6 +458,33 @@ class Shop
     public function __construct()
     {
         $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->items = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Shop
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 
     /**
@@ -496,47 +522,33 @@ class Shop
     }
 
     /**
-     * Set active
+     * Add item
      *
-     * @param boolean $active
+     * @param \MarketplaceBundle\Entity\Items $item
      *
      * @return Shop
      */
-    public function setActive($active)
+    public function addItem(\MarketplaceBundle\Entity\Items $item)
     {
-        $this->active = $active;
+        $this->items[] = $item;
 
         return $this;
     }
 
     /**
-     * Get active
+     * Remove item
      *
-     * @return boolean
+     * @param \MarketplaceBundle\Entity\Items $item
      */
-    public function getActive()
+    public function removeItem(\MarketplaceBundle\Entity\Items $item)
     {
-        return $this->active;
-    }
-
-    /**
-     * Set items
-     *
-     * @param string $items
-     *
-     * @return Shop
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
-
-        return $this;
+        $this->items->removeElement($item);
     }
 
     /**
      * Get items
      *
-     * @return string
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getItems()
     {

@@ -102,8 +102,17 @@ class Items
 
     /**
     *@ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Shop", inversedBy="items")
-    *@ORM\Column(nullable=true)
     */
     private $shop;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+        // $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    
 }
