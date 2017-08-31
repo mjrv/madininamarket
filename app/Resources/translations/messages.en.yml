@@ -1,0 +1,7 @@
+#messages.en.yml
+title:
+  login: login
+  seller: seller
+
+label:
+  reference: Reference

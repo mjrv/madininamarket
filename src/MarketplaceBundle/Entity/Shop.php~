@@ -125,6 +125,12 @@ class Shop
      */
     private $active;
 
+    /**
+    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop",)
+    * @ORM\Column(nullable=true)
+    */
+    private $items;
+
 
     /**
      * Get id
@@ -487,5 +493,29 @@ class Shop
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Shop
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

@@ -25,4 +25,7 @@
 <br>
 <br>
 <br>
+
+{% if not is_granted("ROLE_EDITOR") %}
 <a href="{{path('fos_user_registration_register')}}">s'inscrire</a>
+{% endif %}

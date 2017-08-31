@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use MarketplaceBundle\Form\PictureType;
 
 
 class ItemsType extends AbstractType
@@ -18,9 +19,14 @@ class ItemsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('reference')
+            ->add('reference',null,array('label' => 'label.reference'))
             ->add('name')
-            ->add('picture')
+            ->add('picture', CollectionType::class, array(
+                'entry_type' => PictureType::class,
+                'allow_add' =>true,
+                'allow_delete'=> true,
+                // 'required' =>false
+                ))
             ->add('description')
             ->add('priceHt')
             ->add('discount')
@@ -41,6 +47,7 @@ class ItemsType extends AbstractType
                                                 'multiple' => false,
                                                 'expanded' => false,  
                                                 ))
+            ->add('shop')
             // ->add('history', CollectionType::class, [
             //                     'attr' => [
             //                                 'hidden'=>true

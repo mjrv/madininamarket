@@ -52,7 +52,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">Logo</a>
+      <a class="navbar-brand" href="{{ path('homepage')}}">Logo</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -121,9 +121,21 @@
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{'fos_user_security_login '}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+            <li><a href="{{path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% endif %}
+
+        <li>
+           {% if app.request.getLocale() == 'fr' %}
+              <a href=" {{ path(app.request.attributes.get('_route'), {'_locale' : 'en' } ) }} " style="color : white !important;">EN</a>
+            {% elseif app.request.getLocale() == 'en' %}
+                <a href=" {{ path(app.request.attributes.get('_route'), {'_locale' : 'fr' } ) }} " style="color : white !important;">FR</a>
+            {% endif %} 
+        </li>
         {% if is_granted('ROLE_EDITOR') %}
-          <li><a href="{{path('seller')}}">seller</a></li>
+          <li><a href="{{path('seller')}}">{{'title.seller'|trans}}</a></li>
         {% endif %}
       </ul>
     </div>

@@ -15,11 +15,14 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new AppBundle\AppBundle(),
+            //new AppBundle\AppBundle(),
             new MarketplaceBundle\MarketplaceBundle(),// Bundle de travail un bundle est dossier qui contient l'ensemble des fichiers du site
             new FOS\UserBundle\FOSUserBundle(),// Bundle gestion des utilisateurs doc FOSUserBundle
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),//Bundle pour pagination
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),//gerer des extentios doctrine symfony
+            new Vich\UploaderBundle\VichUploaderBundle(),//upload des media bundle
+            new Upload\UploadBundle\UploadUploadBundle(),//upload de fichier
+            new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),//generer les routes automatiquement pour chaque langues
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

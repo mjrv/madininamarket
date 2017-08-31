@@ -10,4 +10,13 @@ namespace MarketplaceBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	// public function listAll()
+	// {
+	// 	$query = $this
+	// 		->createQueryBuilder('c')
+	// 		->select('c')
+	// 		->orderBy('name');
+	// 	return $query->getResult();
+	// }
 }

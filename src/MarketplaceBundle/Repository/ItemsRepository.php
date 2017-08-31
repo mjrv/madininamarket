@@ -10,4 +10,28 @@ namespace MarketplaceBundle\Repository;
  */
 class ItemsRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function gelAllItems()
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'SELECT DISTINCT p.items, i.id, i.name, p.url, i.priceHt 
+				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
+				WHERE i.id = p.items
+				');
+		return $query->getResult();
+	}
+
+	public function listAllPerCategories($id)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery('
+				SELECT i
+				FROM MarketplaceBundle:Items i
+				WHERE i.category = :id
+				ORDER BY i.name')
+			->setParameter('id',$id);
+		return $query->getResult();
+	}
 }

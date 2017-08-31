@@ -124,3 +124,16 @@ knp_paginator:
     template:
         pagination: 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig'     # sliding pagination controls template
         sortable: 'KnpPaginatorBundle:Pagination:sortable_link.html.twig' # sort link template
+
+vich_uploader:
+    db_driver: orm # or mongodb or propel or phpcr
+
+    mappings:
+        product_image:
+            uri_prefix:         /asset/img/products
+            upload_destination: '%kernel.root_dir%/../web/asset/img/products'
+
+jms_i18n_routing:
+    default_locale: '%locale%'
+    locales: [fr, en]
+    strategy: prefix_except_default

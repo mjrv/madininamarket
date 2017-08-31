@@ -1,0 +1,10 @@
+<form action="">
+	<select name="" id="">
+		<option value="null">{{'category'|trans}}</option>
+		{% for category in categories %}
+		    <option value="category.id">{{category.name}} </option>
+		{% endfor %}
+	</select>
+	<input type="text">
+	<button type="submit"><i class="icon-search"></i> {{'search'|trans}}</button>
+</form>

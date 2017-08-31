@@ -19,7 +19,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 		$items1
 			->setReference('bric-0123456') //on lui defini un attribu donc une valeur
 			->setName('marteau')
-			->setPicture('https://www.leroymerlin.fr/multimedia/921400082987/produits/marteau-arrache-clous-metal-0-45-kg.jpg')
+			// ->setPicture('https://www.leroymerlin.fr/multimedia/921400082987/produits/marteau-arrache-clous-metal-0-45-kg.jpg')
 			->setDescription('outil permettant de clouer')
 			->setPriceHt('22')
 			// ->setDiscount()
@@ -27,8 +27,9 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setTva($this->getReference('18.5'))
 			->setCategory($this->getReference('Bricolage'))
 			->setVerify('1')
-			->setUpdateAt(new \DateTime())
-			->setUser($this->getReference('mjrv'));
+			// ->setUpdateAt(new \DateTime())
+			// ->setShop($this->getReference('carrefour'))
+			->setCreatedAt(new \Datetime());
 		$manager->persist($items1);//prepare l objet a etre mis en base de donnee
 
 
@@ -36,7 +37,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 		$items2
 			->setReference('inter-0123456') //on lui defini un attribu donc une valeur
 			->setName('canoë kayak')
-			->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
+			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
 			->setDescription('Le canoë-kayak se pratique en loisir (tourisme nautique, pratique individuelle ou associative) ou en compétition, dans les milieux d\'eau calme (étangs), d\'eau vive (rivières) et maritime (estuaires, mer). La sécurité implique la maîtrise du bateau, un entraînement technique et physique, l\'équipement, l\'information préalable des conditions du parcours (météo, état du parcours), l\'encadrement… variables selon le type de pratique.')
 			->setPriceHt('320')
 			// ->setDiscount()
@@ -44,8 +45,9 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setTva($this->getReference('18.5'))
 			->setCategory($this->getReference('loisir'))
 			->setVerify('0')
-			->setUpdateAt(new \DateTime())
-			->setUser($this->getReference('tata'));
+			// ->setUpdateAt(new \DateTime())
+			// ->setShop($this->getReference('carrefour'))
+			->setCreatedAt(new \Datetime());
 		$manager->persist($items2);//prepare l objet a etre mis en base de donnee
 
 

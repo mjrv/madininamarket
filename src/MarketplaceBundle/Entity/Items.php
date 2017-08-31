@@ -43,9 +43,8 @@ class Items
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="picture", type="string", length=255)
+     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Picture",mappedBy="Items", cascade={"persist","remove"})
+     * @var  Picture[]
      */
     private $picture;
 
@@ -100,17 +99,54 @@ class Items
     *@ORM\column(nullable=true)
     */
     private $history;
-   
 
-    
+    /**
+    *@ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Shop", inversedBy="items")
+    *@ORM\Column(nullable=true)
+    */
+    private $shop;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Items
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -159,30 +195,6 @@ class Items
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set picture
-     *
-     * @param string $picture
-     *
-     * @return Items
-     */
-    public function setPicture($picture)
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * Get picture
-     *
-     * @return string
-     */
-    public function getPicture()
-    {
-        return $this->picture;
     }
 
     /**
@@ -274,11 +286,117 @@ class Items
     /**
      * Get stock
      *
-     * @return int
+     * @return integer
      */
     public function getStock()
     {
         return $this->stock;
+    }
+
+    /**
+     * Set verify
+     *
+     * @param integer $verify
+     *
+     * @return Items
+     */
+    public function setVerify($verify)
+    {
+        $this->verify = $verify;
+
+        return $this;
+    }
+
+    /**
+     * Get verify
+     *
+     * @return integer
+     */
+    public function getVerify()
+    {
+        return $this->verify;
+    }
+
+    /**
+     * Set history
+     *
+     * @param string $history
+     *
+     * @return Items
+     */
+    public function setHistory($history)
+    {
+        $this->history = $history;
+
+        return $this;
+    }
+
+    /**
+     * Get history
+     *
+     * @return string
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param string $shop
+     *
+     * @return Items
+     */
+    public function setShop($shop)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return string
+     */
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    /**
+     * Add picture
+     *
+     * @param \MarketplaceBundle\Entity\Picture $picture
+     *
+     * @return Items
+     */
+    public function addPicture(\MarketplaceBundle\Entity\Picture $picture)
+    {
+        $this->picture[] = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Remove picture
+     *
+     * @param \MarketplaceBundle\Entity\Picture $picture
+     */
+    public function removePicture(\MarketplaceBundle\Entity\Picture $picture)
+    {
+        $this->picture->removeElement($picture);
+    }
+
+    /**
+     * Get picture
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
 
     /**
@@ -327,78 +445,5 @@ class Items
     public function getCategory()
     {
         return $this->category;
-    }
-
-    /**
-     * Set verify
-     *
-     * @param integer $verify
-     *
-     * @return Items
-     */
-    public function setVerify($verify)
-    {
-        $this->verify = $verify;
-
-        return $this;
-    }
-
-    /**
-     * Get verify
-     *
-     * @return integer
-     */
-    public function getVerify()
-    {
-        return $this->verify;
-    }
-
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Items
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set history
-     *
-     * @param string $history
-     *
-     * @return Items
-     */
-    public function setHistory($history)
-    {
-        $this->history = $history;
-
-        return $this;
-    }
-
-    /**
-     * Get history
-     *
-     * @return string
-     */
-    public function getHistory()
-    {
-        return $this->history;
     }
 }

@@ -1,8 +1,55 @@
 {% extends 'front.html.twig' %}
 {% block body %}
- <ul>
- 	<li>
- 		<a href=" {{ path('admin_items_index') }} ">Items back</a>
- 	</li>
- </ul>   
+
+	{# {% for pic in pictures %}
+		<div class="col-sm-4">	
+			<a href=""><img src="{{pic.url}}" alt="" style="width:50px !important"></a>
+			{{pic}}
+		</div>
+	{% endfor %} #}
+
+	{% for item in items %}
+		{% for pic in item.picture %}
+			{{pic.id}}
+		{% endfor %}
+	{% endfor %}
+
+
+ {# {% for item in items %} #}
+ 	{# {{item.id}} #}
+ 	{# <a href="#"><img src="{{item.url}}" alt="" style="width:50px"></a> #}
+
+ {# {% endfor %} #}
+
+{% endblock %}
+
+{% block banderole %}
+	{% for mag in shop %}
+	    
+	  <div class="tab-pane {% if loop.first %}active{% endif %}" style ="max-width:100%">
+	  	<img src="{{mag.cover}} " alt="cover" style="width: 100% !important; height: 197px !important;">
+	  </div>
+
+	{% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    	var myIndex = 0;
+		function carousel() 
+		{
+		    var i;
+		    var x = document.getElementsByClassName("tab-pane");
+		    for (i = 0; i < x.length; i++) {
+		       x[i].style.display = "none";  
+		    }
+		    myIndex++;
+		    if (myIndex > x.length) {myIndex = 1}    
+		    x[myIndex-1].style.display = "block";  
+		    setTimeout(carousel, 3000); // Change image every x seconds
+
+		}
+
+		carousel();
+    </script>
 {% endblock %}

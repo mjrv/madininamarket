@@ -49,14 +49,30 @@ class ItemsController extends Controller
     {
         $item = new Items();
         $form = $this->createForm('MarketplaceBundle\Form\ItemsType', $item);
-        $form->handleRequest($request);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($item);
-            $em->flush();
+        if ($request->getMethod() == 'POST')
+        {
+            dump($form->handleRequest($request));
+            // die(var_dump($form["medias"]));
+            if($form->isValid())
+            {
+                $mediasClone = clone $item->getPicture();
+                $item->getPicture()->clear();
 
-            return $this->redirectToRoute('items_show', array('id' => $item->getId()));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($item);
+                $em->flush();
+
+               foreach($mediasClone as $md){
+                    $md->setItems($item);
+                    $em->persist($md);
+                    // $this->container->get('vich_uploader.storage')->upload($product);
+                    $em->flush();
+               }
+
+               return $this->redirectToRoute('items_show', array('id' => $item->getId()));
+            }
         }
 
         return $this->render('back\items/new.html.twig', array(

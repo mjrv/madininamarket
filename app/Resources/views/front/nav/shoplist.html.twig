@@ -1,0 +1,6 @@
+{#shoplist.html.twig#}
+<ul>
+	{% for mag in shop %}
+	    <li><a href="{{path("shop_show_details",{"id":mag.id})}} "><img src="{{mag.logo}} " class="img-responsive" alt=""></a></li>
+	{% endfor %}
+</ul>

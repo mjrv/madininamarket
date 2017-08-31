@@ -30,18 +30,19 @@ class LoadShopData extends AbstractFixture implements OrderedFixtureInterface
 			->setLogo('http://lorempixel.com/output/nature-q-c-50-50-4.jpg')
 			->setCover('http://lorempixel.com/output/food-q-c-640-480-2.jpg')
 			->setActive(1)
+			->setItems($this->getReference('marteau'))
 			->addUser($this->getReference('mjrv'));
 		$manager->persist($shop1);
 		$manager->flush();//ecrire dans la base ce qui est prepare
-
+		$this->addReference('carrefour',$shop1);
+		// $this->addReference('canoë kayak',$items2);
 	}
-
 	public function getOrder()
 	{
 		// the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded
         //l'ordre dans lequel la fonction va etre executee
-        return 5;
+        return 6;
     }
 
 }
