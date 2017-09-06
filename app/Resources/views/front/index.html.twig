@@ -8,11 +8,14 @@
 		</div>
 	{% endfor %} #}
 
-	{% for item in items %}
+{# 	{% for item in items %}
 		{% for pic in item.picture %}
-			{{pic.id}}
+			{{pic.url}}
+			{% for p in pic.picture %}
+				{{p.url}}
+			{% endfor %}
 		{% endfor %}
-	{% endfor %}
+	{% endfor %} #}
 
 
  {# {% for item in items %} #}

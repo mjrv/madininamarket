@@ -27,7 +27,7 @@ class LoadPictureData extends AbstractFixture implements OrderedFixtureInterface
 		$picture2
 				->setUrl('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')//on lui defini un attribu donc une valeur
 				->setUpdatedAt(new \Datetime())
-				->setItems($this->getReference('marteau'));
+				->setItems($this->getReference('kayak'));
 		$manager->persist($picture2);//prepare l objet a etre mis en base de donne2
 
 		$manager->flush();//ecrire dans la base ce qui est prepare

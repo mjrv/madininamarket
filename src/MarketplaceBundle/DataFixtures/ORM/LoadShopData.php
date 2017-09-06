@@ -30,7 +30,7 @@ class LoadShopData extends AbstractFixture implements OrderedFixtureInterface
 			->setLogo('http://lorempixel.com/output/nature-q-c-50-50-4.jpg')
 			->setCover('http://lorempixel.com/output/food-q-c-640-480-2.jpg')
 			->setActive(1)
-			->setItems($this->getReference('marteau'))
+			->addItem($this->getReference('marteau'))
 			->addUser($this->getReference('mjrv'));
 		$manager->persist($shop1);
 		$manager->flush();//ecrire dans la base ce qui est prepare

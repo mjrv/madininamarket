@@ -4,6 +4,7 @@ namespace MarketplaceBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use MarketplaceBundle\Entity\Items;
 
 class DefaultController extends Controller
 {
@@ -12,17 +13,20 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $test = new Items();
     	$em = $this->getDoctrine()->getManager();
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
     	$pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
     	$items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
+        // $t = $test->getPicture()->first();
     	//$items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
     	
 
     	$params = [
     		'shop' => $shop,
     		'pictures' => $pictures,
-    		'items' => $items
+    		'items' => $items,
+            // 't' => $t
     		];
     		// foreach ($items as $key => $value) {
     		// 	// echo $key;
@@ -36,8 +40,9 @@ class DefaultController extends Controller
     		// 	echo '<br><br>';
     		// 	# code...
     		// }
-    		 dump($params);
-    		 die;
+             dump($params);
+    		 // die;
+    		 
         return $this->render('front\index.html.twig',$params);
     }
 }
