@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();// pour Bundle de test -- DoctrineFixturesBundle
+            $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle(); //Console pour acceder aux fonction console depuis le web
 
             if ('dev' === $this->getEnvironment()) {
                 $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

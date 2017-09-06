@@ -126,7 +126,7 @@ class Shop
     private $active;
 
     /**
-    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop",)
+    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop")
     */
     private $items;
 

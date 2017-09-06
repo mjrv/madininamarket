@@ -25,7 +25,7 @@ class ItemsType extends AbstractType
                 'entry_type' => PictureType::class,
                 'allow_add' =>true,
                 'allow_delete'=> true,
-                // 'required' =>false
+                'required' =>false
                 ))
             ->add('description')
             ->add('priceHt')
@@ -47,7 +47,12 @@ class ItemsType extends AbstractType
                                                 'multiple' => false,
                                                 'expanded' => false,  
                                                 ))
-            ->add('shop')
+            ->add('shop', EntityType::class, array(
+                                                'class'=> 'MarketplaceBundle\Entity\Shop',
+                                                'choice_label' => 'commercialName',
+                                                'multiple' => false,
+                                                'expanded' => false,  
+                                                ))
             // ->add('history', CollectionType::class, [
             //                     'attr' => [
             //                                 'hidden'=>true

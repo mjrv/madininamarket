@@ -27,7 +27,6 @@ class Picture
      */
     private $id;
 
-
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */

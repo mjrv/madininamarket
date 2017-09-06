@@ -43,8 +43,7 @@ class Items
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Picture",mappedBy="Items", cascade={"persist","remove"})
-     * @var  Picture[]
+     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Picture",mappedBy="items", cascade={"persist","remove"})
      */
     private $picture;
 

@@ -56,7 +56,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 		$manager->flush();//ecrire dans la base ce qui est prepare
 
 		$this->addReference('marteau',$items1);
-		$this->addReference('canoë kayak',$items2);
+		$this->addReference('kayak',$items2);
 	// 	$this->addReference('20',$items3);
 	// 	$this->addReference('8.5',$items4);
 	}
