@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1048cdcf4a53d60eb8c2aa63a07c53e1",
+    "content-hash": "212ba7def6c7712905e5bb6757aed05f",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -165,6 +165,53 @@
                 "symfony"
             ],
             "time": "2017-02-22T13:12:30+00:00"
+        },
+        {
+            "name": "corley/maintenance-bundle",
+            "version": "0.2.3",
+            "target-dir": "Corley/MaintenanceBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wdalmut/CorleyMaintenanceBundle.git",
+                "reference": "4d510a163de62dc0f6e17d3187c75317b8fe7110"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wdalmut/CorleyMaintenanceBundle/zipball/4d510a163de62dc0f6e17d3187c75317b8fe7110",
+                "reference": "4d510a163de62dc0f6e17d3187c75317b8fe7110",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/console": ">=2.6",
+                "symfony/dependency-injection": ">=2.6",
+                "symfony/framework-bundle": ">=2.6",
+                "symfony/security-bundle": ">=2.6"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.*",
+                "phpunit/phpunit": "4.0.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Corley\\MaintenanceBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Corley Maintenance Bundle",
+            "keywords": [
+                "503",
+                "Maintenance management",
+                "apache",
+                "apache2",
+                "maintenance",
+                "nginx"
+            ],
+            "time": "2016-06-12T11:19:45+00:00"
         },
         {
             "name": "doctrine/annotations",

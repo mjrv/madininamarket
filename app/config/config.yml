@@ -137,3 +137,9 @@ jms_i18n_routing:
     default_locale: '%locale%'
     locales: [fr, en]
     strategy: prefix_except_default
+
+# doc : https://github.com/wdalmut/CorleyMaintenanceBundle
+corley_maintenance:
+    page: '%kernel.root_dir%/../web/maintenance.dist.html'
+    hard_lock: lock.html
+    symlink: false

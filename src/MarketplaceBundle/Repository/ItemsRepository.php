@@ -51,17 +51,4 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 		// 		');
 		// return $query->getResult();
 	}
-
-	public function listAllPerCategories($id)
-	{
-		$query = $this
-			->getEntityManager()
-			->createQuery('
-				SELECT i
-				FROM MarketplaceBundle:Items i
-				WHERE i.category = :id
-				ORDER BY i.name')
-			->setParameter('id',$id);
-		return $query->getResult();
-	}
 }

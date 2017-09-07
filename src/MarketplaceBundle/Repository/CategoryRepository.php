@@ -19,4 +19,19 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
 	// 		->orderBy('name');
 	// 	return $query->getResult();
 	// }
+
+	public function itemsPerCategory($id)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'SELECT i.id, i.name, p.url, i.priceHt 
+				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
+				WHERE i.id = p.items
+				AND i.category = :id
+				')
+			->setParameter('id',$id)
+			;
+		return $query->getResult();
+	}
 }
