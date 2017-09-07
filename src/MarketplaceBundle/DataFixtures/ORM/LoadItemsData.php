@@ -28,7 +28,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setCategory($this->getReference('Bricolage'))
 			->setVerify('1')
 			// ->setUpdateAt(new \DateTime())
-			// ->setShop($this->getReference('carrefour'))
+			->setShop($this->getReference('carrefour'))
 			->setCreatedAt(new \Datetime());
 		$manager->persist($items1);//prepare l objet a etre mis en base de donnee
 
@@ -46,9 +46,27 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setCategory($this->getReference('loisir'))
 			->setVerify('0')
 			// ->setUpdateAt(new \DateTime())
-			// ->setShop($this->getReference('carrefour'))
+			->setShop($this->getReference('carrefour'))
 			->setCreatedAt(new \Datetime());
 		$manager->persist($items2);//prepare l objet a etre mis en base de donnee
+
+
+		$items3 = new Items();//ON defini notre variable en tant qu 'objet
+		$items3
+			->setReference('nintendo-0123456') //on lui defini un attribu donc une valeur
+			->setName('nintendo switch')
+			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
+			->setDescription('La derniere console hybride de la firme qui a fait un carton !!!!')
+			->setPriceHt('299')
+			// ->setDiscount()
+			->setStock('20')
+			->setTva($this->getReference('18.5'))
+			->setCategory($this->getReference('loisir'))
+			->setVerify('1')
+			// ->setUpdateAt(new \DateTime())
+			->setShop($this->getReference('nintendo'))
+			->setCreatedAt(new \Datetime());
+		$manager->persist($items3);//prepare l objet a etre mis en base de donnee
 
 
 	
@@ -57,6 +75,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 
 		$this->addReference('marteau',$items1);
 		$this->addReference('kayak',$items2);
+		$this->addReference('switch',$items3);
 	// 	$this->addReference('20',$items3);
 	// 	$this->addReference('8.5',$items4);
 	}
@@ -66,7 +85,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 		// the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded
         //l'ordre dans lequel la fonction va etre executee
-        return 4;
+        return 5;
 
 	}
 }

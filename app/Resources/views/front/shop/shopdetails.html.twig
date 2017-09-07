@@ -1,7 +1,19 @@
 {% extends 'front.html.twig' %}
 {% block body %}
-    {% for product in shop.items %}
-        {{product.id}}
-    {% endfor %}
+    {% set id = 0 %} {# on defini un variable appelé id a 0 #}
+	{% for item in products %}
+		
+		{% if id < item.id %}
+			{# On arrive ici que si l'item n'est pas encore affiché #}
+			<div class="col-sm-4">
+				<a href="#">
+					<img src="{{item.url}}" alt="" class="img-thumbnail" style="width:197px !important">
+				</a>
+			</div>
+		{% endif %}
+
+		{% set id = item.id %} {# on assigne id a l'id de l'item bouclé #}
+	{% endfor %}
+
 {#     Detail de la boutique (liste des iitems)
  #}{% endblock %}

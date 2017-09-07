@@ -22,11 +22,13 @@ class ShopController extends Controller
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $shop = $em->getRepository('MarketplaceBundle:Shop')->find($id);
-	   var_dump($shop);
+	    $products = $em->getRepository('MarketplaceBundle:Shop')->findItems($id);
+
 	    if (!$shop) throw $this->createNotFoundException("la page demandee n'existe pas");
 
 	    return $this->render('front/shop/shopdetails.html.twig', array(
 	        'shop' => $shop,
+	        'products' => $products,
 	    ));
 	}
 
