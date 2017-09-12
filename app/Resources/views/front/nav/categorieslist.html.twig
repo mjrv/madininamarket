@@ -1,8 +1,8 @@
 <form action="">
-	<select name="" id="">
+	<select name="category" id="category">
 		<option value="null">{{'category'|trans}}</option>
 		{% for category in categories %}
-		    <option value="category.id">{{category.name}} </option>
+		    <option value="{{category.id}}">{{category.name}} </option>
 		{% endfor %}
 	</select>
 	<input type="text">

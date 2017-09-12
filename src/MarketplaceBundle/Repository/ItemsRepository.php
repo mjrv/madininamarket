@@ -18,6 +18,7 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 				'SELECT i.id, i.name, p.url, i.priceHt 
 				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
 				WHERE i.id = p.items
+				ORDER BY p.items
 				');
 		return $query->getResult();
 

@@ -128,11 +128,27 @@
         {% endif %}
 
         <li>
-           {% if app.request.getLocale() == 'fr' %}
-              <a href=" {{ path(app.request.attributes.get('_route'), {'_locale' : 'en' } ) }} " style="color : white !important;">EN</a>
-            {% elseif app.request.getLocale() == 'en' %}
-                <a href=" {{ path(app.request.attributes.get('_route'), {'_locale' : 'fr' } ) }} " style="color : white !important;">FR</a>
-            {% endif %} 
+
+          {% set locale = app.request.getLocale() %} {# Recuperer la langue actuelle et l'assigner a une variable #}
+          {% set id = app.request.attributes.get('id') %} {# recuperer le slug de l'url actuelle et l'assigner a une variable #}
+
+          {% if locale  == 'fr' %}
+              <li><a href="
+                {% if id %}
+                   {{ path(app.request.attributes.get('_route'), {'_locale' : 'en', 'id': id} ) }}
+                {% else %}
+                  {{ path(app.request.attributes.get('_route'), {'_locale' : 'en' } ) }}
+                {% endif %}
+              " >EN</a></li>
+          {% elseif locale == 'en' %}
+              <li><a href="
+              {% if id %}
+                {{ path(app.request.attributes.get('_route'), {'_locale' : 'fr', 'id': id} ) }}
+              {% else %}
+                {{ path(app.request.attributes.get('_route'), {'_locale' : 'fr' } ) }}
+              {% endif %}
+            " >FR</a> </li>
+          {% endif %}
         </li>
         {% if is_granted('ROLE_EDITOR') %}
           <li><a href="{{path('seller')}}">{{'title.seller'|trans}}</a></li>

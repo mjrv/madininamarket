@@ -7,7 +7,7 @@
 		{% if id < item.id %}
 			{# On arrive ici que si l'item n'est pas encore affiché #}
 			<div class="col-sm-4">
-				<a href="#">
+				<a href="{{path('show_product_details', {'id': item.id})}}">
 					<img src="{{item.url}}" alt="" class="img-thumbnail" style="width:197px !important">
 				</a>
 			</div>
