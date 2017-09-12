@@ -15,41 +15,29 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 		$query = $this
 			->getEntityManager()
 			->createQuery(
-				'SELECT i.id, i.name, p.url, i.priceHt 
+				'SELECT i.id, i.name, i.stock, p.url, i.priceHt 
 				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
 				WHERE i.id = p.items
 				ORDER BY p.items
 				');
 		return $query->getResult();
 
-		// $query = $this
-		// 	->getEntityManager()
-		// 	->createQuery(
-		// 		'SELECT DISTINCT p.items
-		// 		FROM MarketplaceBundle:Picture p
-		// 		');
-		// return $query->getResult();
-		
-		// $query = $this
-		// 	->getEntityManager()
-		// 	->createQuery(
-		// 		'SELECT DISTINCT p.items, i.name, p.url, i.priceHt 
-		// 		FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
-		// 		WHERE i.id = p.items
-		// 		');
-		// return $query->getResult();
-		
-		// $query = $this
-		// 	->getEntityManager()
-		// 	->createQuery(
-		// 		'SELECT DISTINCT i, p
-		// 		FROM MarketplaceBundle:Items i
-		// 		WHERE i.id = p.id
-		// 		IN (
-		// 		SELECT DISTINCT p.items, p.id, p.url
-		// 		FROM MarketplaceBundle:Picture p
-		// 		)
-		// 		');
-		// return $query->getResult();
+	}
+
+	public function findArray($array)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'
+				SELECT i.id, i.name, i.stock, i.priceHt, p.url
+				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
+				WHERE i.id = p.items
+				AND i.id IN (:array)
+				ORDER BY p.items
+				'
+				)
+			->setParameter("array",$array);
+		return $query-> getResult();
 	}
 }

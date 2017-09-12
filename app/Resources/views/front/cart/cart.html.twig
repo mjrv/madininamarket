@@ -1,0 +1,90 @@
+{% extends 'front.html.twig' %}
+{% block body %}
+
+	{% if items|length == 0 %}
+		<div>
+			<h5>Aucun produit dans le pannier</h5>
+			<a href="{{path('homepage')}}">Choisisser vos produits</a>
+		</div>
+	{% else %}
+
+		{# {% set id = 0 %}<!-- on defini un variable appelé id a 0 -->
+		{% for item in items %}
+			
+			{% if id < item.id %}
+				<!--On arrive ici que si l'item n'est pas encore affiché -->
+				<div class="col-sm-4">
+					<a href="{{path('show_product_details', {'id': item.id})}}">
+						<img src="{{item.url}}" alt="" class="img-thumbnail" style="width:197px !important">
+					</a>
+				</div>
+			{% endif %}
+
+			{% set id = item.id %} <!--on assigne id a l'id de l'item bouclé-->
+		{% endfor %} #}
+		<div>
+			<table class="table table-responsive table-striped">
+				<thead>
+					<tr>
+						<th>picture</th>
+						<th>Name</th>
+						<th>Prix unitaire Ht</th>
+						<th>Qte</th>
+						<th>Total Ht</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					{% set Total = 0 %}
+					{% set TotalTva = 0 %}
+					{% set Ttc = 0 %}
+					{% set Ht = 0 %}
+					{% set TotalHt = 0 %}
+						
+
+					{% set id = 0 %}
+					{% for item in items %}
+						{% if id < item.id %}
+							{# Notre calcul se fait que  si on arrive ici #}
+							<tr>
+								<td> <img src="{{item.url}}" style="max-width:90px !important" alt=""></td>
+								<td>{{item.name}}</td>
+								<td>{{item.priceHt}}</td>
+								<td>
+									<form action="{{path('addToCart',{'id':item.id})}}" method="GET" class="form-horizontal">
+										{% if item.stock < 10 %} <span class = "text-danger">{{item.stock}}</span>{% endif %}
+										<input type="number" class="form-control" name="qte" min=1 max={{item.stock}} id="qte{{item.id}}" step="1" 
+												{% if cart[item.id] > item.stock %}
+													value="{{item.stock}}"
+												{% else %}
+													value="{{cart[item.id]}}"
+												{% endif %}
+															>
+										<button type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+										<a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+									</form>
+								</td>
+								<td>{{item.url}}</td>
+							</tr>
+						{% endif %}
+						{% set id = item.id %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-sm-6">
+			<a href="{{"path('homepage')"}} ">Poursuivre mes achats</a>
+		</div>
+		<div class="col-sm-6 text-right">
+			<h4>Montant :</h4>
+			Total ht: <br>
+			tva: 	<br>	
+			ttc: <br>
+			<a href="#">Valider mon pannier</a>
+		</div>
+
+	{% endif %}
+{% endblock %}
+
+
+

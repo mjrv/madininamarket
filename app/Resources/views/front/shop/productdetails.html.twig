@@ -15,7 +15,7 @@
 		<p>
 			{{product.priceHt}} €
 		</p>
-		<form action="" method="POST" class="form-horizontal">
+		<form action="{{path('addToCart',{'id':product.id})}}" method="GET" class="form-horizontal">
 			<input type="number" class="form-control" name="qte" min=1 max=400 step="1">
 			<input type="submit" value="Ajouter au panier" class="btn btn-success">
 		</form>
