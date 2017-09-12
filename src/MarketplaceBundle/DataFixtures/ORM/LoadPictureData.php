@@ -32,6 +32,16 @@ class LoadPictureData extends AbstractFixture implements OrderedFixtureInterface
 
 		$manager->flush();//ecrire dans la base ce qui est prepare
 
+
+		$picture3 = new Picture();//ON defini notre variable en tant qu 'objet
+		$picture3
+				->setUrl('https://c4.eb-cdn.com.au/website/videos/images/screenshots/202879_screenshot_05_l.jpg')//on lui defini un attribu donc une valeur
+				->setUpdatedAt(new \Datetime())
+				->setItems($this->getReference('switch'));
+		$manager->persist($picture3);//prepare l objet a etre mis en base de donne2
+
+		$manager->flush();//ecrire dans la base ce qui est prepare
+
 	}
 
 	public function getOrder()
@@ -39,7 +49,7 @@ class LoadPictureData extends AbstractFixture implements OrderedFixtureInterface
 		// the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded
         //l'ordre dans lequel la fonction va etre executee
-        return 5;
+        return 6;
 
 	}
 }

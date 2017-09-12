@@ -1,28 +1,20 @@
 {% extends 'front.html.twig' %}
 {% block body %}
 
-	{# {% for pic in pictures %}
-		<div class="col-sm-4">	
-			<a href=""><img src="{{pic.url}}" alt="" style="width:50px !important"></a>
-			{{pic}}
-		</div>
-	{% endfor %} #}
+	{% set id = 0 %} {# on defini un variable appelé id a 0 #}
+	{% for item in items %}
+		
+		{% if id < item.id %}
+			{# On arrive ici que si l'item n'est pas encore affiché #}
+			<div class="col-sm-4">
+				<a href="#">
+					<img src="{{item.url}}" alt="" class="img-thumbnail" style="width:197px !important">
+				</a>
+			</div>
+		{% endif %}
 
-{# 	{% for item in items %}
-		{% for pic in item.picture %}
-			{{pic.url}}
-			{% for p in pic.picture %}
-				{{p.url}}
-			{% endfor %}
-		{% endfor %}
-	{% endfor %} #}
-
-
- {# {% for item in items %} #}
- 	{# {{item.id}} #}
- 	{# <a href="#"><img src="{{item.url}}" alt="" style="width:50px"></a> #}
-
- {# {% endfor %} #}
+		{% set id = item.id %} {# on assigne id a l'id de l'item bouclé #}
+	{% endfor %}
 
 {% endblock %}
 
@@ -30,7 +22,9 @@
 	{% for mag in shop %}
 	    
 	  <div class="tab-pane {% if loop.first %}active{% endif %}" style ="max-width:100%">
-	  	<img src="{{mag.cover}} " alt="cover" style="width: 100% !important; height: 197px !important;">
+	  	<a href="{{path("shop_show_details",{"id":mag.id})}} ">
+	  		<img src="{{mag.cover}} " alt="cover" style="width: 100% !important; height: 197px !important;">
+	  	</a>
 	  </div>
 
 	{% endfor %}

@@ -28,11 +28,6 @@ class Picture
     private $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
-     */
-    private $name;
-
-    /**
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
@@ -62,30 +57,6 @@ class Picture
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Picture
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

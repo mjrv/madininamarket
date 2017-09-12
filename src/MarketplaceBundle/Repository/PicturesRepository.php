@@ -10,4 +10,15 @@ namespace MarketplaceBundle\Repository;
  */
 class PicturesRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getItemPic($id)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery('SELECT p
+				FROM  MarketplaceBundle:Picture p
+				WHERE p.items = :id
+				')
+			->setParameter('id',$id);
+		return $query->getResult();
+	}
 }

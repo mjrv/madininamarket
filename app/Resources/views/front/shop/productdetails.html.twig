@@ -1,0 +1,23 @@
+{% extends 'front.html.twig' %}
+{% block body %}
+	<legend class="text-center"> {{product.name}} </legend>
+	<div class="col-sm-6">
+		{% for pic in item %}
+			<div class="col-xs-4">
+				<img src="{{pic.url}}" alt="{{product.name}}" class="img-responsive">
+			</div>
+		{% endfor %}
+	</div>
+	<div class="col-sm-6">
+		<p>
+			{{product.description}}
+		</p>
+		<p>
+			{{product.priceHt}} €
+		</p>
+		<form action="" method="POST" class="form-horizontal">
+			<input type="number" class="form-control" name="qte" min=1 max=400 step="1">
+			<input type="submit" value="Ajouter au panier" class="btn btn-success">
+		</form>
+	</div>
+{% endblock %}

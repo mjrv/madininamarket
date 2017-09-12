@@ -17,9 +17,9 @@ class DefaultController extends Controller
     	$em = $this->getDoctrine()->getManager();
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
     	$pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
-    	$items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
+    	// $items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
+    	$items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
         // $t = $test->getPicture()->first();
-    	//$items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
     	
 
     	$params = [
@@ -40,8 +40,8 @@ class DefaultController extends Controller
     		// 	echo '<br><br>';
     		// 	# code...
     		// }
-             dump($params);
-    		 // die;
+            dump($params);
+    		// die;
     		 
         return $this->render('front\index.html.twig',$params);
     }

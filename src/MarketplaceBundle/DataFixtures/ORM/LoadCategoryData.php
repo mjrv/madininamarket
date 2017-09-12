@@ -1,5 +1,5 @@
 <?php 
-namespace MarketplaceBundle\DataFixtures\ORM;
+namespace Market\MarketplaceBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
