@@ -71,7 +71,7 @@ class UserAdress
     private $phone2;
 
     /**
-    * @ORM\ManyToOne(targetEntity="marketplaceBundle\Entity\User",inversedBy="adress")
+    * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\User",inversedBy="adress")
     * @ORM\JoinColumn(nullable=true)
     */
     private $user;

@@ -15,26 +15,56 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 		$query = $this
 			->getEntityManager()
 			->createQuery(
-				'SELECT i.id, i.name, i.stock, p.url, i.priceHt 
+				'SELECT i.id, i.name, i.stock, p.url, i.priceHt, i.tva
 				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
 				WHERE i.id = p.items
 				ORDER BY p.items
 				');
 		return $query->getResult();
+		// $result = $query->getResult();
+		// return $result
 
 	}
 
 	public function findArray($array)
 	{
+		// $query = $this
+		// 	->getEntityManager()
+		// 	->createQuery(
+		// 		'
+		// 		SELECT i.id, i.name, i.stock, i.priceHt, p.url, i.tva
+		// 		FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
+		// 		WHERE i.id = p.items
+		// 		AND i.id IN (:array)
+		// 		ORDER BY p.items
+		// 		'
+		// 		)
+		// 	->setParameter("array",$array);
+		// return $query-> getResult();
+		// 
 		$query = $this
 			->getEntityManager()
 			->createQuery(
 				'
-				SELECT i.id, i.name, i.stock, i.priceHt, p.url
-				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
-				WHERE i.id = p.items
-				AND i.id IN (:array)
+				SELECT p
+				FROM  MarketplaceBundle:Picture p
+				WHERE p.items IN (:array)
 				ORDER BY p.items
+				'
+				)
+			->setParameter("array",$array);
+		return $query-> getResult();
+	}
+
+	public function findItemsInArray($array)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'
+				SELECT i
+				FROM  MarketplaceBundle:Items i
+				WHERE i.id IN (:array)
 				'
 				)
 			->setParameter("array",$array);

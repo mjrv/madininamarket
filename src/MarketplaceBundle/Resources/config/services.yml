@@ -1,4 +1,9 @@
 services:
+    tva:
+        class: MarketplaceBundle\Twig\Extension\TvaExtension
+        tags:
+            - { name: twig.extension }
+
     gedmo.listener.blameable:
         class: Gedmo\Blameable\BlameableListener
         tags:

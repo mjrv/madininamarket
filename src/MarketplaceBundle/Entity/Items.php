@@ -44,6 +44,7 @@ class Items
 
     /**
      * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Picture",mappedBy="items", cascade={"persist","remove"})
+     * @var  Picture[]
      */
     private $picture;
 

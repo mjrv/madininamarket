@@ -1,0 +1,46 @@
+{% extends 'front.html.twig' %}
+{% block body %}
+	<div class="col-xs-4">
+		{% if adress|length > 0 %}
+			<form action="{{path('shipmentWay')}}" method="POST">
+				<legend>Adresse de facturation</legend>
+				{% for item in adress %}
+					<label class="radio">
+						<input type="radio" name="facturation" value="{{item.id}}"{% if loop.first %}checked="checked"{% endif %}>
+						{{item.firstname}} {{item.lastname}} <br>
+						{{item.adress}} {{item.zipCode}} {{item.city}}   {# - {{item.pays}} #}
+						{# Caractere invisible : alt 0160 #}
+						<a href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a>
+					</label>
+				{% endfor %}
+
+				<br>
+				<br>
+				<br>
+
+				<legend>Adresse de livraison</legend>
+				{% for item in adress %}
+					<label class="radio">
+						<input type="radio" name="livraison" value="{{item.id}}"{% if loop.first %}checked="checked"{% endif %}>
+						{{item.firstname}} {{item.lastname}} <br>
+						{{item.adress}} {{item.zipCode}} {{item.city}}   {# - {{item.pays}} #}
+						{# Caractere invisible : alt 0160 #}
+						<a href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a> 
+						{# mettre une confirmation avant suppression adresse#}
+					</label>
+				{% endfor %}
+				<br>
+				<input type="submit" class="btn btn-success" value="Confirmer ces adresses">
+			</form>
+		{% else %}
+			<legend>Aucunes adresses enregistrées</legend> 
+		{% endif %}
+	</div>
+	<div class="col-xs-4" style = "float:right">
+		<legend>Ajouter une nouvelle adresse</legend>
+		<form action="{{path('livraison')}} " method="POST" class = "form-horizontal">
+			{{form_widget(form)}}
+			<input type="submit" class = "btn btn-primary" value = "valider">
+		</form>
+	</div>
+{% endblock %}

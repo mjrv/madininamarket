@@ -16,7 +16,7 @@ class ShopRepository extends \Doctrine\ORM\EntityRepository
 		$query = $this
 			->getEntityManager()
 			->createQuery(
-				'SELECT i.id, i.name, p.url, i.priceHt 
+				'SELECT p 
 				FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
 				WHERE i.id = p.items
 				AND i.shop = :id

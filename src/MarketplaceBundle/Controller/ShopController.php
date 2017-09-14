@@ -25,6 +25,9 @@ class ShopController extends Controller
 	    $shop = $em->getRepository('MarketplaceBundle:Shop')->find($id);
 	    $products = $em->getRepository('MarketplaceBundle:Shop')->findItems($id);
 
+	    dump($shop);
+	    dump($products);
+
 	    if (!$shop) throw $this->createNotFoundException("la page demandee n'existe pas");
 
 	    return $this->render('front/shop/shopdetails.html.twig', array(
@@ -41,14 +44,18 @@ class ShopController extends Controller
 	    $em = $this->getDoctrine()->getManager();
 	    $product = $em->getRepository('MarketplaceBundle:Items')->find($id);
 	    $item = $em->getRepository('MarketplaceBundle:Picture')->getItemPic($id); 
+	    $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
+	    $params = [
+	        'pictures' => $pictures,
+	        'product' => $product,
+	        'item' => $item
+	    ];
 
+	    dump($params);
 
 	    if (!$product) throw $this->createNotFoundException("la page demandee n'existe pas");
 
-	    return $this->render('front/shop/productdetails.html.twig', array(
-	        'product' => $product,
-	        'item' => $item
-	    ));
+	    return $this->render('front/shop/productdetails.html.twig',$params);
 	}
 
 	public function showProductPerCategory()

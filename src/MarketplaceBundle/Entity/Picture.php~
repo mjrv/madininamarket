@@ -27,12 +27,6 @@ class Picture
      */
     private $id;
 
-
-    /**
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
-     */
-    private $name;
-
     /**
      * @ORM\Column(name="url", type="string", length=255)
      */
@@ -49,9 +43,60 @@ class Picture
     private $updatedAt;
 
     /**
-    * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Items",inversedBy="picture", cascade={"persist","remove"})
-    * @var  Items[]
-    */
-    private $items;
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Picture
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Picture
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }

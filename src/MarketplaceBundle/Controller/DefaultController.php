@@ -18,14 +18,14 @@ class DefaultController extends Controller
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
     	$pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
     	// $items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
-    	$items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
+    	// $items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
         // $t = $test->getPicture()->first();
     	
 
     	$params = [
     		'shop' => $shop,
     		'pictures' => $pictures,
-    		'items' => $items,
+    		// 'items' => $items,
             // 't' => $t
     		];
     		// foreach ($items as $key => $value) {

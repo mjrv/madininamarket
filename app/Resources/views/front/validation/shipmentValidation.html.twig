@@ -1,0 +1,17 @@
+{% extends 'front.html.twig' %}
+{% block body %}
+	<div class="col-md-12">
+		<legend>Methode de livraison</legend>
+		<form action="{{path('validation')}} " method="POST">
+			{% for ship in shipment %}
+				<label class="radio">
+					<input type="radio" name="shipment" value="{{ship.id}}"{% if loop.first %}checked="checked"{% endif %}>
+					<img src="{{ship.icon}}" alt="{{ship.name}}" class="img-thumbnail" style="width:197px !important;height:150px !important">
+					{{ship.price}} €
+				</label>
+			{% endfor %}
+
+			<input type="submit" class="btn btn-primary" value="Valider">
+		</form>
+	</div>
+{% endblock %}

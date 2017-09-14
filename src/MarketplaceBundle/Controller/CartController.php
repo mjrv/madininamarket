@@ -24,7 +24,7 @@ class CartController extends Controller{
 		$em = $this->getDoctrine()->getManager();
 		$items = $em->getRepository("MarketplaceBundle:Items")->findArray(array_keys($cart));
 		$params =[
-			"items" => $items,
+			"pictures" => $items,
 			"cart"	=> $cart
 		];
 		dump($params);
@@ -65,6 +65,21 @@ class CartController extends Controller{
 		}
 		$session ->set("cart",$cart);
 		return $this->redirect($this->generateUrl("cart"));
+	}
+
+	/**
+ 	* @Route("supprimer/{id}",name="deleteFromCart")
+	*/
+	public function deleteAction($id)
+	{
+		$session = new Session();
+		$cart = $session->get('cart');
+
+		if (array_key_exists($id, $cart)) {
+			unset($cart[$id]);//retirer cette enttree cart du tableau
+			$session ->set('cart',$cart);
+		}
+		return $this->redirect($this->generateUrl('cart'));
 	}
 
 }

@@ -224,28 +224,5 @@ class Orders
     {
         return $this->orders;
     }
-
-    /**
-     * Set user
-     *
-     * @param string $user
-     *
-     * @return Orders
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return string
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 }
+
