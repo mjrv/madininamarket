@@ -21,6 +21,9 @@ class Orders
      */
     private $id;
 
+    /** @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction") */
+    private $paymentInstruction;
+
     /**
      * @var bool
      *
@@ -59,7 +62,7 @@ class Orders
     /**
      * @var string
      *
-     * @ORM\Column(name="orders", type="text")
+     * @ORM\Column(name="orders", type="array")
      */
     private $orders;
 
@@ -69,6 +72,12 @@ class Orders
     * @ORM\Column(name="users")
     */
     private $user;
+
+
+    function __construct()
+    {
+        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -224,5 +233,28 @@ class Orders
     {
         return $this->orders;
     }
-}
 
+    /**
+     * Set user
+     *
+     * @param string $user
+     *
+     * @return Orders
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return string
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

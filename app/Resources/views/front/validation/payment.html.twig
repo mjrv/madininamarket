@@ -1,0 +1,10 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+	Total price: € {{ total }}
+
+	{{ form_start(form) }}
+	    {{ form_widget(form) }}
+	    <input type="submit" value="Payer: {{total}} €" />
+	{{ form_end(form) }}
+{% endblock %}

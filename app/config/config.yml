@@ -99,6 +99,7 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
+    encryption: '%mailer_encryption%'
     host: '%mailer_host%'
     username: '%mailer_user%'
     password: '%mailer_password%'
@@ -143,3 +144,15 @@ corley_maintenance:
     page: '%kernel.root_dir%/../web/maintenance.dist.html'
     hard_lock: lock.html
     symlink: false
+
+# configuration JMS payment   http://jmspaymentcorebundle.readthedocs.io/en/stable/setup.html
+jms_payment_core:
+    encryption:
+        secret: def0000039896b403d04d0d88f0cf4505d394fac95a9b4702d205ff5fe6d47c3f44ad040463099db98c449343c7853d21364c1855414e1bc8500cddb73ac39ef62bcf783 #bin/console jms_payment_core:generate-key
+
+# paypal http://jmspaymentpaypalbundle.readthedocs.io/en/stable/setup.html
+# https://developer.paypal.com/developer/accounts/
+jms_payment_paypal:
+    username: '%paypal_username%'
+    password: '%paypal_psw%'
+    signature: '%paypal_signature%'

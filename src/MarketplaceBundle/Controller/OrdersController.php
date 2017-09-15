@@ -67,13 +67,13 @@ class OrdersController extends Controller
 					];
 
 			$order['facturation'] = [
-						'firstname' => $livraison->getFirstname(),
-						'lastname' => $livraison->getLastname(),
-						'phone' => $livraison->getPhone(),
-						'phone2' => $livraison->getPhone2(),
-						'adress' => $livraison->getAdress(),
-						'zipcode' => $livraison->getZipcode(),
-						'city' => $livraison->getCity(),
+						'firstname' => $facturation->getFirstname(),
+						'lastname' => $facturation->getLastname(),
+						'phone' => $facturation->getPhone(),
+						'phone2' => $facturation->getPhone2(),
+						'adress' => $facturation->getAdress(),
+						'zipcode' => $facturation->getZipcode(),
+						'city' => $facturation->getCity(),
 					];
 			$order['shipmentWay'] = [
 						'price' => $shipment->getPrice(),

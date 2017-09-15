@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new Upload\UploadBundle\UploadUploadBundle(),//upload de fichier
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),//generer les routes automatiquement pour chaque langues
             new Corley\MaintenanceBundle\CorleyMaintenanceBundle(), //Mettre le site en maintenance
+            new JMS\Payment\CoreBundle\JMSPaymentCoreBundle(),
+            new JMS\Payment\PaypalBundle\JMSPaymentPaypalBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

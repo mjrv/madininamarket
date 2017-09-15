@@ -3,6 +3,7 @@
 namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Orders
@@ -20,6 +21,9 @@ class Orders
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /** @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction") */
+    private $paymentInstruction;
 
     /**
      * @var bool
@@ -253,5 +257,15 @@ class Orders
     public function getUser()
     {
         return $this->user;
+    }
+
+   public function getPaymentInstruction()
+    {
+        return $this->paymentInstruction;
+    }
+
+    public function setPaymentInstruction(PaymentInstruction $instruction)
+    {
+        $this->paymentInstruction = $instruction;
     }
 }
