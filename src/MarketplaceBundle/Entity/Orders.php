@@ -59,7 +59,7 @@ class Orders
     /**
      * @var string
      *
-     * @ORM\Column(name="orders", type="text")
+     * @ORM\Column(name="orders", type="array")
      */
     private $orders;
 
@@ -69,6 +69,12 @@ class Orders
     * @ORM\Column(name="users")
     */
     private $user;
+
+
+    function __construct()
+    {
+        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**

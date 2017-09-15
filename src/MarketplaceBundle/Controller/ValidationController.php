@@ -116,7 +116,7 @@ class ValidationController extends Controller
 	public function validateCartAction(Request $request)
 	{
 		if ($request->isMethod('POST')) {
-			$this->setLivraisonSession($request);
+			$this->setShipmentSession($request);
 		}
 		$session = new Session();
 		$em = $this->getDoctrine()->getManager();
@@ -129,7 +129,6 @@ class ValidationController extends Controller
 			throw new NotFoundHttpException("Session expiree..");
 		}
 
-		
 		
 		return $this->render('front/validation/validation.html.twig',['order'=>$order]);
 	}

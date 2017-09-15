@@ -20,7 +20,7 @@ class OrdersController extends Controller
 	{
 		$session = new Session();
 		$em = $this->getDoctrine()->getManager();
-		$genarator = random_bytes(20);
+		$generator = random_bytes(20);
 		$adress = $session->get('adress');
 		$cart = $session->get('cart');
 		$order = array();
@@ -36,7 +36,7 @@ class OrdersController extends Controller
 			$tva = $item->getTva()->getValue();
 			$id = $item->getId();
 			$priceHt = round($item->getPriceHT()*$cart[$id],2);
-			$priceTtc = round($priceHt*$tva,2);
+			$priceTtc = round($priceHt*(1+($tva/100)),2);
 			$totalHt += $priceHt;
 			$totalTtc += $priceTtc;
 
@@ -107,16 +107,11 @@ class OrdersController extends Controller
 			->setOrders($this->facture());
 
 			if (!$session->has('order')) {
-				$em->persist('order');
+				$em->persist($order);
 				$session->set('order',$order);
 			}
 			$em->flush();
-			$params = [
-				'order' => $order, 
-				'id' => $order->getId()
-			];
-			dump($params);
-			die;
+			
 			return new Response($order->getId());
 		}
 }
