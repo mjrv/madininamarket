@@ -1,7 +1,8 @@
 {#shoplist.html.twig#}
+<h2>Nos boutiques</h2>
 <ul>
 	{% for mag in shop %}
 	    <li>
-	    	<a href="{{path("shop_show_details",{"slug":mag.slug})}} "><img src="{{mag.logo}} " class="img-responsive" alt=""></a></li>
+	    	<a href="{{path("shop_show_details",{"slug":mag.slug})}} "><img src="{{mag.logo}} "  alt="{{mag.slug}}"></a></li>
 	{% endfor %}
 </ul>

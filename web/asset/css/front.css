@@ -8,3 +8,144 @@ ul li
 {
 	list-style: none !important;
 }
+/* Navbar  */
+.navbar-brand 
+{
+	/*padding-bottom: : 20px !important;*/
+	margin-top: -16px !important;
+	/*margin-bottom: 20px !important;*/
+}
+.navbar-brand > img 
+{
+	max-height: 55px !important;
+}
+
+#myNavbar > ul > li >a
+{
+	color: var(--orange);
+}
+
+#category
+{
+	margin-top: 15px;
+	background-color: var(--orange);
+	border-radius: 5px;
+	margin-left: 2vw;
+	padding: 2px 4px 2px 4px;
+}
+
+#search
+{
+	border-radius: 10px !important;
+	margin-left: 2vw;
+}
+
+optgroup, #category > optgroup > [selected]
+{
+	background-color: white;
+	font-weight: 12px;
+}
+
+nav
+{
+	
+    background: black; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, black, gray); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(left, black, gray); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(left, black, gray); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(left, black, gray); /* Standard syntax */
+
+}
+
+/* Fin navbar */
+
+/* Side nav */
+.sidenav
+{
+	background-color: black !important;
+}
+
+.sidenav h2
+{
+	margin-top: -13px !important;
+	color: var(--orange);
+}
+
+.sidenav ul
+{
+	background-color: white !important;
+	padding: 10px !important;
+	border-radius: 10px !important;
+	/*max-height: 450px !important;*/
+}
+
+.sidenav ul > li > a > img
+{
+	max-width: 300px !important;
+	max-height: 100px !important;
+}
+/*Fin side nav*/
+
+/* slider */
+.tab-pane
+{
+	width: 100% !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.tab-pane > a > img
+{
+	width: 100% !important; 
+	height: 197px !important;
+}
+/* Fin slider */
+
+.container
+{
+	margin: 0 !important; 
+	padding:0 !important;
+}
+
+/* Products */
+
+.products-content
+{
+	
+}
+
+.item
+{
+	border: solid 3px !important;
+	border-color: var(--orange) !important;
+	border-radius: 5px;
+	margin: 1.3%;
+	box-sizing: border-box !important;
+	width: 250px !important;
+	height: 220px !important;
+}
+
+.item > a> img
+{
+	max-width: 214px !important;
+	max-height: 121px !important;
+}
+
+.item-button
+{
+	background: var(--vert) !important;
+	color: white;
+}
+.item
+{
+	text-align: center;
+	color: var(--vert);
+}
+
+.item-button:hover
+{
+	background: var(--orange) !important;
+	color: white;
+}
+
+/* Fin products */

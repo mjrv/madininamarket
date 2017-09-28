@@ -53,11 +53,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="{{ path('homepage')}}">Logo</a>
+      <a class="navbar-brand" href="{{ path('homepage')}}"><img src="{{asset('asset/img/logo1.png')}}" alt="logo Madininamarket"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="{{path('homepage')}}">Home</a></li>
+        <li><a href="{{path('homepage')}}"><i class="fa fa-home" aria-hidden="true"></i> MadininaMarket</a></li>
         <li class="dropdown">
           <a href="#">Liste des boutiques</a>
           {{render(controller("MarketplaceBundle:Nav:shopNav"))}}
@@ -68,7 +68,7 @@
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
           <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         {% else %}
-            <li><a href="{{path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span><i class="fa fa-handshake-o" aria-hidden="true"></i> Login</a>
+            <li><a href="{{path('fos_user_security_login')}}"><i class="fa fa-handshake-o" aria-hidden="true"></i> Login</a>
             </li>
         {% endif %}
         {% if is_granted('ROLE_EDITOR') %}
@@ -80,7 +80,7 @@
           </li>
         {% endif %}
 
-       <li><a href="{{path('cart')}} ">panier</a></li>
+       <li><a href="{{path('cart')}} "><i class="fa fa-shopping-cart" aria-hidden="true"></i> panier</a></li>
 
       </ul>
     </div>
