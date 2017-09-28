@@ -1,19 +1,20 @@
 marketplace:
     resource: "@MarketplaceBundle/Controller/"
     type:     annotation
-   
+   # shemes: [https] #pour forcer la route en https
   
 
 seller:
     resource: "@MarketplaceBundle/Controller/Seller"
     type:     annotation
     prefix:   /seller
-
+# shemes: [https] #pour forcer la route en https
 
 back:
     resource: "@MarketplaceBundle/Controller/Back"
     type:     annotation
     prefix:   /admin
+   # shemes: [https] #pour forcer la route en https 
  
 
 # app:

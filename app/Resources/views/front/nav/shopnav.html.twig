@@ -1,0 +1,8 @@
+{#shoplist.html.twig#}
+<ul class="dropdown-menu">
+	{% for mag in shop %}
+	    <li>
+	    	<a href="{{path("shop_show_details",{"slug":mag.slug})}} ">{{mag.commercialName}}</a>
+	    </li>
+	{% endfor %}
+</ul>

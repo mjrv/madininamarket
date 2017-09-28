@@ -7,7 +7,7 @@
 		{% if id < pic.items.id %}
 			{# On arrive ici que si l'item n'est pas encore affiché #}
 			<div class="col-sm-4">
-				<a href="{{path('show_product_details', {'id': pic.items.id})}}">
+				<a href="{{path('show_product_details', {'slug': pic.items.slug})}}">
 					<img src="{{pic.url}}" alt="" class="img-thumbnail" style="width:197px !important">
 				</a>
 				<p>
@@ -27,7 +27,7 @@
 	{% for mag in shop %}
 	    
 	  <div class="tab-pane {% if loop.first %}active{% endif %}" style ="max-width:100%">
-	  	<a href="{{path("shop_show_details",{"id":mag.id})}} ">
+	  	<a href="{{path("shop_show_details",{"slug":mag.slug})}} ">
 	  		<img src="{{mag.cover}} " alt="cover" style="width: 100% !important; height: 197px !important;">
 	  	</a>
 	  </div>

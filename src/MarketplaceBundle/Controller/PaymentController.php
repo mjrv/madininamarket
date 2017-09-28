@@ -104,9 +104,9 @@ class PaymentController extends Controller
 		$payment = $this->createPayment($orders);
 
 	    $ppc = $this->get('payment.plugin_controller');
-	    dump($ppc);
-	    $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
 
+	    $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
+	   
 	    if ($result->getStatus() === Result::STATUS_SUCCESS) {
 	        return $this->redirect($this->generateUrl('payment_complete', [
 	            'id' => $orders->getId(),
@@ -139,7 +139,7 @@ class PaymentController extends Controller
 
 		$em = $this->getDoctrine()->getManager();
 		$order = $em->getRepository('MarketplaceBundle:Orders')->find($id);
-		if (!$order || $order->getValide() !=0) throw new NotFoundHttpException("La commande n'existe pas", 1);
+		if (!$order || $order->getValide() !=0) throw new NotFoundHttpException("La commande n'existe pas");
 		$facture = $order->getOrders();
 		//mettre a jour les quantitées une fois la commande validée
 		foreach ($facture['item'] as $key => $value) {

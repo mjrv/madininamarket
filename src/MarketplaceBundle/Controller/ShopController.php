@@ -17,13 +17,13 @@ class ShopController extends Controller
 	*/
 
 	/**
-	*@route("/{id}/shop-details", name = "shop_show_details")
+	*@route("/{slug}/shop-details", name = "shop_show_details")
 	*/
-	public function showShopAction($id)
+	public function showShopAction($slug)
 	{
 	    $em = $this->getDoctrine()->getManager();
-	    $shop = $em->getRepository('MarketplaceBundle:Shop')->find($id);
-	    $products = $em->getRepository('MarketplaceBundle:Shop')->findItems($id);
+	    $shop = $em->getRepository('MarketplaceBundle:Shop')->findOneBySlug($slug);
+	    $products = $em->getRepository('MarketplaceBundle:Shop')->findItems($shop->getId());
 
 	    dump($shop);
 	    dump($products);
@@ -37,13 +37,13 @@ class ShopController extends Controller
 	}
 
 	/**
-	*@route("/{id}/product-details", name = "show_product_details")
+	*@route("/{slug}/product-details", name = "show_product_details")
 	*/
-	public function showProduct($id)
+	public function showProduct($slug)
 	{
 	    $em = $this->getDoctrine()->getManager();
-	    $product = $em->getRepository('MarketplaceBundle:Items')->find($id);
-	    $item = $em->getRepository('MarketplaceBundle:Picture')->getItemPic($id); 
+	    $product = $em->getRepository('MarketplaceBundle:Items')->findOneBySlug($slug);
+	    $item = $em->getRepository('MarketplaceBundle:Picture')->getItemPic($product->getId()); 
 	    $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
 	    $params = [
 	        'pictures' => $pictures,
@@ -58,15 +58,5 @@ class ShopController extends Controller
 	    return $this->render('front/shop/productdetails.html.twig',$params);
 	}
 
-	public function showProductPerCategory()
-	{
-		$em = $this->getDoctrine()->getManager();
-	    $products = $em->getRepository('MarketplaceBundle:Category')->itemsPerCategory($id);
-
-	    if (!$products) throw $this->createNotFoundException("la page demandee n'existe pas");
-
-	    return $this->render('front/shop/categorydetails.html.twig', array(
-	        'products' => $products,
-	    ));
-	}
+	
 }

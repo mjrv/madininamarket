@@ -57,10 +57,11 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="{{path('homepage')}}">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="{{path('homepage')}}">Home</a></li>
+        <li class="dropdown">
+          <a href="#">Liste des boutiques</a>
+          {{render(controller("MarketplaceBundle:Nav:shopNav"))}}
+        </li>
         <li>{{render(controller('MarketplaceBundle:Nav:categories'))}} </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -78,6 +79,8 @@
           <li><a href="{{path('admin')}}">admin</a>
           </li>
         {% endif %}
+
+       <li><a href="{{path('cart')}} ">panier</a></li>
 
       </ul>
     </div>
@@ -110,7 +113,6 @@
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-{% block javascripts %}
 <script src="{{ asset('asset/js/functions.js') }}"></script>
 <script>
 $(function()
@@ -118,6 +120,8 @@ $(function()
   dropdownMenu();
 })
 </script>
+
+{% block javascripts %}
 {% endblock %}
 </body>
 </html>

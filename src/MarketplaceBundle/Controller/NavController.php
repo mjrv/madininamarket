@@ -15,9 +15,19 @@ class NavController extends Controller
      */
     public function shopAction()
     {
+        $em = $this->getDoctrine()->getManager();
+        $shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
+        return $this->render('front\nav\shoplist.html.twig',array('shop' => $shop));
+    }
+
+    /**
+     * @Route("/shop-nav", name="nav_shop")
+     */
+    public function shopNavAction()
+    {
     	$em = $this->getDoctrine()->getManager();
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
-        return $this->render('front\nav\shoplist.html.twig',array('shop' => $shop));
+        return $this->render('front\nav\shopnav.html.twig',array('shop' => $shop));
     }
 
     public function categoriesAction()

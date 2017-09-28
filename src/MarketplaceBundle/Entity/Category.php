@@ -4,6 +4,7 @@ namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Category
@@ -34,6 +35,14 @@ class Category
      * )
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\column(length=255, unique=true)
+     */
+    private $slug;
+
+
 
 
     /**
@@ -68,6 +77,14 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
 

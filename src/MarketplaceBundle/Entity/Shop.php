@@ -3,6 +3,7 @@
 namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Shop
@@ -129,6 +130,12 @@ class Shop
     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop")
     */
     private $items;
+
+    /**
+     * @Gedmo\Slug(fields={"commercialName"})
+     * @ORM\column(length=255, unique=true)
+     */
+    private $slug;
 
 
     /**
@@ -553,5 +560,13 @@ class Shop
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

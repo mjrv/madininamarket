@@ -25,6 +25,7 @@ framework:
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
+        cookie_lifetime: 1800 # deconnection au bout de 30 minutes -- 3600 = 1h
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
@@ -144,6 +145,9 @@ corley_maintenance:
     page: '%kernel.root_dir%/../web/maintenance.dist.html'
     hard_lock: lock.html
     symlink: false
+    whitelist:  #url autorisées en mode maintenance
+        paths:
+            - sitemap #url du controlleur
 
 # configuration JMS payment   http://jmspaymentcorebundle.readthedocs.io/en/stable/setup.html
 jms_payment_core:

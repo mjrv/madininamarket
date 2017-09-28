@@ -106,6 +106,12 @@ class Items
     private $shop;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\column(length=255, unique=true)
+     */
+    private $slug;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -446,5 +452,13 @@ class Items
     public function getShop()
     {
         return $this->shop;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }
