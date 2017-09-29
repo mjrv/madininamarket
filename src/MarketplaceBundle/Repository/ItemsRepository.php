@@ -70,4 +70,37 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter("array",$array);
 		return $query-> getResult();
 	}
+
+	public function searchItems($search)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				"
+				SELECT i
+				FROM MarketplaceBundle:Items i
+				WHERE i.name LIKE  :search
+				"
+			)
+			->setParameter("search", '%'.$search.'%');
+		return $query->getResult();
+	}
+
+	public function searchItemsWithCat($cat, $search)
+	{
+		$params = ["search"=> '%'.$search.'%', "cat"=> $cat];
+
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				"
+				SELECT i
+				FROM MarketplaceBundle:Items i
+				WHERE category = :cat
+				AND i.name LIKE :search
+				"
+			)
+			->setParameters($params);
+		return $query-> getResult();
+	}
 }

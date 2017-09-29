@@ -106,7 +106,7 @@ class Items
     private $shop;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
+     * @Gedmo\Slug(fields={"name","id"})
      * @ORM\column(length=255, unique=true)
      */
     private $slug;
