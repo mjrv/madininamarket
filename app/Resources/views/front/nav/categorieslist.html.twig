@@ -1,14 +1,14 @@
-<form action="{{path("recherche")}} " class="form-inline">
+<form action="{{path("recherche")}}" id="recherche" class="form-inline">
 	<select name="category" id="category">
 		<optgroup>
-			<option value="aucune" selected="selected">{{'category'|trans}}</option>
+			<option value="aucune">{{'category'|trans}}</option>
 			{% for category in categories %}
 			    <option value="{{category.slug}}">{{category.name}} </option>
 			{% endfor %}
 		</optgroup>
 	</select>
 	<div class="input-group">	
-		<input type="text" id="search" name="search" value="">
+		<input type="text" id="search" name="search">
 		<button type="submit">	
 		{# <span class="input-group-addon"> #}
 			<i class="fa fa-search" aria-hidden="true"></i>

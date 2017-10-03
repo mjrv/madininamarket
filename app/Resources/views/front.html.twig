@@ -117,8 +117,37 @@
 <script>
 $(function()
 {
+  //Permet de derouler le menu au hover
   dropdownMenu();
+
+  // On envoi le formulaire a la sélection de la catégorie
+  $("#category").on("change", function()
+  {
+    $("#recherche").submit();
+  });
+
+  // On met les valeurs de la recherche dans les champs du form de recherche (s'ils existent)
+  var category = $.urlParam('category');
+  var search = $.urlParam('search');
+
+  if( category != 0)
+  {
+    $("#category optgroup option[value="+category+"]").attr("selected", "selected");
+  }
+
+  if(search != 0)
+  {
+    $("#search").val(search);
+  }
+
+
 })
+
+// source : https://www.sitepoint.com/url-parameters-jquery/
+$.urlParam = function(name){
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  return results[1] || 0;
+}
 </script>
 
 {% block javascripts %}

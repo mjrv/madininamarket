@@ -96,7 +96,7 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 				"
 				SELECT i
 				FROM MarketplaceBundle:Items i
-				WHERE category = :cat
+				WHERE i.category = :cat
 				AND i.name LIKE :search
 				"
 			)
