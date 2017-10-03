@@ -1,6 +1,8 @@
 {% extends 'front.html.twig' %}
+{% block description %}{{product.description}}{% endblock %}
+{% block keywords %}{{prodect.name}}{% endblock %}
 {% block body %}
-	<legend class="text-center"> {{product.name}} </legend>
+	<h1 class="text-center"> {{product.name}} </h1>
 	<div class="col-sm-6">
 		{% for pic in item %}
 			<div class="col-xs-4">

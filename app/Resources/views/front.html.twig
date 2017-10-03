@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}{% endblock %} - {{shop_name}}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />  <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -43,6 +42,10 @@
       .row.content {height:auto;} 
     }
   </style>
+  {% block stylesheets %}{% endblock %}
+  {# Emplacement pour les méta de chaque page #}
+  <meta name="description" content="{% block description %}{% endblock %}">
+  <meta name="keywords" content="{% block keywords %}{% endblock %}, {{shop_name}}">
 </head>
 <body>
 
@@ -147,6 +150,7 @@ $(function()
 
   if(search != 0)
   {
+    // https://stackoverflow.com/questions/2950357/jquery-removing-character-from-string
     search = search.replace('+',' ');
     search = search.replace('%',' ');
     $("#search").val(search);

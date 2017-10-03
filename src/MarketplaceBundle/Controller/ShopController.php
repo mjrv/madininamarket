@@ -112,6 +112,7 @@ class ShopController extends Controller
 			dump($params);
 			return $this->render('front/shop/search.html.twig', array(
 	        'pictures' => $pictures,
+	        'category' => $category
 	    ));		
 
 		}

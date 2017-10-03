@@ -1,5 +1,8 @@
 {% extends 'front.html.twig' %}
+{% block description %}{{category}}{% endblock %}
+{% block keywords %}{% endblock %}
 {% block body %}
+	<h1 class="text-center"> {{category}} </h1>
 <div class="products-content">
     {% set id = 0 %} <!--  on defini un variable appelé id a 0 -->
 	{% for pic in pictures %}

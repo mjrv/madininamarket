@@ -1,5 +1,8 @@
 {% extends 'front.html.twig' %}
+{% block description %}{{shop.commercialName}}{% endblock %}
+{% block keywords %}{{shop.commercialName}}{% endblock %}
 {% block body %}
+	<h1 class="text-center">{{shop.commercialName}}</h1>
 <div class="products-content">
     {% set id = 0 %} <!--  on defini un variable appelé id a 0 -->
 	{% for pic in products %}
