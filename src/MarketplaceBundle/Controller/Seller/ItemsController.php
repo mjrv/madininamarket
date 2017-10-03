@@ -57,6 +57,15 @@ class ItemsController extends Controller
             $em->persist($item);
             $em->flush();
 
+            $mediasClone = clone $item->getPicture();
+            $item->getPicture()->clear();
+
+            foreach ($mediasClone as $md) {
+                $md->setItems($item);
+                $em->persist($md);
+                $em->flush();
+            }
+
             return $this->redirectToRoute('items_show', array('id' => $item->getId()));
         }
 

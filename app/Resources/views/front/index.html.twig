@@ -8,7 +8,7 @@
 			{# On arrive ici que si l'item n'est pas encore affiché #}
 			<div class="item col-sm-3">
 				<a href="{{path('show_product_details', {'slug': pic.items.slug})}}">
-					<img src="{{pic.url}}" alt="" class="img-responsive">
+					<img src="{{asset(pic.url)}}" alt="{{pic.items.name}}" class="img-responsive">
 				</a>
 				<p>	{{pic.items.name}}</p>
 					{{pic.items.priceHt|tva(pic.items.tva.value)}} €   
