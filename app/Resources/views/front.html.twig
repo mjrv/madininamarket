@@ -7,6 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
       <link rel="stylesheet" href="{{asset("asset/css/variables.css")}}">
       <link rel="stylesheet" href="{{asset("asset/css/front.css")}}">
       <style>
@@ -109,10 +110,19 @@
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
+  <div class="col-md-12">
+    <a href="#">CGV</a>    
+    <a href="#">Mentions legales</a>    
+    <a href="#">Nous contacter</a>    
+    <a href="#">Faq</a>    
+  </div>
+  <div class="col-md-12">
+    <p>{{shop_name}} &copy 2017 {% if "now"|date('Y') > 2017  %} - {{ "now"|date('Y') }}{% endif %}</p>
+  </div>
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{{ asset('asset/js/functions.js') }}"></script>
 <script>
 $(function()
@@ -139,6 +149,24 @@ $(function()
   {
     $("#search").val(search);
   }
+  
+  var items = []; 
+  $.get("{{path('listItems')}}", function(data)
+  {
+    // console.log(data);
+    $.each(data, function(index, val)
+    {
+      // console.log(index);
+      // console.log(val);
+      items.push(val.name);
+    });
+  });
+
+  // console.log(items);
+  // https://jqueryui.com/autocomplete/
+  $( "#search" ).autocomplete({
+    source: items
+  });
 
 
 })
@@ -148,6 +176,7 @@ $.urlParam = function(name){
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
   return results[1] || 0;
 }
+
 </script>
 
 {% block javascripts %}
