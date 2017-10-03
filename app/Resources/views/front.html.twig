@@ -84,7 +84,9 @@
           </li>
         {% endif %}
 
-       <li><a href="{{path('cart')}} "><i class="fa fa-shopping-cart" aria-hidden="true"></i> panier</a></li>
+       {# panier #}
+
+       {{render(controller('MarketplaceBundle:Nav:detailCart'))}}
 
       </ul>
     </div>

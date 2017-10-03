@@ -68,6 +68,23 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 			->setCreatedAt(new \Datetime());
 		$manager->persist($items3);//prepare l objet a etre mis en base de donnee
 
+		$items4 = new Items();//ON defini notre variable en tant qu 'objet
+		$items4
+			->setReference('Velo123456789') //on lui defini un attribu donc une valeur
+			->setName('Velo VTT')
+			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
+			->setDescription('VTT au top')
+			->setPriceHt('350')
+			// ->setDiscount()
+			->setStock('0')
+			->setTva($this->getReference('18.5'))
+			->setCategory($this->getReference('loisir'))
+			->setVerify('1')
+			// ->setUpdateAt(new \DateTime())
+			->setShop($this->getReference('carrefour'))
+			->setCreatedAt(new \Datetime());
+		$manager->persist($items4);//prepare l objet a etre mis en base de donnee
+
 
 	
 
@@ -76,6 +93,7 @@ class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
 		$this->addReference('marteau',$items1);
 		$this->addReference('kayak',$items2);
 		$this->addReference('switch',$items3);
+		$this->addReference('velo',$items4);
 	// 	$this->addReference('20',$items3);
 	// 	$this->addReference('8.5',$items4);
 	}

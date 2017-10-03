@@ -42,6 +42,15 @@ class LoadPictureData extends AbstractFixture implements OrderedFixtureInterface
 
 		$manager->flush();//ecrire dans la base ce qui est prepare
 
+		$picture4 = new Picture();//ON defini notre variable en tant qu 'objet
+		$picture4
+				->setUrl('https://c4.eb-cdn.com.au/website/videos/images/screenshots/202879_screenshot_05_l.jpg')//on lui defini un attribu donc une valeur
+				->setUpdatedAt(new \Datetime())
+				->setItems($this->getReference('velo'));
+		$manager->persist($picture4);//prepare l objet a etre mis en base de donne2
+
+		$manager->flush();//ecrire dans la base ce qui est prepare4
+
 	}
 
 	public function getOrder()

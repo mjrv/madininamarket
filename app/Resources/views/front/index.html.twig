@@ -12,7 +12,11 @@
 				</a>
 				<p>	{{pic.items.name}}</p>
 					{{pic.items.priceHt|tva(pic.items.tva.value)}} €   
+					{% if pic.items.stock > 0 %}
 					<a href="{{path('addToCart',{'id':pic.items.id})}}" class="btn item-button">Ajouter au panier</a>
+					{% else %}
+						<a href="">plus en stock  souhaitez vous etre informé d 'un retour en stock</a>
+					{% endif %}
 			</div>
 		{% endif %}
 

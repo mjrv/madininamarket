@@ -4,6 +4,7 @@ namespace MarketplaceBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
 * @Route("nav")
@@ -35,5 +36,19 @@ class NavController extends Controller
     	$em = $this->getDoctrine()->getManager();
     	$categories = $em->getRepository('MarketplaceBundle:Category')->findAll();
     	return $this->render('front\nav\categorieslist.html.twig',['categories' => $categories]);
+    }
+
+    public function detailCartAction()
+    {
+       $session = new Session();
+       if (!$session->has('cart')) {
+           $article = 0;
+       }
+       else
+       {
+            $article = count($session->get('cart'));
+       }
+       $params =['article' => $article];
+       return $this->render('front\nav\cart.html.twig', $params);
     }
 }
