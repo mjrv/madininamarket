@@ -140,15 +140,15 @@ $(function()
   });
 
   // On met les valeurs de la recherche dans les champs du form de recherche (s'ils existent)
-  var category = $.urlParam('category');
-  var search = $.urlParam('search');
+  var category = getParameterByName('category');
+  var search = getParameterByName('search');
 
-  if( category != 0)
+  if( category != null)
   {
     $("#category optgroup option[value="+category+"]").attr("selected", "selected");
   }
 
-  if(search != 0)
+  if(search != null)
   {
     // https://stackoverflow.com/questions/2950357/jquery-removing-character-from-string
     search = search.replace('+',' ');
@@ -177,10 +177,15 @@ $(function()
 
 })
 
-// source : https://www.sitepoint.com/url-parameters-jquery/
-$.urlParam = function(name){
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  return results[1] || 0;
+// source : https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 </script>
