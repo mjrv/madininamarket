@@ -21,12 +21,6 @@ class ItemsType extends AbstractType
         $builder
             ->add('reference',null,array('label' => 'label.reference'))
             ->add('name')
-            ->add('picture', CollectionType::class, array(
-                'entry_type' => PictureType::class,
-                'allow_add' =>true,
-                'allow_delete'=> true,
-                'required' =>false
-                ))
             ->add('description')
             ->add('priceHt')
             ->add('discount')
@@ -53,6 +47,12 @@ class ItemsType extends AbstractType
                                                 'multiple' => false,
                                                 'expanded' => false,  
                                                 ))
+            ->add('picture', CollectionType::class, array(
+                'entry_type' => PictureType::class,
+                'allow_add' =>true,
+                'allow_delete'=> true,
+                'required' =>false
+                ))
             // ->add('history', CollectionType::class, [
             //                     'attr' => [
             //                                 'hidden'=>true
