@@ -147,6 +147,8 @@ $(function()
 
   if(search != 0)
   {
+    search = search.replace('+',' ');
+    search = search.replace('%',' ');
     $("#search").val(search);
   }
   
