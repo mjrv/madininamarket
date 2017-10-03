@@ -111,6 +111,8 @@ class ItemsController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+             if($item->getStock() > 0)
+                $this->forward('MarketplaceBundle:Notification:notifyBack', ['id' => $id]);
 
             return $this->redirectToRoute('items_edit', array('id' => $item->getId()));
         }

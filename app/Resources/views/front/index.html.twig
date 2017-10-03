@@ -15,7 +15,9 @@
 					{% if pic.items.stock > 0 %}
 					<a href="{{path('addToCart',{'id':pic.items.id})}}" class="btn item-button">Ajouter au panier</a>
 					{% else %}
-						<a href="">plus en stock  souhaitez vous etre informé d 'un retour en stock</a>
+						{# <p> #}
+							<a href="{{path('notifyMe',{'id':pic.items.id})}}" class="btn item-stock">Plus en stock...<span>Souhaitez vous etre informé d 'un retour en stock</span></a>
+						{# </p> #}
 					{% endif %}
 			</div>
 		{% endif %}

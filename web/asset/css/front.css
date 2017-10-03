@@ -148,4 +148,38 @@ nav
 	color: white;
 }
 
+/*http://www.css3create.com/Infobulle-avec-effet-de-transparence-en-CSS*/
+.item-stock
+{
+	background: var(--vert) !important;
+	color: white;
+	/*color:#ccc;*/
+    text-shadow:0 -1px 0 black; 
+}
+
+.item-stock:hover, .item-stock:focus
+{
+	background:rgba(255,255,255,.4);
+    box-shadow:0 1px 0 rgba(255,255,255,.4);
+}
+
+.item-stock span
+{
+     position:absolute; 
+     margin-top:23px;
+     margin-left:-35px;        
+     color: var(--vert);
+     background:rgba(255,0,0,.9);
+     padding:15px;
+     border-radius:3px;
+     box-shadow:0 0 2px rgba(0,0,0,.5);
+     transform:scale(0) rotate(-12deg);       
+     transition:all .25s;
+     opacity:0;
+}
+
+.item-stock:hover span, .item-stock:focus span{
+     transform:scale(1) rotate(0);       
+     opacity:1; 
+}
 /* Fin products */

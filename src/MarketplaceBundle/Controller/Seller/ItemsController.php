@@ -111,7 +111,8 @@ class ItemsController extends Controller
             $em->persist($history);
 
             $this->getDoctrine()->getManager()->flush();
-
+            if($item->getStock() > 0)
+                $this->forward('MarketplaceBundle:Notification:notifyBack', ['id' => $id]);
             return $this->redirectToRoute('items_edit', array('id' => $item->getId()));
         }
 
