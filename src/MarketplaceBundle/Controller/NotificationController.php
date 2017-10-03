@@ -72,6 +72,10 @@ class NotificationController extends Controller
 			    ->setBody('le produit x est a nouveau en stock')
 			;
 			$this->mailer->send($message);	
+
+			# Une fois le mail envoyer, on supprimme l'objet $user de la bdd
+			$em->remove($user);
+			$em->flush();
 		}
 
 		return new Response(true);

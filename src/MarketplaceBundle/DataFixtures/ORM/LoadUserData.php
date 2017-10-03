@@ -43,7 +43,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface,Co
 			$password=$encoder->encodePassword($user2,"0000");
 			$user2 
 				->setUsername('toto')
-				->setEmail('toto@gmail.com')
+				->setEmail('hjurin@hotmail.com')
 				->setEnabled(1)
 				->setPassword($password);
 			$manager->persist($user2);
@@ -52,7 +52,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface,Co
 			$password=$encoder->encodePassword($user3,"0000");
 			$user3 
 				->setUsername('tata')
-				->setEmail('tata@gmail.com')
+				->setEmail('kai972@live.fr')
 				->setEnabled(1)
 				->setPassword($password)
 				->setRoles(['ROLE_EDITOR']);
