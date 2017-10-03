@@ -63,6 +63,7 @@
 				Total Ttc : {{ordered.total}}
 			</div>
 			<div class="col-xs-12">	
+				<a href="{{path('payment_complete',{'id':order.id})}}" class="btn btn-danger">TEST TEST TEST</a>
 				<a href="{{path('paymentWay',{'id':order.id})}}" class="btn btn-success">Valider la commande</a>
 				{# <a href="#" class="btn btn-success">Valider la commande</a> #}
 			</div>

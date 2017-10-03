@@ -68,7 +68,6 @@ class Orders
     private $orders;
 
     /**
-    * @var string
     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\User")
     * @ORM\Column(name="users")
     */
@@ -238,7 +237,6 @@ class Orders
     /**
      * Set user
      *
-     * @param string $user
      *
      * @return Orders
      */
@@ -252,7 +250,6 @@ class Orders
     /**
      * Get user
      *
-     * @return string
      */
     public function getUser()
     {

@@ -139,7 +139,7 @@ class PaymentController extends Controller
 
 		$em = $this->getDoctrine()->getManager();
 		$order = $em->getRepository('MarketplaceBundle:Orders')->find($id);
-		if (!$order || $order->getValide() !=0) throw new NotFoundHttpException("La commande n'existe pas");
+		if (!$order || $order->getValid() !=0) throw new NotFoundHttpException("La commande n'existe pas");
 		$facture = $order->getOrders();
 		//mettre a jour les quantitées une fois la commande validée
 		foreach ($facture['item'] as $key => $value) {
@@ -150,27 +150,27 @@ class PaymentController extends Controller
 		}
 		
 		$order
-			->setValide(1)
+			->setValid(1)
 			->setStatut(1)
-			->setReference($this->container->get('newReference')->reference());
+			->setReference(2);
+			// ->setReference($this->container->get('newReference')->reference());
 
 			$em->flush($order);
 
-			$session
-				->remove('adress')
-				->remove('cart')
-				->remove('shipment')
-				->remove('order');
+			$session->remove('adress');
+			$session->remove('cart');
+			$session->remove('shipment');
+			$session->remove('order');
 
 			//envoi d email de recapitulation au client et au vendeur
 			
 			$message =\Swift_Message::newInstance()
 				->setSubject('commande validée')
-				->setFrom(['toto@hotmail.toto' => 'Madinina Market'])
-				->setTo($order->getUser()->getEmailCanonical())
+				->setFrom([$this->container->getParameter('mail_send_user') => 'Madinina Market'])
+				->setTo($this->getUser()->getEmailCanonical())
 				->setCharset('utf-8')
 				->setContentType('text/html')
-				->setBody($this->renderView('swiftmail\validation.html.twig'));
+				->setBody($this->renderView('swiftmail\validation.html.twig', ['order' => $order]));
 			$this->get('mailer')->send($message);
 
 			return $this->redirect($this->generateURL('homepage'));
