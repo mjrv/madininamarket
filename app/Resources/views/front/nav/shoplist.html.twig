@@ -3,6 +3,7 @@
 <ul>
 	{% for mag in shop %}
 	    <li>
-	    	<a href="{{path("shop_show_details",{"slug":mag.slug})}} "><img src="{{mag.logo}} "  alt="{{mag.slug}}"></a></li>
+	    	<a href="{{path("shop_show_details",{"slug":mag.slug})}} "><img src="{{mag.logo}} "  alt="{{mag.slug}}"></a>
+	    </li>
 	{% endfor %}
 </ul>

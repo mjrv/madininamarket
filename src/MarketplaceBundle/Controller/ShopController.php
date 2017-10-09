@@ -47,10 +47,12 @@ class ShopController extends Controller
 	    $product = $em->getRepository('MarketplaceBundle:Items')->findOneBySlug($slug);
 	    $item = $em->getRepository('MarketplaceBundle:Picture')->getItemPic($product->getId()); 
 	    $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
+	    $shop = $em->getRepository('MarketplaceBundle:Shop')->find($product->getShop()); 
 	    $params = [
 	        'pictures' => $pictures,
 	        'product' => $product,
-	        'item' => $item
+	        'item' => $item,
+	        'shop' => $shop
 	    ];
 
 	    dump($params);

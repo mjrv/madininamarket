@@ -67,7 +67,7 @@ class ValidationController extends Controller
 			}
 		$adress = $session->get('adress');
 
-		if ($request->get('livraison') !=null && $request->get('facturation')){
+		if ($request->get('livraison') !== null && $request->get('facturation') !== null){
 			$adress['livraison'] = $request->get('livraison');
 			$adress['facturation'] = $request->get('facturation');
 		}else{
@@ -86,7 +86,7 @@ class ValidationController extends Controller
 			$this->setLivraisonSession($request);
 		}
 		$em = $this->getDoctrine()->getManager();
-		$shipment = $em->getRepository('MarketplaceBundle:ShipmentWay')->findALL();
+		$shipment = $em->getRepository('MarketplaceBundle:ShipmentWay')->findAll();
 
 		return $this->render('front/validation/shipmentValidation.html.twig',array('shipment' => $shipment));
 	}

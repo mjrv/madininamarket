@@ -69,20 +69,28 @@
         <li>{{render(controller('MarketplaceBundle:Nav:categories'))}} </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-          <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        {% else %}
-            <li><a href="{{path('fos_user_security_login')}}"><i class="fa fa-handshake-o" aria-hidden="true"></i> Login</a>
-            </li>
-        {% endif %}
-        {% if is_granted('ROLE_EDITOR') %}
-          <li><a href="{{path('seller')}}">seller</a>
+        <li class="dropdown">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href=" # ">Mon compte<b class="caret"></b></a> 
+            <ul class="dropdown-menu">
+              <li><a href="{{ path('adress') }}">Mes adresses</a></li>
+              <li><a href="{{ path('facture') }}">Mes commandes</a></li>
+              <li class="divider"></li>
+              <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+            {% if is_granted('ROLE_EDITOR') %}
+              <li><a href="{{path('seller')}}">seller</a>
+              </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+              <li><a href="{{path('admin')}}">admin</a>
+              </li>
+            {% endif %}
           </li>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-          <li><a href="{{path('admin')}}">admin</a>
-          </li>
-        {% endif %}
+          {% else %}
+              <li><a href="{{path('fos_user_security_login')}}"><i class="fa fa-handshake-o" aria-hidden="true"></i> Login</a>
+              </li>
+          {% endif %}
 
        {# panier #}
 

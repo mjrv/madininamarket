@@ -100,7 +100,7 @@ class OrdersController extends Controller
 
 		$order
 			->setDate(new \Datetime())	
-			->setUser($this->container->get('security.token_storage')->getToken()->getUser())
+			->setUser($this->getUser())
 			->setValid(0)
 			->setStatut(0)
 			->setReference(0)

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use MarketplaceBundle\Entity\Orders;
+use MarketplaceBundle\Entity\SoldItem;
 use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use JMS\Payment\CoreBundle\PluginController\Result;
@@ -141,11 +142,33 @@ class PaymentController extends Controller
 		$order = $em->getRepository('MarketplaceBundle:Orders')->find($id);
 		if (!$order || $order->getValid() !=0) throw new NotFoundHttpException("La commande n'existe pas");
 		$facture = $order->getOrders();
-		//mettre a jour les quantitées une fois la commande validée
+		// $vente = $em->getRepository('MarketplaceBundle:SoldItem')->findBy(['sold' => date('now')]);
+		// $date = new \DateTime();
+		// $today = $date->format('Y-m-d');
+
+		//mettre a jour les quantitées une fois la commande validée + l'historique d'achat
 		foreach ($facture['item'] as $key => $value) {
 			$item = $em->getRepository('MarketplaceBundle:Items')->find($key);
 			$item->setStock($item->getStock()-$value['qte']);
 			$em->persist($item);
+
+			$vente = $em->getRepository('MarketplaceBundle:SoldItem')->findBy([
+																					// 'soldAt' => $today,
+																					'soldAt' => new \DateTime(),
+																					// 'soldAt' => date('Y-m-d H:i:s'),
+																					// 'soldAt' => date('Y-m-d'),
+																					'item' => $key
+																				]);
+			var_dump($vente);
+			if(!$vente)
+			{
+				$vente = new SoldItem();	
+				$vente->setItem($key);
+				$vente->setQuantity($value['qte']);
+				$em->persist($vente);
+			}
+			// die;
+
 			$em->flush();
 		}
 		
@@ -164,16 +187,16 @@ class PaymentController extends Controller
 
 			//envoi d email de recapitulation au client et au vendeur
 			
-			$message =\Swift_Message::newInstance()
-				->setSubject('commande validée')
-				->setFrom([$this->container->getParameter('mail_send_user') => 'Madinina Market'])
-				->setTo($this->getUser()->getEmailCanonical())
-				->setCharset('utf-8')
-				->setContentType('text/html')
-				->setBody($this->renderView('swiftmail\validation.html.twig', ['order' => $order]));
-			$this->get('mailer')->send($message);
+			// $message =\Swift_Message::newInstance()
+			// 	->setSubject('commande validée')
+			// 	->setFrom([$this->container->getParameter('mail_send_user') => 'Madinina Market'])
+			// 	->setTo($this->getUser()->getEmailCanonical())
+			// 	->setCharset('utf-8')
+			// 	->setContentType('text/html')
+			// 	->setBody($this->renderView('swiftmail\validation.html.twig', ['order' => $order]));
+			// $this->get('mailer')->send($message);
 
-			return $this->redirect($this->generateURL('homepage'));
+			return $this->redirect($this->generateUrl('facture'));
 
 		
 	}

@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Corley\MaintenanceBundle\CorleyMaintenanceBundle(), //Mettre le site en maintenance
             new JMS\Payment\CoreBundle\JMSPaymentCoreBundle(),
             new JMS\Payment\PaypalBundle\JMSPaymentPaypalBundle(),
+            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

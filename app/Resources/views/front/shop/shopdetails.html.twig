@@ -26,3 +26,11 @@
 </div>
 {#     Detail de la boutique (liste des iitems)
  #}{% endblock %}
+
+ {% block seller %}
+ 	<ul>
+ 		<li>
+	    	<a href="{{path("shop_show_details",{"slug":shop.slug})}} "><img src="{{shop.logo}} "  alt="{{shop.slug}}"></a>
+	    </li>
+ 	</ul>
+ {% endblock %}
