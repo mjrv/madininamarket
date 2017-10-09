@@ -21,26 +21,33 @@
         </thead>
         <tbody>
         {% for item in items %}
-            <tr>
-                <td><a href="{{ path('items_show', { 'id': item.id }) }}">{{ item.id }}</a></td>
-                <td>{{ item.reference }}</td>
-                <td>{{ item.name }}</td>
-                <td><img src="{{ item.picture }}" alt="{{ item.name }}" title="{{ item.name }}" style="width: 197px !important; hieght: 197px !important;"></td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.priceHt }}</td>
-                <td>{{ item.discount }}</td>
-                <td>{{ item.stock }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('items_show', { 'id': item.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('items_edit', { 'id': item.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+           
+            {# {% if shop.id == pic.items.shop.id %} #}
+                <tr>
+                    <td><a href="{{ path('items_show', { 'id': item.id }) }}">{{ item.id }}</a></td>
+                    <td>{{ item.reference }}</td>
+                    <td>{{ item.name }}</td>
+                    {% for pic in item.picture %}
+                        {% if loop.first %}
+                            <td><img src="{{ asset(pic.url) }}" alt="{{ item.name }}" title="{{ item.name }}" style="width: 197px !important; hieght: 197px !important;"></td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.priceHt }}</td>
+                    <td>{{ item.discount }}</td>
+                    <td>{{ item.stock }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('items_show', { 'id': item.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('items_edit', { 'id': item.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {# {% endif %} #}
         {% endfor %}
         </tbody>
     </table>
@@ -52,7 +59,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('items_new') }}">Create a new item</a>
+            <a href="{{ path('items_new',{'id': shop.id}) }}">Create a new item</a>
         </li>
     </ul>
 {% endblock %}

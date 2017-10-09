@@ -3,6 +3,7 @@
 namespace MarketplaceBundle\Controller\Seller;
 
 use MarketplaceBundle\Entity\Items;
+use MarketplaceBundle\Entity\Shop;
 use MarketplaceBundle\Entity\HistoryItem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,41 +20,45 @@ class ItemsController extends Controller
     /**
      * Lists all item entities.
      *
-     * @Route("/", name="items_index")
+     * @Route("/{id}", name="items_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, Shop $shop)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $items = $em->getRepository('MarketplaceBundle:Items')->findAll();
-
+        $items = $em->getRepository('MarketplaceBundle:Items')->findByShop($shop);
+        // die;
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $items, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
             10/*limit per page*/
         );
+        // print_r($picture);
 
         return $this->render('seller/items/index.html.twig', array(
             'items' => $pagination,
+            'shop' => $shop
         ));
     }
 
     /**
      * Creates a new item entity.
      *
-     * @Route("/new", name="items_new")
+     * @Route("/{id}/new", name="items_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, Shop $shop)
     {
         $item = new Items();
-        $form = $this->createForm('MarketplaceBundle\Form\ItemsType', $item);
+        $form = $this->createForm('MarketplaceBundle\Form\ItemsSellerType', $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $item->setShop($shop);
+            $item->setVerify(1);
             $em->persist($item);
             $em->flush();
 
@@ -71,7 +76,8 @@ class ItemsController extends Controller
 
         return $this->render('seller/items/new.html.twig', array(
             'item' => $item,
-            'form' => $form->createView(),
+            'form' => $form->createView()
+
         ));
     }
 
@@ -111,7 +117,7 @@ class ItemsController extends Controller
         if (!$item) throw $this->createNotFoundException("la page demandee n'existe pas");
 
         $deleteForm = $this->createDeleteForm($item);
-        $editForm = $this->createForm('MarketplaceBundle\Form\ItemsType', $item);
+        $editForm = $this->createForm('MarketplaceBundle\Form\ItemsSellerType', $item);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
