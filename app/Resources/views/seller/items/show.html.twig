@@ -19,7 +19,11 @@
             </tr>
             <tr>
                 <th>Picture</th>
-                <td>{{ item.picture }}</td>
+                 {% for pic in item.picture %}
+                    {% if loop.first %}
+                        <td><img src="{{ asset(pic.url) }}" alt="{{ item.name }}" title="{{ item.name }}" style="width: 197px !important; hieght: 197px !important;"></td>
+                    {% endif %}
+                {% endfor %}
             </tr>
             <tr>
                 <th>Description</th>
@@ -42,7 +46,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('items_index') }}">Back to the list</a>
+            <a href="{{ path('items_index', {'id': item.shop.id}) }}">Back to the list</a>
         </li>
         <li>
             <a href="{{ path('items_edit', { 'id': item.id }) }}">Edit</a>

@@ -58,7 +58,7 @@ class ItemsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $item->setShop($shop);
-            $item->setVerify(1);
+            $item->setVerify(0);
             $em->persist($item);
             $em->flush();
 
@@ -76,7 +76,8 @@ class ItemsController extends Controller
 
         return $this->render('seller/items/new.html.twig', array(
             'item' => $item,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'shop' => $shop
 
         ));
     }
@@ -84,7 +85,7 @@ class ItemsController extends Controller
     /**
      * Finds and displays a item entity.
      *
-     * @Route("/{id}", name="items_show")
+     * @Route("/{id}/show", name="items_show")
      * @Method("GET")
      */
     public function showAction($id)
@@ -118,14 +119,24 @@ class ItemsController extends Controller
 
         $deleteForm = $this->createDeleteForm($item);
         $editForm = $this->createForm('MarketplaceBundle\Form\ItemsSellerType', $item);
-        $editForm->handleRequest($request);
+        $editForm->handleRequest($request);//recupere la requet gerer le formulaire
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $history->setUser($this->getUser());
             $history->setItem($item);
             $em->persist($history);
-
-            $this->getDoctrine()->getManager()->flush();
+            // a verifier champ :name -description-picture-)
+            $data = $editForm->getData(); # Récupere les données du formukaire sous form d'objet de type Items
+            $files = 0;
+            foreach ($_FILES['marketplacebundle_items']['name']['picture'] as $key => $value) {
+                if($value['imageFile']['file'] != '')
+                        $files+=1;
+            }
+            if ($data->getName() != $item->getName() || $data->getReference() != $item->getReference() || $files !== 0) {
+                $item->setVerify(0);
+                $em->persist($item);
+            }
+            $em->flush();
             if($item->getStock() > 0)
                 $this->forward('MarketplaceBundle:Notification:notifyBack', ['id' => $id]);
             return $this->redirectToRoute('items_edit', array('id' => $item->getId()));
@@ -135,6 +146,7 @@ class ItemsController extends Controller
             'item' => $item,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            // 'shop' => $item->getShop(),
         ));
     }
 

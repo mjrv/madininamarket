@@ -16,7 +16,7 @@ class NavSellerController extends Controller
 	{
 		 $user = $this->getUser()->getShop();
 
-        dump($user->getValues());
+        // dump($user->getValues());
         // die;
         return $this->render('seller\nav\userShop.html.twig',['user'=>$user]);
 	}
