@@ -116,7 +116,7 @@ class Items
      */
     public function __construct()
     {
-        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+        // $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
         // $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

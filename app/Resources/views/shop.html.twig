@@ -6,8 +6,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />  <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="{{asset("asset/css/variables.css")}}">
+      <link rel="stylesheet" href="{{asset("asset/css/seller.css")}}">
       <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
@@ -56,28 +56,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#">Gestion produits</a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="{{ path('items_new') }}">Creer</a>
-            </li>
-            <li>
-              <a href="{{ path('items_index') }}">Liste</a>
-            </li>
-          </ul>
-        </li>
-        <li class="dropdown">
-        <a href="#">modification shop</a>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="{{ path('shop_index')}} ">liste des boutiques possedées</a>
-          </li>
-        </ul>
-        </li>
-        <li><a href="#">gestion ventes</a></li>
-<!--         <li><a href="#">Contact</a></li>
- -->      </ul>
+            {{render(controller('MarketplaceBundle:NavSeller:userShop'))}}  
+      </ul>
       <ul class="nav navbar-nav navbar-right">
       {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
@@ -119,6 +99,9 @@
 <footer class="container-fluid text-center">
   <p>Footer Text</p>
 </footer>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 {% block javascripts %}
 <script src="{{ asset('asset/js/functions.js') }}"></script>
 <script>
