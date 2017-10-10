@@ -65,7 +65,7 @@
 								<td>{{item.name}}</td>
 								<td>{{item.priceHt}}</td>
 								<td>
-									<form action="{{path('addToCart',{'id':item.id})}}" method="GET" class="form-horizontal">
+									<form action="{{path('addToCart',{'slug':item.slug})}}" method="GET" class="form-horizontal">
 										{% if item.stock < 10 %} <span class = "text-danger">{{item.stock}}</span>{% endif %}
 										<input type="number" class="form-control" name="qte" min=1 max={{item.stock}} id="qte{{item.id}}" step="1" 
 												{% if cart[item.id] > item.stock %}

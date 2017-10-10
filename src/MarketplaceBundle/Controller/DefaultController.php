@@ -18,16 +18,16 @@ class DefaultController extends Controller
         $test = new Items();
     	$em = $this->getDoctrine()->getManager();
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
-    	$pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
-    	// $items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
+    	// $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
+    	$items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
     	// $items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
         // $t = $test->getPicture()->first();
     	
 
     	$params = [
     		'shop' => $shop,
-    		'pictures' => $pictures,
-    		// 'items' => $items,
+    		// 'pictures' => $pictures,
+    		'items' => $items,
             // 't' => $t
     		];
     		// foreach ($items as $key => $value) {
@@ -42,7 +42,7 @@ class DefaultController extends Controller
     		// 	echo '<br><br>';
     		// 	# code...
     		// }
-            dump($params);
+            // dump($params);
     		// die;
     		 
         return $this->render('front\index.html.twig',$params);

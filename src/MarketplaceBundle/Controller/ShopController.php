@@ -45,12 +45,8 @@ class ShopController extends Controller
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $product = $em->getRepository('MarketplaceBundle:Items')->findOneBySlug($slug);
-	    $item = $em->getRepository('MarketplaceBundle:Picture')->getItemPic($product->getId()); 
-	    $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
 	    $params = [
-	        'pictures' => $pictures,
 	        'product' => $product,
-	        'item' => $item
 	    ];
 
 	    dump($params);
@@ -85,7 +81,7 @@ class ShopController extends Controller
 				}
 				else
 				{
-					dump("toto");
+					// dump("toto");
 					$items = $em->getRepository('MarketplaceBundle:Items')->searchItems($search);
 				}
 			}
@@ -111,8 +107,9 @@ class ShopController extends Controller
 
 			dump($params);
 			return $this->render('front/shop/search.html.twig', array(
-	        'pictures' => $pictures,
-	        'category' => $category
+	        // 'pictures' => $pictures,
+	        'category' => $category,
+	        'items' => $items,
 	    ));		
 
 		}
