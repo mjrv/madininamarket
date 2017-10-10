@@ -75,9 +75,9 @@
           </li>
         </ul>
         </li>
-        <li><a href="#">gestion ventes</a></li>
-<!--         <li><a href="#">Contact</a></li>
- -->      </ul>
+        <li><a href="{{path('show_stat')}}">gestion ventes</a></li>
+
+      </ul>
       <ul class="nav navbar-nav navbar-right">
       {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <li><a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>

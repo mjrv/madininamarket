@@ -1,0 +1,45 @@
+{% extends 'shop.html.twig' %}
+
+{% block body %}
+	<div id="result"></div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+function l(data){console.log(data)}
+function toStr(data){return JSON.stringify(data)}
+
+$(function()
+{
+	$.get("{{ path('statistic', {'id': 4} ) }}", function(data)
+	{
+		var res = '';
+		$.each(data, function(index, el) 
+		{
+			var i = 0;
+			res+= '<p>';
+
+			res+= '<br>';
+			res+= toStr(el);
+			
+			res+= '<br>';
+			res+= toStr(el[i].id);
+
+			res+= '<br>';
+			res+= toStr(el[i].name);
+
+			res+= '<br>';
+			res+= toStr(el[i].createdAt);
+
+			res+= '<br>';
+			res+= toStr(el[i].priceHt);
+
+			res+= '</p>';
+			i++;		
+		});
+		l(res);
+		$("#result").html(res);
+	})
+})
+</script>
+{% endblock %}

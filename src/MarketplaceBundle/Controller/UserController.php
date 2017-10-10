@@ -120,7 +120,7 @@ class UserController extends Controller
     {
         // $id = intval($request->get('id'));
         $em = $this->getDoctrine()->getManager();
-        $facture = $em->getRepository('MarketplaceBundle:Orders')->findOneBy(['user'=> $this->getUser(), 'valide' => 1, 'id' => $id]);
+        $facture = $em->getRepository('MarketplaceBundle:Orders')->findOneBy(['user'=> $this->getUser(), 'valid' => 1, 'id' => $id]);
         // var_dump($facture);
         // die;
 

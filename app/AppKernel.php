@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new JMS\Payment\CoreBundle\JMSPaymentCoreBundle(),
             new JMS\Payment\PaypalBundle\JMSPaymentPaypalBundle(),
             new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(), //Permet de convertir les objets en json http://jmsyst.com/bundles/JMSSerializerBundle
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
