@@ -25,7 +25,7 @@ framework:
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
-        cookie_lifetime: 1800 # deconnection au bout de 30 minutes -- 3600 = 1h
+        cookie_lifetime: 3600 # deconnection au bout de 30 minutes -- 3600 = 1h
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
@@ -165,3 +165,27 @@ jms_payment_paypal:
     username: '%paypal_username%'
     password: '%paypal_psw%'
     signature: '%paypal_signature%'
+
+payum:
+    security:
+        token_storage:
+            MarketplaceBundle\Entity\PaymentToken: { doctrine: orm }
+
+    storages:
+        MarketplaceBundle\Entity\Payment: { doctrine: orm }
+            
+    gateways:
+        offline:
+            factory: offline
+        paypal_express_checkout:
+            factory: paypal_express_checkout
+            username: '%paypal_username%'
+            password: '%paypal_psw%'
+            signature: '%paypal_signature%'
+            sandbox: true
+        paypal_rest:
+            factory: paypal_rest
+            config_path: '%payum_config%'
+            client_id: '%payum_id%'
+            client_secret: '%payum_secret%'
+            sandbox: true
