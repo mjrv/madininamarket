@@ -13,13 +13,19 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $test = new Items();
     	$em = $this->getDoctrine()->getManager();
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
     	// $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
-    	$items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
+    	$items = $em->getRepository('MarketplaceBundle:Items')->findAll();
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $items, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            12/*limit per page*/
+        ); 
     	// $items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
         // $t = $test->getPicture()->first();
     	
@@ -27,7 +33,7 @@ class DefaultController extends Controller
     	$params = [
     		'shop' => $shop,
     		// 'pictures' => $pictures,
-    		'items' => $items,
+    		'items' => $pagination,
             // 't' => $t
     		];
     		// foreach ($items as $key => $value) {

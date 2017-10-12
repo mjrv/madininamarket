@@ -10,7 +10,7 @@ namespace MarketplaceBundle\Repository;
  */
 class ItemsRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function gelAllItems()
+	public function getAllItems()
 	{
 		$query = $this
 			->getEntityManager()

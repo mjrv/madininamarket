@@ -21,27 +21,34 @@ class ShopController extends Controller
 	/**
 	*@route("/{slug}/shop-details", name = "shop_show_details")
 	*/
-	public function showShopAction($slug)
+	public function showShopAction(Request $request, $slug)
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $shop = $em->getRepository('MarketplaceBundle:Shop')->findOneBySlug($slug);
-	    $products = $em->getRepository('MarketplaceBundle:Shop')->findItems($shop->getId());
-
-	    dump($shop);
-	    dump($products);
+	    $items = $em->getRepository('MarketplaceBundle:Items')->findByShop($shop->getId());
 
 	    if (!$shop) throw $this->createNotFoundException("la page demandee n'existe pas");
+	    
+	    $paginator  = $this->get('knp_paginator');
+        	$pagination = $paginator->paginate(
+            $items, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            12/*limit per page*/
+        	); 
+	    // dump($shop);
+	    // dump($products);
+
 
 	    return $this->render('front/shop/shopdetails.html.twig', array(
 	        'shop' => $shop,
-	        'products' => $products,
+	        'items' => $pagination,
 	    ));
 	}
 
 	/**
 	*@route("/{slug}/product-details", name = "show_product_details")
 	*/
-	public function showProduct($slug)
+	public function showProductAction($slug)
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $product = $em->getRepository('MarketplaceBundle:Items')->findOneBySlug($slug);
@@ -49,7 +56,7 @@ class ShopController extends Controller
 	        'product' => $product,
 	    ];
 
-	    dump($params);
+	    // dump($params);
 
 	    if (!$product) throw $this->createNotFoundException("la page demandee n'existe pas");
 
@@ -97,19 +104,17 @@ class ShopController extends Controller
 				}
 			}
 
-			$pictures = $em->getRepository('MarketplaceBundle:Items')->findArray($items);
-			$params = [
-				'category' => $category,
-				'search' => $search,
-				'items' => $items,
-				'pictures' => $pictures,
-			];
+			$paginator  = $this->get('knp_paginator');
+        	$pagination = $paginator->paginate(
+            $items, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            12/*limit per page*/
+        	); 
 
-			dump($params);
 			return $this->render('front/shop/search.html.twig', array(
 	        // 'pictures' => $pictures,
 	        'category' => $category,
-	        'items' => $items,
+	        'items' => $pagination,
 	    ));		
 
 		}

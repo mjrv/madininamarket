@@ -18,13 +18,12 @@ class ValidationController extends Controller
 	/**
 	 * @Route("/livraison", name="livraison")
 	 */
-	public function LivraisonAction(Request $request)
+	public function livraisonAction(Request $request)
 	{
 		$user = $this->getUser();
 		$ua = new UserAdress();
 		$form = $this->createForm('MarketplaceBundle\Form\UserAdressType',$ua); //preparation du formulaire
 		$em = $this->getDoctrine()->getManager();
-		$adress = $em->getRepository('MarketplaceBundle\Entity\UserAdress')->findBy(['user'=>$user->getId()]);
 
 		if($request->isMethod('POST'))
 		{
@@ -36,12 +35,13 @@ class ValidationController extends Controller
 				$em->flush();
 			}
 		}
+		$adress = $em->getRepository('MarketplaceBundle\Entity\UserAdress')->findBy(['user'=>$user->getId()]);
 
 		$params = [
 			'form' 	=> $form->createView(),
 			'adress'	=> $adress
 		];
-		dump($params);
+		// dump($params);
 		return $this->render('front\validation\livraison.html.twig',$params);
 	}
 	/**

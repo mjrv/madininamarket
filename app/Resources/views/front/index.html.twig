@@ -19,6 +19,10 @@
 			{% endif %}
 		</div>
 	{% endfor %}
+	<div class="navigation">
+        {{ knp_pagination_render(items) }}
+    </div>
+
 </div>
 
 {% endblock %}

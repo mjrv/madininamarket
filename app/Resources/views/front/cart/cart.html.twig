@@ -1,7 +1,7 @@
 {% extends 'front.html.twig' %}
 {% block body %}
 
-	{% if pictures|length == 0 %}
+	{% if items|length == 0 %}
 		<div>
 			<h5>Aucun produit dans le pannier</h5>
 			<a href="{{path('homepage')}}">Choisisser vos produits</a>
@@ -42,10 +42,8 @@
 					{% set TotalHt = 0 %}
 						
 
-					{% set id = 0 %}
-					{% for pic in pictures %}
-						{% set item = pic.items %} {# on abrege pic.items en item #}
-						{% if id < item.id %}
+					{# {% set id = 0 %} #}
+					{% for item in items %}
 							{# Notre calcul se fait que  si on arrive ici #}
 							{% if cart[item.id] > item.stock %}
 								{% set Ht = item.priceHt * item.stock %}
@@ -60,8 +58,13 @@
 							{% set TotalTva = TotalTva + (Ttc - Ht) %}
 
 							{% set Total = Total + Ttc %}
+
 							<tr>
-								<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt=""></td>
+								{% for pic in item.picture %}
+									{% if loop.first %}
+										<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt=""></td>
+									{% endif %}
+								{% endfor %}
 								<td>{{item.name}}</td>
 								<td>{{item.priceHt}}</td>
 								<td>
@@ -80,8 +83,6 @@
 								</td>
 								<td>{{Ht}}</td>
 							</tr>
-						{% endif %}
-						{% set id = item.id %}
 					{% endfor %}
 				</tbody>
 			</table>

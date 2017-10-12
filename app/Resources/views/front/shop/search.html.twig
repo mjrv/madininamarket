@@ -20,6 +20,9 @@
 				<a href="{{path('addToCart', {'slug': item.slug})}}" class="btn item-button">Ajout au pannier</a>
 		</div>
 	{% endfor %}
+	<div class="navigation">
+        {{ knp_pagination_render(items) }}
+    </div>
 </div>
 {#     Detail de la boutique (liste des iitems)
  #}{% endblock %}

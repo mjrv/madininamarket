@@ -22,9 +22,9 @@ class CartController extends Controller{
 		if(!$session->has("cart")) $session->set("cart",array());
 		$cart = $session->get("cart");
 		$em = $this->getDoctrine()->getManager();
-		$items = $em->getRepository("MarketplaceBundle:Items")->findArray(array_keys($cart));
+		$items = $em->getRepository("MarketplaceBundle:Items")->findItemsInArray(array_keys($cart));
 		$params =[
-			"pictures" => $items,
+			"items" => $items,
 			"cart"	=> $cart
 		];
 		// dump($params);

@@ -33,7 +33,7 @@ class ItemsController extends Controller
         $pagination = $paginator->paginate(
             $items, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            10/*limit per page*/
+            12/*limit per page*/
         );
         // print_r($picture);
 
