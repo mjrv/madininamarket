@@ -10,100 +10,100 @@ use Doctrine\Common\Persistence\ObjectManager;
 /**
 * 
 */
-class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
-{
+// class LoadItemsData extends AbstractFixture implements OrderedFixtureInterface
+// {
 	
-	public function load(ObjectManager $manager)
-	{
-		$items1 = new Items();//ON defini notre variable en tant qu 'objet
-		$items1
-			->setReference('bric-0123456') //on lui defini un attribu donc une valeur
-			->setName('marteau')
-			// ->setPicture('https://www.leroymerlin.fr/multimedia/921400082987/produits/marteau-arrache-clous-metal-0-45-kg.jpg')
-			->setDescription('outil permettant de clouer')
-			->setPriceHt('22')
-			// ->setDiscount()
-			->setStock('30')
-			->setTva($this->getReference('18.5'))
-			->setCategory($this->getReference('Bricolage'))
-			->setVerify('1')
-			// ->setUpdateAt(new \DateTime())
-			->setShop($this->getReference('carrefour'))
-			->setCreatedAt(new \Datetime());
-		$manager->persist($items1);//prepare l objet a etre mis en base de donnee
+// 	public function load(ObjectManager $manager)
+// 	{
+// 		$items1 = new Items();//ON defini notre variable en tant qu 'objet
+// 		$items1
+// 			->setReference('bric-0123456') //on lui defini un attribu donc une valeur
+// 			->setName('marteau')
+// 			// ->setPicture('https://www.leroymerlin.fr/multimedia/921400082987/produits/marteau-arrache-clous-metal-0-45-kg.jpg')
+// 			->setDescription('outil permettant de clouer')
+// 			->setPriceHt('22')
+// 			// ->setDiscount()
+// 			->setStock('30')
+// 			->setTva($this->getReference('18.5'))
+// 			->setCategory($this->getReference('Bricolage'))
+// 			->setVerify('1')
+// 			// ->setUpdateAt(new \DateTime())
+// 			->setShop($this->getReference('carrefour'))
+// 			->setCreatedAt(new \Datetime());
+// 		$manager->persist($items1);//prepare l objet a etre mis en base de donnee
 
 
-		$items2 = new Items();//ON defini notre variable en tant qu 'objet
-		$items2
-			->setReference('inter-0123456') //on lui defini un attribu donc une valeur
-			->setName('canoë kayak')
-			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
-			->setDescription('Le canoë-kayak se pratique en loisir (tourisme nautique, pratique individuelle ou associative) ou en compétition, dans les milieux d\'eau calme (étangs), d\'eau vive (rivières) et maritime (estuaires, mer). La sécurité implique la maîtrise du bateau, un entraînement technique et physique, l\'équipement, l\'information préalable des conditions du parcours (météo, état du parcours), l\'encadrement… variables selon le type de pratique.')
-			->setPriceHt('320')
-			// ->setDiscount()
-			->setStock('20')
-			->setTva($this->getReference('18.5'))
-			->setCategory($this->getReference('loisir'))
-			->setVerify('0')
-			// ->setUpdateAt(new \DateTime())
-			->setShop($this->getReference('carrefour'))
-			->setCreatedAt(new \Datetime());
-		$manager->persist($items2);//prepare l objet a etre mis en base de donnee
+// 		$items2 = new Items();//ON defini notre variable en tant qu 'objet
+// 		$items2
+// 			->setReference('inter-0123456') //on lui defini un attribu donc une valeur
+// 			->setName('canoë kayak')
+// 			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
+// 			->setDescription('Le canoë-kayak se pratique en loisir (tourisme nautique, pratique individuelle ou associative) ou en compétition, dans les milieux d\'eau calme (étangs), d\'eau vive (rivières) et maritime (estuaires, mer). La sécurité implique la maîtrise du bateau, un entraînement technique et physique, l\'équipement, l\'information préalable des conditions du parcours (météo, état du parcours), l\'encadrement… variables selon le type de pratique.')
+// 			->setPriceHt('320')
+// 			// ->setDiscount()
+// 			->setStock('20')
+// 			->setTva($this->getReference('18.5'))
+// 			->setCategory($this->getReference('loisir'))
+// 			->setVerify('0')
+// 			// ->setUpdateAt(new \DateTime())
+// 			->setShop($this->getReference('carrefour'))
+// 			->setCreatedAt(new \Datetime());
+// 		$manager->persist($items2);//prepare l objet a etre mis en base de donnee
 
 
-		$items3 = new Items();//ON defini notre variable en tant qu 'objet
-		$items3
-			->setReference('nintendo-0123456') //on lui defini un attribu donc une valeur
-			->setName('nintendo switch')
-			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
-			->setDescription('La derniere console hybride de la firme qui a fait un carton !!!!')
-			->setPriceHt('299')
-			// ->setDiscount()
-			->setStock('20')
-			->setTva($this->getReference('18.5'))
-			->setCategory($this->getReference('loisir'))
-			->setVerify('1')
-			// ->setUpdateAt(new \DateTime())
-			->setShop($this->getReference('nintendo'))
-			->setCreatedAt(new \Datetime());
-		$manager->persist($items3);//prepare l objet a etre mis en base de donnee
+// 		$items3 = new Items();//ON defini notre variable en tant qu 'objet
+// 		$items3
+// 			->setReference('nintendo-0123456') //on lui defini un attribu donc une valeur
+// 			->setName('nintendo switch')
+// 			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
+// 			->setDescription('La derniere console hybride de la firme qui a fait un carton !!!!')
+// 			->setPriceHt('299')
+// 			// ->setDiscount()
+// 			->setStock('20')
+// 			->setTva($this->getReference('18.5'))
+// 			->setCategory($this->getReference('loisir'))
+// 			->setVerify('1')
+// 			// ->setUpdateAt(new \DateTime())
+// 			->setShop($this->getReference('nintendo'))
+// 			->setCreatedAt(new \Datetime());
+// 		$manager->persist($items3);//prepare l objet a etre mis en base de donnee
 
-		$items4 = new Items();//ON defini notre variable en tant qu 'objet
-		$items4
-			->setReference('Velo123456789') //on lui defini un attribu donc une valeur
-			->setName('Velo VTT')
-			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
-			->setDescription('VTT au top')
-			->setPriceHt('350')
-			// ->setDiscount()
-			->setStock('0')
-			->setTva($this->getReference('18.5'))
-			->setCategory($this->getReference('loisir'))
-			->setVerify('1')
-			// ->setUpdateAt(new \DateTime())
-			->setShop($this->getReference('carrefour'))
-			->setCreatedAt(new \Datetime());
-		$manager->persist($items4);//prepare l objet a etre mis en base de donnee
+// 		$items4 = new Items();//ON defini notre variable en tant qu 'objet
+// 		$items4
+// 			->setReference('Velo123456789') //on lui defini un attribu donc une valeur
+// 			->setName('Velo VTT')
+// 			// ->setPicture('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOZDvG8KLIw8E9ukRcUkMLhYRJmJyw5h4faMxFaEJHGMebvra')
+// 			->setDescription('VTT au top')
+// 			->setPriceHt('350')
+// 			// ->setDiscount()
+// 			->setStock('0')
+// 			->setTva($this->getReference('18.5'))
+// 			->setCategory($this->getReference('loisir'))
+// 			->setVerify('1')
+// 			// ->setUpdateAt(new \DateTime())
+// 			->setShop($this->getReference('carrefour'))
+// 			->setCreatedAt(new \Datetime());
+// 		$manager->persist($items4);//prepare l objet a etre mis en base de donnee
 
 
 	
 
-		$manager->flush();//ecrire dans la base ce qui est prepare
+// 		$manager->flush();//ecrire dans la base ce qui est prepare
 
-		$this->addReference('marteau',$items1);
-		$this->addReference('kayak',$items2);
-		$this->addReference('switch',$items3);
-		$this->addReference('velo',$items4);
-	// 	$this->addReference('20',$items3);
-	// 	$this->addReference('8.5',$items4);
-	}
+// 		$this->addReference('marteau',$items1);
+// 		$this->addReference('kayak',$items2);
+// 		$this->addReference('switch',$items3);
+// 		$this->addReference('velo',$items4);
+// 	// 	$this->addReference('20',$items3);
+// 	// 	$this->addReference('8.5',$items4);
+// 	}
 
-	public function getOrder()
-	{
-		// the order in which fixtures will be loaded
-        // the lower the number, the sooner that this fixture is loaded
-        //l'ordre dans lequel la fonction va etre executee
-        return 5;
+// 	public function getOrder()
+// 	{
+// 		// the order in which fixtures will be loaded
+//         // the lower the number, the sooner that this fixture is loaded
+//         //l'ordre dans lequel la fonction va etre executee
+//         return 5;
 
-	}
-}
+// 	}
+// }

@@ -125,6 +125,15 @@ class ItemsController extends Controller
             $history->setUser($this->getUser());
             $history->setItem($item);
             $em->persist($history);
+            
+            $mediasClone = clone $item->getPicture();
+            $item->getPicture()->clear();
+
+            foreach ($mediasClone as $md) {
+                $md->setItems($item);
+                $em->persist($md);
+                $em->flush();
+            }
             // a verifier champ :name -description-picture-)
             $data = $editForm->getData(); # Récupere les données du formukaire sous form d'objet de type Items
             $files = 0;

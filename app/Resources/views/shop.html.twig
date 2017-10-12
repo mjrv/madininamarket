@@ -6,6 +6,8 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />  <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      {# bootstrap file input #}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/css/fileinput.min.css" integrity="sha256-XS5qtMB+ty0Zekyi7Z95nyhewyocc88qF5THTXg1Plw=" crossorigin="anonymous" />
       <link rel="stylesheet" href="{{asset("asset/css/variables.css")}}">
       <link rel="stylesheet" href="{{asset("asset/css/seller.css")}}">
       <style>
@@ -101,6 +103,9 @@
 </footer>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      {# bootstrap file input #}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js" integrity="sha256-JfzBQ3ihFh9Hj51yhTbw/Xjwv7cpNvqSpRvpLHOg71w=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/locales/fr.min.js" integrity="sha256-IhwAhbsEaxsjrjHlxOYn9r2b3zXsOC+X7DH8RTAQNyM=" crossorigin="anonymous"></script>
 
 {% block javascripts %}
 <script src="{{ asset('asset/js/functions.js') }}"></script>

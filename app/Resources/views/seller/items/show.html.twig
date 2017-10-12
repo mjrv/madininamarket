@@ -51,6 +51,9 @@
         <li>
             <a href="{{ path('items_edit', { 'id': item.id }) }}">Edit</a>
         </li>
+         <li>
+            <a href="{{ path('items_new',{'id': item.shop.id}) }}">Create a new item</a>
+        </li>
         <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">

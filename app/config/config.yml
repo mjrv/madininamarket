@@ -140,6 +140,10 @@ vich_uploader:
             uri_prefix:         /asset/img/products
             upload_destination: '%kernel.root_dir%/../web/asset/img/products'
 
+            delete_on_remove: false
+            delete_on_update: false
+            inject_on_load: false
+
 jms_i18n_routing:
     default_locale: '%locale%'
     locales: [fr, en]

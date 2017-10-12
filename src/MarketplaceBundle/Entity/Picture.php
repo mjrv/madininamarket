@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Upload\UploadBundle\Annotation\Uploadable;
 use Upload\UploadBundle\Annotation\UploadableField;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Picture
@@ -36,21 +37,19 @@ class Picture
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName", size="imageSize")
-     * 
+     * @Assert\File(maxSize = "1024k")
      * @var File
      */
     private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
      * @var string
      */
     private $imageName;
 
     /**
      * @ORM\Column(type="integer")
-     *
      * @var integer
      */
     private $imageSize;
