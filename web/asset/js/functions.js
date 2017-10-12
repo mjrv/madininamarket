@@ -10,4 +10,13 @@ function dropdownMenu()
     $(this).find('> .dropdown-menu').stop(true, true).fadeOut(timerOut);
     $(this).removeClass('open');
   });
+
+  $('ul li.dropdown-submenu').hover(function() {
+    $(this).find('> .dropdown-menu').stop(true, true).fadeIn(timerIn);
+    $(this).addClass('open');
+  }, function() {
+    $(this).find('> .dropdown-menu').stop(true, true).fadeOut(timerOut);
+    $(this).removeClass('open');
+  });
+
 }

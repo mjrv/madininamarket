@@ -22,6 +22,12 @@ class ShopController extends Controller
      */
     public function indexAction()
     {
+        
+        $user = $this->getUser()->getShop()->getValues();
+
+        dump($user);
+        // die;
+
         $em = $this->getDoctrine()->getManager();
 
         $shops = $em->getRepository('MarketplaceBundle:Shop')->findAll();

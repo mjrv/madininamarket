@@ -1,0 +1,66 @@
+
+{# 
+	s'il y a une seule boutique on donne la possibilitée a l utilisateur de gerer soit la boutique ou les produits de la boutique sinon
+	il commence par faire le choix de sa boutique et ensuite gerer la boutique ou les produits 
+#}
+
+{% if user|length == 1 %}
+	<li class="dropdown">
+      <a href="#">Gestion produits</a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="{{ path('items_new') }}">Creer</a>
+        </li>
+        <li>
+          <a href="{{ path('items_index') }}">Liste</a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+		{% for mag in user %}
+			<li>
+				<a href="{{ path('shop_show',{'id':mag.id} ) }} ">Modification {{mag.commercialName}}</a>
+			</li>
+		{% endfor %}
+    </li>
+    
+    <li><a href="#">gestion ventes</a></li>
+{% elseif user|length > 1 %}
+
+	<li class="dropdown">
+      <a href="#">Gestion produits</a>
+      <ul class="dropdown-menu">
+      	{% for mag in user %}
+			<li class="dropdown-submenu">
+				<a href="{{ path('shop_show',{'id':mag.id} ) }} ">{{mag.commercialName}}<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li>
+			          <a href="{{ path('items_new',{'id':mag.id}) }}"  tabindex="-1">Creer</a>
+			        </li>
+
+			        <li>
+			          <a href="{{ path('items_index',{'id':mag.id}) }}" tabindex="-1">Liste</a>
+			       	</li>
+				</ul>
+			</li>
+		{% endfor %}
+      
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#">modification shop</a>
+      <ul class="dropdown-menu">
+		{% for mag in user %}
+			<li>
+				<a href="{{ path('shop_show',{'id':mag.id} ) }} ">{{mag.commercialName}}</a>
+			</li>
+		{% endfor %}
+      </ul>
+    </li>
+
+    <li><a href="#">gestion ventes</a></li>
+<!--         <li><a href="#">Contact</a></li>
+ -->  
+{% endif %}
