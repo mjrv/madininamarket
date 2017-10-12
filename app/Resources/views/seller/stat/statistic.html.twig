@@ -1,45 +1,169 @@
 {% extends 'shop.html.twig' %}
 
 {% block body %}
+	{# <div class="container">
+	<br/>
+	<h2 class="text-center">Highcharts php mysql json example</h2>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
+                <div class="panel-body">
+                    <div id="container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+	</div> #}
 	<div id="result"></div>
+	<canvas id="myChart"></canvas>
 {% endblock %}
-
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/css/highcharts.css" integrity="sha256-ji+33kRPEXS0+FM/AbApEs8n5kT2UBiGyk36zs1F9gE=" crossorigin="anonymous" />
+{% endblock %}
 {% block javascripts %}
-<script>
-function l(data){console.log(data)}
-function toStr(data){return JSON.stringify(data)}
+	{# http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html #}
+	{# <script src="https://code.highcharts.com/highcharts.js"></script> #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/highstock.js" integrity="sha256-ey/5yo1hzGfJgxENRS4EClXKyQPp6D+v/rYv+Dgn/2c=" crossorigin="anonymous"></script>
+	{# Moment.js #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js" integrity="sha256-TbOIe++NbC9P3KTtUMJ5wcROlBdnRqrPleLdpPg3xxE=" crossorigin="anonymous"></script>
+	{# 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
+	#}
 
-$(function()
-{
-	$.get("{{ path('statistic', {'id': 4} ) }}", function(data)
+	{# chart.js #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js" integrity="sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc=" crossorigin="anonymous"></script>
+	<script>
+	function l(data){console.log(data)}
+	function toStr(data){return JSON.stringify(data)}
+
+	$(function()
 	{
-		var res = '';
-		$.each(data, function(index, el) 
-		{
+		// Récuperer les commandes par boutique
+		// Faire une boucle pour récuperer les éléments
+		// Faire une somme des qté de produits par jours/mois/an/custum
+		// Calculé le chiffre d'affaire par jours/mois/an/custum
+		// Affiché les élément dans le graphique
+		$.get("{{ path('statistic', {'id': 3} ) }}", function(data)
+		{	
 			var i = 0;
-			res+= '<p>';
+			var res = '';
+			var qte = [];
+			$.each(data, function(index, el) 
+			{
+				res+= '<p>';
 
-			res+= '<br>';
-			res+= toStr(el);
-			
-			res+= '<br>';
-			res+= toStr(el[i].id);
+				res+= '<br>';
+				res+= toStr(index);
 
-			res+= '<br>';
-			res+= toStr(el[i].name);
+				res+= '<br>';
+				res+= toStr(el);
+				l(index);
+				
+				res+= '<br>';
+				$.each(el,function(key, val) 
+				{
+					
+					// l(key);
+					// l(val);
 
-			res+= '<br>';
-			res+= toStr(el[i].createdAt);
+					// key = toStr(key); //Plus besoin
+					// val = toStr(val); //Plus besoin
+					
+					// res+= key;
+					// res+= '<br>';
+					
+					if(key == 'qte')
+					{
+						// qte.push([key, val]);
+						// qte
+						// l('toto');
+					}
 
-			res+= '<br>';
-			res+= toStr(el[i].priceHt);
+					// qte.push([key, val]);
+					// '<br>';
+					// l(qte+'\n')
+					// l(qte[i])
+					// res+= val;
+					// res+= '<br>';
+					i++;	
+				});
 
-			res+= '</p>';
-			i++;		
-		});
-		l(res);
-		$("#result").html(res);
+				res+= '</p>';
+			});
+			// l(qte);
+			// l(res);
+			// $("#result").html(res);
+			// http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html
+			// $('#container').highcharts({
+		 //        chart: {
+		 //            type: 'column'
+		 //        },
+		 //        title: {
+		 //            text: 'Yearly Website Ratio'
+		 //        },
+		 //        xAxis: {
+		 //            categories: ['2013','2014','2015', '2016']
+		 //        },
+		 //        yAxis: {
+		 //            title: {
+		 //                text: 'Rate'
+		 //            }
+		 //        },
+		 //        series: [{
+		 //            name: 'Click',
+		 //            data: res
+		 //        }
+		 //        // , {
+		 //        //     name: 'View',
+		 //        //     data: data_viewer
+		 //        // }
+		 //        ]
+		 //    });
+
+		    var ctx = document.getElementById("myChart").getContext('2d');
+			var myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+			        datasets: [{
+			            label: '# of Votes',
+			            data: [12, 19, 3, 5, 2, 3],
+			            backgroundColor: [
+			                'rgba(255, 99, 132, 0.2)',
+			                'rgba(54, 162, 235, 0.2)',
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(75, 192, 192, 0.2)',
+			                'rgba(153, 102, 255, 0.2)',
+			                'rgba(255, 159, 64, 0.2)'
+			            ],
+			            borderColor: [
+			                'rgba(255,99,132,1)',
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(75, 192, 192, 1)',
+			                'rgba(153, 102, 255, 1)',
+			                'rgba(255, 159, 64, 1)'
+			            ],
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+			});
+
+		})
+		.fail(function(data)
+		{
+			l(toStr(data));
+		})
 	})
-})
-</script>
+	</script>
 {% endblock %}

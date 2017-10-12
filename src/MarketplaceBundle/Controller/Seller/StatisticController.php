@@ -27,7 +27,7 @@ class StatisticController extends Controller
 	 * @Route("/{id}/api", name="statistic")
 	 * @param integer id [id de la boutique]
 	 */
-	public function listOrders(Request $request, $id)
+	public function listOrders(Request $request, $id = 3)
 	{
 		// if($request->isXmlHttpRequest())
 		// {
@@ -35,12 +35,12 @@ class StatisticController extends Controller
 			$orders = $em->getRepository('MarketplaceBundle:Orders')->findAll();
 
 			// $query = $em->createQuery(
+			// 					'SELECT o
+			// 					FROM MarketplaceBundle:Orders o'
+			// 				);
+			// $ordersArray = $query->getArrayResult();
 
-			// );
-			// var_dump($orders);
-			// die;
-
-			$items= $this->filterItems($orders, $id);
+			$items= $this->parseOrders($orders, $id);
 
 			$params = [
 				'items' => $items,
@@ -56,20 +56,28 @@ class StatisticController extends Controller
 	}
 
 	/**
-	 * [filterItems description]
+	 * [parseOrders description]
 	 * @param  [Orders] $orders   [Le resultat de la requete]
 	 * @param  [integer] $userShop [id de la boutique]
 	 * @return [array]           [Renvoie un tableau de json]
 	 */
-	private function filterItems($orders, $userShop)
+	private function parseOrders($orders, $userShop)
 	{
 		$em = $this->getDoctrine()->getManager();
 		$res = [];
-		$serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+		$serializer = \JMS\Serializer\SerializerBuilder::create()->build(); //Transorme les objet en tableau, mais la sortie est DEGEULASSE
 
 		foreach ($orders as $key => $value) 
 		{
 			$itemId = array_keys($value->getOrders()['item'])[0];
+			$date = $value->getDate()->format('Y-m-d');
+			$an = $value->getDate()->format('Y');
+			$mois = $value->getDate()->format('m');
+			$jour = $value->getDate()->format('d');
+
+			// $t = ['date' => $date, 'an' => $an, 'mois' => $mois, 'jour' => $jour];
+			// dump($t);
+			// die;
 
 			$item = $em->getRepository('MarketplaceBundle:Items')->find($itemId);
 		
@@ -83,14 +91,67 @@ class StatisticController extends Controller
 								WHERE i.id = :id'
 							)
 							->setParameter('id', $itemId);
-			 $res[] = $query->getArrayResult();
-			}
-			// if($userShop == $shopId) $res[] = $serializer->serialize($item, 'json');
-			// die;
+				 // $res[] = $query->getArrayResult();
+				 
+				$sold = $value->getOrders()['item'][$itemId];
+				$req = $query->getArrayResult()[0];
 
+				$res[$sold['name']] = 
+									[
+				 						$an => [
+				 							$mois => [
+				 								$jour => [
+												 	'qte'	   => $sold['qte'],
+												 	'priceTtc' => $sold['priceTtc'],
+												 	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
+												 	'reference'=> $req['reference'],
+												 	'stock'    => $req['stock'],
+				 								],
+				 							],
+				 						],
+				 	
+				];
+
+				// $res[$sold['name']] = [
+				//  	// 'name' 	   => $sold['name'],
+				//  	'qte'	   => $sold['qte'],
+				//  	'priceTtc' => $sold['priceTtc'],
+				//  	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
+				//  	'reference'=> $req['reference'],
+				//  	'stock'    => $req['stock'],
+				//  	'date' 	   => $date,
+				//  	'an' 	   => $an,
+				//  	'mois' 	   => $mois,
+				//  	'jour' 	   => $jour,
+				// ];
+			}
 		}
 
+		$this->filterOrders($res);
+
+		// foreach ($res as $key => $value) 
+		// {
+		// 	dump($key);
+		// 	dump($value);
+		// }
+		// die;
+
 		return $res;
+	}
+
+	private function filterOrders($array)
+	{
+		dump($array);
+		$item = [];
+		$itemAn = [];
+		$itemMois = [];
+		$itemJour = [];
+		foreach ($array as $key => $value) 
+		{
+			// $item[$key] = 
+		}
+
+		die;
 	}
 
 	/**

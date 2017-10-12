@@ -52,7 +52,8 @@ class OrdersController extends Controller
 						'qte' => $cart[$id],
 						'priceHt' => $priceHt,
 						'priceTtc'=> $priceTtc,
-						'price' => $item->getPriceHT()
+						'price' => $item->getPriceHT(),
+						'reference' => $item->getReference()
 					];
 			}
 					
