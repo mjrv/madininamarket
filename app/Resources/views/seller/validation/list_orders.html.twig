@@ -1,0 +1,14 @@
+{% extends 'shop.html.twig' %}
+
+{% block body %}
+	{% if orders|length > 0 %}
+		{% for order in orders %}
+			{{order.users.id}}
+		{% endfor %}
+	{% else %}
+	<p>	pas de commande</p>
+	{% endif %}
+	
+
+
+{% endblock %}

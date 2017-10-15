@@ -1,29 +1,28 @@
 {% extends 'front.html.twig' %}
 {% block body %}
 <div class="products-content">
-	{% set id = 0 %} {# on defini un variable appelé id a 0 #}
-	{% for pic in pictures %}
-		
-		{% if id < pic.items.id %}
-			{# On arrive ici que si l'item n'est pas encore affiché #}
-			<div class="item col-sm-3">
-				<a href="{{path('show_product_details', {'slug': pic.items.slug})}}">
-					<img src="{{asset(pic.url)}}" alt="{{pic.items.name}}" class="img-responsive">
-				</a>
-				<p>	{{pic.items.name}}</p>
-					{{pic.items.priceHt|tva(pic.items.tva.value)}} €   
-					{% if pic.items.stock > 0 %}
-					<a href="{{path('addToCart',{'id':pic.items.id})}}" class="btn item-button">Ajouter au panier</a>
-					{% else %}
-						{# <p> #}
-							<a href="{{path('notifyMe',{'id':pic.items.id})}}" class="btn item-stock">Plus en stock...<span>Souhaitez vous etre informé d 'un retour en stock</span></a>
-						{# </p> #}
-					{% endif %}
-			</div>
-		{% endif %}
+	{% for item in items %}
+		<div class= "item col-sm-3">
+			{% for pic in item.picture %}
+				{% if loop.first %}
+					<a href="{{path("show_product_details",{'slug': item.slug})}} "> <img src="{{asset(pic.url)}}" alt="{{item.name}}" class="img-responsive"></a>
+				{% endif %}
+			{% endfor %}
 
-		{% set id = pic.items.id %} {# on assigne id a l'id de l'item bouclé #}
+			<p>{{item.name}}</p> 	
+			{{item.priceHt|tva(item.tva.value)}} €
+
+			{% if item.stock > 0 %}
+				<a href="{{path("addToCart",{'slug': item.slug} )}} " class="btn item-button">Ajouter au panier</a>
+			{% else %}
+				<a href="{{path('notifyMe',{'slug': item.slug})}}" class="btn item-stock">Plus de stock... <span>souhaitez vous etre informé d'un retour en stock</span></a>
+			{% endif %}
+		</div>
 	{% endfor %}
+	<div class="navigation">
+        {{ knp_pagination_render(items) }}
+    </div>
+
 </div>
 
 {% endblock %}

@@ -21,41 +21,41 @@ class ShopController extends Controller
 	/**
 	*@route("/{slug}/shop-details", name = "shop_show_details")
 	*/
-	public function showShopAction($slug)
+	public function showShopAction(Request $request, $slug)
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $shop = $em->getRepository('MarketplaceBundle:Shop')->findOneBySlug($slug);
-	    $products = $em->getRepository('MarketplaceBundle:Shop')->findItems($shop->getId());
-
-	    dump($shop);
-	    dump($products);
+	    $items = $em->getRepository('MarketplaceBundle:Items')->findByShop($shop->getId());
 
 	    if (!$shop) throw $this->createNotFoundException("la page demandee n'existe pas");
+	    
+	    $paginator  = $this->get('knp_paginator');
+        	$pagination = $paginator->paginate(
+            $items, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            12/*limit per page*/
+        	); 
+	    // dump($shop);
+	    // dump($products);
+
 
 	    return $this->render('front/shop/shopdetails.html.twig', array(
 	        'shop' => $shop,
-	        'products' => $products,
+	        'items' => $pagination,
 	    ));
 	}
 
 	/**
 	*@route("/{slug}/product-details", name = "show_product_details")
 	*/
-	public function showProduct($slug)
+	public function showProductAction($slug)
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $product = $em->getRepository('MarketplaceBundle:Items')->findOneBySlug($slug);
-	    $item = $em->getRepository('MarketplaceBundle:Picture')->getItemPic($product->getId()); 
-	    $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
-	    $shop = $em->getRepository('MarketplaceBundle:Shop')->find($product->getShop()); 
-	    $params = [
-	        'pictures' => $pictures,
-	        'product' => $product,
-	        'item' => $item,
-	        'shop' => $shop
-	    ];
 
-	    dump($params);
+	    $params = [
+	        'product' => $product,
+	    ];
 
 	    if (!$product) throw $this->createNotFoundException("la page demandee n'existe pas");
 
@@ -87,7 +87,7 @@ class ShopController extends Controller
 				}
 				else
 				{
-					dump("toto");
+					// dump("toto");
 					$items = $em->getRepository('MarketplaceBundle:Items')->searchItems($search);
 				}
 			}
@@ -103,18 +103,17 @@ class ShopController extends Controller
 				}
 			}
 
-			$pictures = $em->getRepository('MarketplaceBundle:Items')->findArray($items);
-			$params = [
-				'category' => $category,
-				'search' => $search,
-				'items' => $items,
-				'pictures' => $pictures,
-			];
+			$paginator  = $this->get('knp_paginator');
+        	$pagination = $paginator->paginate(
+            $items, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            12/*limit per page*/
+        	); 
 
-			dump($params);
 			return $this->render('front/shop/search.html.twig', array(
-	        'pictures' => $pictures,
-	        'category' => $category
+	        // 'pictures' => $pictures,
+	        'category' => $category,
+	        'items' => $pagination,
 	    ));		
 
 		}

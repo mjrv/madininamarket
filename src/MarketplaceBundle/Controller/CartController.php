@@ -16,7 +16,7 @@ class CartController extends Controller{
 	/**
 	 * @Route("/", name ="cart")
 	 */
-	public function cartAction()
+	public function cartAction() //affiche le panier
 	{
 		$session = new Session();
 		if(!$session->has("cart")) $session->set("cart",array());
@@ -27,7 +27,7 @@ class CartController extends Controller{
 			"items" => $items,
 			"cart"	=> $cart
 		];
-		dump($params);
+		// dump($params);
 		return $this->render("front\cart\cart.html.twig",$params);
 	}
 
@@ -39,7 +39,9 @@ class CartController extends Controller{
 		$session = new Session();
 		$em = $this->getDoctrine()->getManager();
 		$item = $em->getRepository("MarketplaceBundle:Items")->findBySlug($slug);
+
 		$stock = $item->getStock();
+		$id = $item->getId();
 		$qte = intval($request->get("qte"));
 		if(!$session->has("cart")) $session->set("cart",array());
 

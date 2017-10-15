@@ -38,13 +38,15 @@
            // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
             if (index == 0) {
                 addMedia($container);
-            } else {
+            }else{
                 // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
                 $container.children('div').each(function() {
                     addDeleteLink($(this));
                 });
             }
+            
 
+            // $(".vich-image input").attr('required', 'required');
            // La fonction qui ajoute un formulaire CategoryType
             function addMedia($container) {
                 // Dans le contenu de l'attribut « data-prototype », on remplace :
@@ -53,6 +55,7 @@
                 var template = $container.attr('data-prototype')
                         .replace(/__name__label__/g, 'Image n°' + (index+1))
                         .replace(/__name__/g,        index)
+                        // .attr('required', 'required')
                         ;
 
                // On crée un objet jquery qui contient ce template
@@ -66,6 +69,19 @@
 
                // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
                 index++;
+                $(".vich-image input").attr('required', 'required'); //On rajoute l'attribut required au chaamps
+                $(".vich-image input").fileinput(
+                {
+                    'showUpload':false,
+                    'showCaption':false,
+                    language: "fr"
+                })
+                //On fait disparaitre le bouton pour que l'utilisateur puissse rentrer que 3 image
+                if(index > 2) 
+                {
+                    $('#add_media').css({display: 'none'});
+                    // $('#add_media').hide();
+                }
             }
 
            // La fonction qui ajoute un lien de suppression d'une catégorie
@@ -84,5 +100,6 @@
                     return false;
                 });
             }
-        });</script>
+        });
+</script>
 {% endblock %}

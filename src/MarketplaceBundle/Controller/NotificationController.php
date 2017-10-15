@@ -18,9 +18,9 @@ use MarketplaceBundle\Entity\Notification;
 class NotificationController extends Controller
 {
 	/**
-	 * @Route("/{id}/no-stock",name="notifyMe")
+	 * @Route("/{slug}/no-stock",name="notifyMe")
 	 */
-	public function notifyMeAction($id)
+	public function notifyMeAction($slug)
 	{
 		#on recupere l 'utilisateur actuel via la session 
 		#on enregistre cet utilisateur avec le produit dans une table notifyme
@@ -34,7 +34,7 @@ class NotificationController extends Controller
 		$notif = new Notification();
 		$notif
 			->setEmail($user)
-			->setItem($id)
+			->setItem($slug)
 		;
 		$em->persist($notif);
 		$em->flush();

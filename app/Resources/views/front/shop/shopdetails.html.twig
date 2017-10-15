@@ -4,25 +4,26 @@
 {% block body %}
 	<h1 class="text-center">{{shop.commercialName}}</h1>
 <div class="products-content">
-    {% set id = 0 %} <!--  on defini un variable appelé id a 0 -->
-	{% for pic in products %}
-		{% set item = pic.items %}
-		
-		{% if id < item.id %}
+	{% for item in items %}
+			
 			<!-- On arrive ici que si l'item n'est pas encore affiché -->
-			<div class="col-sm-3 item">
-				<a href="{{path('show_product_details',{'slug': item.slug})}}">
-					<img src="{{pic.url}}" alt="{{item.name}}" class="img-responsive text-center"> <br>
+		<div class="col-sm-3 item">
+			{% for pic in item.picture %}
+				{% if loop.first %}
+					<a href="{{path('show_product_details',{'slug': item.slug})}}">
+						<img src="{{asset(pic.url)}}" alt="{{item.name}}" class="img-responsive text-center">
+					{% endif %}
 				</a>
-				<p>{{pic.items.name}}</p>
-					{{item.priceHt|tva(item.tva.value)}} €
-					   {# alt 0160 = caractere invisible #}
-					<a href="{{path('addToCart', {'slug' : item.slug})}}" class="btn item-button">Ajout au pannier</a>
-			</div>
-		{% endif %}
-
-		{% set id = item.id %}  <!-- on assigne id a l'id de l'item bouclé-->
+			{% endfor %}
+			<p>{{item.name}}</p>
+			{{item.priceHt|tva(item.tva.value)}} €
+				   {# alt 0160 = caractere invisible #}
+			<a href="{{path('addToCart', {'slug' : item.slug})}}" class="btn item-button">Ajout au pannier</a>
+		</div>
 	{% endfor %}
+	<div class="navigation">
+        {{ knp_pagination_render(items) }}
+    </div>
 </div>
 {#     Detail de la boutique (liste des iitems)
  #}{% endblock %}

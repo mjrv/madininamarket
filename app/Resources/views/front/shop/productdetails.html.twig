@@ -4,7 +4,7 @@
 {% block body %}
 	<h1 class="text-center"> {{product.name}} </h1>
 	<div class="col-sm-6">
-		{% for pic in item %}
+		{% for pic in product.picture %}
 			<div class="col-xs-4 tab-pane {% if loop.first %}active{% endif %}">
 				<img src="{{asset(pic.url)}}" alt="{{product.name}}" class="img-responsive">
 			</div>
@@ -17,7 +17,7 @@
 		<p>
 			{{product.priceHt|tva(product.tva.value)}} €
 		</p>
-		<form action="{{path('addToCart',{'id':product.id})}}" method="GET" class="form-horizontal">
+		<form action="{{path('addToCart',{'slug':product.slug})}}" method="GET" class="form-horizontal">
 			<input type="number" class="form-control" name="qte" min=1 max=400 step="1" value="1">
 			<input type="submit" value="Ajouter au panier" class="btn btn-success">
 		</form>

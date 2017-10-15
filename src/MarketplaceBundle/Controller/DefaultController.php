@@ -13,21 +13,27 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $test = new Items();
     	$em = $this->getDoctrine()->getManager();
     	$shop = $em->getRepository('MarketplaceBundle:Shop')->findAll(); 
-    	$pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
-    	// $items = $em->getRepository('MarketplaceBundle:Items')->findAll(); 
+    	// $pictures = $em->getRepository('MarketplaceBundle:Picture')->findAll(); 
+    	$items = $em->getRepository('MarketplaceBundle:Items')->findAll();
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $items, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            12/*limit per page*/
+        ); 
     	// $items = $em->getRepository('MarketplaceBundle:Items')->gelAllItems(); 
         // $t = $test->getPicture()->first();
     	
 
     	$params = [
     		'shop' => $shop,
-    		'pictures' => $pictures,
-    		// 'items' => $items,
+    		// 'pictures' => $pictures,
+    		'items' => $pagination,
             // 't' => $t
     		];
     		// foreach ($items as $key => $value) {
@@ -42,7 +48,7 @@ class DefaultController extends Controller
     		// 	echo '<br><br>';
     		// 	# code...
     		// }
-            dump($params);
+            // dump($params);
     		// die;
     		 
         return $this->render('front\index.html.twig',$params);

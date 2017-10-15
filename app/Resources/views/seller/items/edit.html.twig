@@ -5,17 +5,144 @@
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <a href="#" id="add_media" class="btn btn-default">Ajouter une nouvelle image</a>
+        <br>
+        <br>
+        <br>
+        <div class="col-md-12">
+        <br>
+            <br>
+            <input type="submit" value="Edit" />
+        </div>
     {{ form_end(edit_form) }}
+    <div class="col-md-12">
+        <br><br>
+        <ul>
+            <li>
+                <a href="{{ path('items_index', {'id': item.shop.id}) }}">Back to the list</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        </ul>
+    </div>
+{% endblock %}
 
-    <ul>
-        <li>
-            <a href="{{ path('items_index', {'id': item.shop.id}) }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% block javascripts %}
+
+<script>
+     $(document).ready(function() {
+            // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+            var $container = $('div#marketplacebundle_items_picture');
+
+           // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+            var index = $container.find(':input').length;
+            changeInput();
+
+           // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+            $('#add_media').click(function(e) {
+                addMedia($container);
+
+               e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                return false;
+            });
+
+           // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+            if (index == 0) {
+                addMedia($container);
+            }if(index >2) {
+                // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+                $container.children('div').each(function() {
+                    addDeleteLink($(this));
+                });
+            }
+            
+
+            // $(".vich-image input").attr('required', 'required');
+           // La fonction qui ajoute un formulaire CategoryType
+            function addMedia($container) {
+                // Dans le contenu de l'attribut « data-prototype », on remplace :
+                // - le texte "__name__label__" qu'il contient par le label du champ
+                // - le texte "__name__" qu'il contient par le numéro du champ
+                var template = $container.attr('data-prototype')
+                        .replace(/__name__label__/g, 'Image n°' + (index))
+                        .replace(/__name__/g,        index)
+                        // .attr('required', 'required')
+                        ;
+
+               // On crée un objet jquery qui contient ce template
+                var $prototype = $(template);
+
+               // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+                addDeleteLink($prototype);
+
+               // On ajoute le prototype modifié à la fin de la balise <div>
+                $container.append($prototype);
+
+                console.log(index);
+               // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                $(".vich-image input").attr('required', 'required'); //On rajoute l'attribut required au chaamps
+               changeInput();
+
+                
+                //On fait disparaitre le bouton pour que l'utilisateur puissse rentrer que 3 image
+                if(index > 2) 
+                {
+                    $('#add_media').css({display: 'none'});
+                    // $('#add_media').hide();
+                }
+                index++;
+            }
+
+           // La fonction qui ajoute un lien de suppression d'une catégorie
+            function addDeleteLink($prototype) {
+                // Création du lien
+                var $deleteLink = $('<a href="#" class="btn btn-danger">Dissimuler le champs</a>');
+
+               // Ajout du lien
+                $prototype.append($deleteLink);
+
+               // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+                $deleteLink.click(function(e) {
+                    $prototype.remove();
+
+                   e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                });
+            }
+
+            function changeInput()// permet de transformer le bouton parcourrir grace a bootstrap input
+            {
+                $(".vich-image input").fileinput(
+                {
+                    'showUpload':false,
+                    'showCaption':false,
+                    language: "fr"
+                });
+
+                $('.vich-image a img').each(function()
+                {
+                    var src =  $(this).attr("src");
+                    var asset = "{{asset("")}}";
+                    $(this).attr( "src", asset+ src ).css({
+                        width: '197px !important'
+                    }).addClass('test').addClass('img-responsive').addClass('img-thumbnail');
+                    src =  $(this).attr("src");
+                    console.log(src);
+                });
+
+                $('.vich-image a').each(function()
+                {
+                    var href =  $(this).attr("href");
+                    var asset = "{{asset("")}}";
+                    $(this).attr( "href", asset+ href ).addClass('test').addClass('col-xs-3');
+                    href =  $(this).attr("href");
+                    console.log(href);
+                });
+            }
+
+        });
+</script>
 {% endblock %}

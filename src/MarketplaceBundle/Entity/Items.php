@@ -4,12 +4,16 @@ namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Items
  *
  * @ORM\Table(name="items")
  * @ORM\Entity(repositoryClass="MarketplaceBundle\Repository\ItemsRepository")
+ * @UniqueEntity(fields="reference", message="Vous avez déjà utilisé cette référence, merci de bien vouloir la changer")
+ * 
  */
 class Items
 {
@@ -30,8 +34,7 @@ class Items
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="reference", type="string", length=255)
+     * @ORM\Column(name="reference", type="string", unique=true, length=255)
      */
     private $reference;
 
@@ -77,13 +80,13 @@ class Items
     private $stock;
 
      /**
-     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Tva",cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Tva")
      */
     private $tva;
 
 
      /**
-     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Category",cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Category")
      */
     private $category;
 

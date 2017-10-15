@@ -9,6 +9,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use MarketplaceBundle\Form\PictureType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+
 
 
 class ItemsType extends AbstractType
@@ -48,10 +50,10 @@ class ItemsType extends AbstractType
                                                 'expanded' => false,  
                                                 ))
             ->add('picture', CollectionType::class, array(
-                'entry_type' => PictureType::class,
+                'entry_type' => VichImageType::class,
                 'allow_add' =>true,
                 'allow_delete'=> true,
-                'required' =>false
+                'required' =>true
                 ))
             // ->add('history', CollectionType::class, [
             //                     'attr' => [
