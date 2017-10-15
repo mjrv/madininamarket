@@ -13,15 +13,14 @@
 			{% set Ttc = 0 %}
 			{% set Ht = 0 %}
 			{% set TotalHt = 0 %}
-			{% set previous = 0 %}
+			{% set previous = null %}
 
 			<div class="col-sm-8">
 				{% for item in items %}
 
 					{% set current = item.shop.slug %}
-					{# current : {{current}} <br>
-					precedent : {{previous}} <br> #}
-					{% if not current == previous %}
+
+					{% if current != previous %}
 						<div class="col-sm-12" style="padding-top: 3em;">
 							<h5>{{item.shop.commercialName}}</h5>
 							<hr>

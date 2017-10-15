@@ -38,7 +38,7 @@ class CartController extends Controller{
 	{
 		$session = new Session();
 		$em = $this->getDoctrine()->getManager();
-		$item = $em->getRepository("MarketplaceBundle:Items")->findBySlug($slug);
+		$item = $em->getRepository("MarketplaceBundle:Items")->findOneBySlug($slug);
 
 		$stock = $item->getStock();
 		$id = $item->getId();
