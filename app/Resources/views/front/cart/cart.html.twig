@@ -8,22 +8,79 @@
 		</div>
 	{% else %}
 
-		{# {% set id = 0 %}<!-- on defini un variable appelé id a 0 -->
-		{% for item in items %}
-			
-			{% if id < item.id %}
-				<!--On arrive ici que si l'item n'est pas encore affiché -->
-				<div class="col-sm-4">
-					<a href="{{path('show_product_details', {'id': item.id})}}">
-						<img src="{{item.url}}" alt="" class="img-thumbnail" style="width:197px !important">
-					</a>
-				</div>
-			{% endif %}
+		{% set Total = 0 %}
+		{% set TotalTva = 0 %}
+		{% set Ttc = 0 %}
+		{% set Ht = 0 %}
+		{% set TotalHt = 0 %}
+		{% set previous = 0 %}
 
-			{% set id = item.id %} <!--on assigne id a l'id de l'item bouclé-->
-		{% endfor %} #}
-		<div>
-			<table class="table table-responsive table-striped">
+		<div class="col-sm-8">
+			{% for item in items %}
+
+				{% set current = item.shop.slug %}
+				{# current : {{current}} <br>
+				precedent : {{previous}} <br> #}
+				{% if not current == previous %}
+					<div class="col-sm-12" style="padding-top: 3em;">
+						<h5>{{item.shop.commercialName}}</h5>
+						<hr>
+					</div>
+					{% set previous = current %}
+				{% endif %}
+
+
+				{# Notre calcul se fait que  si on arrive ici #}
+				{% if cart[item.id] > item.stock %}
+					{% set Ht = item.priceHt * item.stock %}
+				{% else %} 
+					{% set Ht = item.priceHt * cart[item.id] %}
+				{% endif %}
+
+				{% set TotalHt = TotalHt + Ht %}
+
+				{% set Ttc = Ht|tva(item.tva.value) %}
+
+				{% set TotalTva = TotalTva + (Ttc - Ht) %}
+
+				{% set Total = Total + Ttc %}
+
+
+				<div class="col-sm-12">
+
+					<div class="col-xs-3">
+						{% for pic in item.picture %}
+							{% if loop.first %}
+								<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt=""></td>
+							{% endif %}
+						{% endfor %}
+					</div>
+
+					<div class="col-xs-7">
+						<div class="form-group">
+							<form action="{{path('addToCart',{'slug':item.slug})}}" method="GET" class="form-horizontal">
+								{% if item.stock < 10 %} <span class = "text-danger">{{item.stock}}</span>{% endif %}
+								<input type="number" class="form-control" name="qte" min=1 max={{item.stock}} id="qte{{item.id}}" step="1" 
+										{% if cart[item.id] > item.stock %}
+											value="{{item.stock}}"
+										{% else %}
+											value="{{cart[item.id]}}"
+										{% endif %}
+													>
+								<button type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+								<a href="{{path('deleteFromCart',{'id':item.id})}} "><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+							</form>
+						</div>
+
+					</div>
+					<div class="col-xs-2">
+						{{Ht}} €
+					</div>
+				</div>
+
+			{% endfor %}
+
+			{# <table class="table table-responsive table-striped">
 				<thead>
 					<tr>
 						<th>picture</th>
@@ -35,16 +92,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% set Total = 0 %}
-					{% set TotalTva = 0 %}
-					{% set Ttc = 0 %}
-					{% set Ht = 0 %}
-					{% set TotalHt = 0 %}
+					
 						
 
-					{# {% set id = 0 %} #}
 					{% for item in items %}
-							{# Notre calcul se fait que  si on arrive ici #}
+						{% set shop = item.shop.slug %}
+							<h5>{{shop}}</h5>
+							Notre calcul se fait que  si on arrive ici
 							{% if cart[item.id] > item.stock %}
 								{% set Ht = item.priceHt * item.stock %}
 							{% else %} 
@@ -81,21 +135,24 @@
 										<a href="{{path('deleteFromCart',{'id':item.id})}} "><i class="fa fa-trash-o" aria-hidden="true"></i></a>
 									</form>
 								</td>
-								<td>{{Ht}}</td>
+								<td>{{Ht}} €</td>
 							</tr>
 					{% endfor %}
 				</tbody>
-			</table>
+			</table> #}
 		</div>
-		<div class="col-sm-6">
-			<a href="{{path('homepage')}}">Poursuivre mes achats</a>
+
+		<div class="col-sm-4 right text-justify" style="padding-top: 8em; padding-left: 5em;">
+			
+				<h4>Montant :</h4>
+				Total ht: {{TotalHt}}<br>
+				Total tva: {{TotalTva}}	<br>	
+				Ttc: {{Total}} <br>
+				<a href="{{path('livraison')}}" class="btn btn-success">Valider mon pannier</a>
 		</div>
-		<div class="col-sm-6 text-right">
-			<h4>Montant :</h4>
-			Total ht: {{TotalHt}}<br>
-			Total tva: {{TotalTva}}	<br>	
-			ttc: {{Total}} <br>
-			<a href="{{path('livraison')}}">Valider mon pannier</a>
+
+		<div class="col-sm-12" style="padding-top: 3em;">
+				<a href="{{path('homepage')}}" class="btn btn-primary">Poursuivre mes achats</a>
 		</div>
 
 	{% endif %}
