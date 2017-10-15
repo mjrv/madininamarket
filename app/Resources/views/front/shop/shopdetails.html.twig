@@ -17,7 +17,7 @@
 				<p>{{pic.items.name}}</p>
 					{{item.priceHt|tva(item.tva.value)}} €
 					   {# alt 0160 = caractere invisible #}
-					<a href="{{path('addToCart', {'id' : item.id})}}" class="btn item-button">Ajout au pannier</a>
+					<a href="{{path('addToCart', {'slug' : item.slug})}}" class="btn item-button">Ajout au pannier</a>
 			</div>
 		{% endif %}
 

@@ -22,9 +22,9 @@ class CartController extends Controller{
 		if(!$session->has("cart")) $session->set("cart",array());
 		$cart = $session->get("cart");
 		$em = $this->getDoctrine()->getManager();
-		$items = $em->getRepository("MarketplaceBundle:Items")->findArray(array_keys($cart));
+		$items = $em->getRepository("MarketplaceBundle:Items")->findItemsInArray(array_keys($cart));
 		$params =[
-			"pictures" => $items,
+			"items" => $items,
 			"cart"	=> $cart
 		];
 		dump($params);
@@ -32,13 +32,13 @@ class CartController extends Controller{
 	}
 
 	/**
-	* @Route("/ajouter/{id}",name ="addToCart")
+	* @Route("/ajouter/{slug}",name ="addToCart")
 	*/
-	public function addAction(Request $request, $id)
+	public function addAction(Request $request, $slug)
 	{
 		$session = new Session();
 		$em = $this->getDoctrine()->getManager();
-		$item = $em->getRepository("MarketplaceBundle:Items")->find($id);
+		$item = $em->getRepository("MarketplaceBundle:Items")->findBySlug($slug);
 		$stock = $item->getStock();
 		$qte = intval($request->get("qte"));
 		if(!$session->has("cart")) $session->set("cart",array());
