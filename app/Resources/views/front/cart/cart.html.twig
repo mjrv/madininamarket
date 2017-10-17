@@ -52,7 +52,7 @@
 						<div class="col-xs-3">
 							{% for pic in item.picture %}
 								{% if loop.first %}
-									<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt=""></td>
+									<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt="item.name"></td>
 								{% endif %}
 							{% endfor %}
 						</div>

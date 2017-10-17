@@ -29,8 +29,11 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $factures = $em->getRepository('MarketplaceBundle:Orders')->findBy([
 	        															'user' => $this->getUser()->getUsername(),
-	        															'valid' => '1'
-	        														]);
+	        															'valid' => '1',
+	        														], # Second tableau signifie ORDER BY, source https://stackoverflow.com/questions/12048452/how-to-order-results-with-findby-in-doctrine
+                                                                    [
+                                                                        'id' => 'DESC' 
+                                                                    ]);
         dump($factures);
 
         $paginator  = $this->get('knp_paginator');

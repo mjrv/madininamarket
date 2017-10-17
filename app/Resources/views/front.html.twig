@@ -75,7 +75,8 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href=" # ">Mon compte<b class="caret"></b></a> 
+            {# Recuperer les attribut de l'utilisateur connecté https://stackoverflow.com/questions/7463650/accessing-the-logged-in-user-in-a-template #}
+            <a href=" # ">Bonjour {{ app.user.username }} <b class="caret"></b></a> 
             <ul class="dropdown-menu">
               <li><a href="{{ path('adress') }}">Mes adresses</a></li>
               <li><a href="{{ path('facture') }}">Mes commandes</a></li>

@@ -39,7 +39,7 @@ class ApiController extends Controller
 	 * [doc: https://stackoverflow.com/questions/28141192/return-a-json-array-from-a-controller-in-symfony]
 	 * @Route("/list-shop", name="listShop")
 	 */
-	public function listItems(Request $request)
+	public function listSop(Request $request)
 	{
 		if($request->isXmlHttpRequest())
 		{
@@ -48,9 +48,9 @@ class ApiController extends Controller
 			    'SELECT s
 			    FROM MarketplaceBundle:Shop s'
 			);
-			$items = $query->getArrayResult();
+			$shop = $query->getArrayResult();
 
-			return new JsonResponse($items);
+			return new JsonResponse($shop);
 			// return new JsonResponse($this->getDoctrine()->getManager()->getRepository("MarketplaceBundle:Items")->findAll());
 		}
 		else
