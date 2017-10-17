@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Item controller.
@@ -169,6 +170,7 @@ class ItemsController extends Controller
     {
         $form = $this->createDeleteForm($item);
         $form->handleRequest($request);
+        $shopId = $item->getShop()->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -176,7 +178,13 @@ class ItemsController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('items_index');
+        # si c'est une requette ajax:
+        if ($request->isXmlHttpRequest()) 
+            return new JsonResponse( $this->generateUrl('items_index', ['id' => $shopId]) );
+
+        # si c'est une requete php :
+        else
+            return $this->redirectToRoute('items_index', ['id' => $shopId]);
     }
 
     /**

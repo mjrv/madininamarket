@@ -98,8 +98,8 @@ class Items
     private $verify;//valeur acceptee 0 pour en attente 1 accepter 2 pour refuser
 
     /**
-    *@ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\HistoryItem", cascade={"persist"})
-    *@ORM\column(nullable=true)
+    *@ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\HistoryItem", mappedBy="item", cascade={"remove", "persist"})
+    *@ORM\JoinColumn(onDelete="CASCADE", nullable=true)
     */
     private $history;
 

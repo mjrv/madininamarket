@@ -28,7 +28,7 @@ class HistoryItem
     private $user;
 
     /**
-    *@ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Items", cascade={"persist","remove"})
+    *@ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Items", inversedBy="history", cascade={"all"})
     */
     private $item;
    

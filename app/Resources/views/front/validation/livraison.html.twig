@@ -1,6 +1,6 @@
 {% extends 'front.html.twig' %}
 {% block body %}
-	<div class="col-xs-4">
+	<div id="select_address" class="col-xs-4">
 		{% if adress|length > 0 %}
 			<form action="{{path('shipmentWay')}}" method="POST">
 				<legend>Adresse de facturation</legend>
@@ -10,7 +10,7 @@
 						{{item.firstname}} {{item.lastname}} <br>
 						{{item.adress}} {{item.zipCode}} {{item.city}}   {# - {{item.pays}} #}
 						{# Caractere invisible : alt 0160 #}
-						<a href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a>
+						<a class = "del_address" href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a>
 					</label>
 				{% endfor %}
 
@@ -25,7 +25,7 @@
 						{{item.firstname}} {{item.lastname}} <br>
 						{{item.adress}} {{item.zipCode}} {{item.city}}   {# - {{item.pays}} #}
 						{# Caractere invisible : alt 0160 #}
-						<a href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a> 
+						<a class = "del_address" href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a> 
 						{# mettre une confirmation avant suppression adresse#}
 					</label>
 				{% endfor %}
@@ -43,4 +43,61 @@
 			<input type="submit" class = "btn btn-primary" value = "valider">
 		</form>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		$(function(){
+			$('.del_address').on('click',function(e)
+			{
+				var myEl = $(this);
+				e.preventDefault();
+
+	 			swal({
+	              title: "Etes vous sur de vouloir supprimer ?",
+	              text: "Vous ne pourrez pas recuperer cette adresse !",
+	              type: "warning",
+	              showCancelButton: true,
+	              confirmButtonClass: "btn-danger",
+	              confirmButtonText: "oui, je confirme",
+	              closeOnConfirm: false
+	            },
+	            function(){
+
+	              $.ajax({
+	                url: myEl.attr('href'),
+	                // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+	                // data: datas,
+	                success: function()
+	                {
+	                   // swal("supprimer!", "Votre produit a bien été supprimé !", "success");
+	                   swal({
+	                   	title: "Supression effectuée!",
+			            text: "Votre adresse a bien été supprimée !",
+			            type: "success",
+			            // showCancelButton: tr,
+			            confirmButtonClass: "btn-success",
+			            confirmButtonText: "ok",
+			            closeOnConfirm: false
+			          	},
+			              function(){
+			              	location.href = location.href;
+			              });
+
+	                  
+	                      
+	                },
+	                error: function()
+	                {
+	                  console.log('toto');
+	                }
+	              });
+	              
+	              
+	            });
+
+			})
+		});// fin de la fonction Jquery
+
+	</script>
 {% endblock %}
