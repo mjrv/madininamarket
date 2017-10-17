@@ -23,7 +23,7 @@
      $(document).ready(function() {
             // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
             var $container = $('div#marketplacebundle_items_picture');
-
+            changeInput();
            // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
             var index = $container.find(':input').length;
 
@@ -69,13 +69,7 @@
 
                // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
                 index++;
-                $(".vich-image input").attr('required', 'required'); //On rajoute l'attribut required au chaamps
-                $(".vich-image input").fileinput(
-                {
-                    'showUpload':false,
-                    'showCaption':false,
-                    language: "fr"
-                })
+                changeInput();
                 //On fait disparaitre le bouton pour que l'utilisateur puissse rentrer que 3 image
                 if(index > 2) 
                 {

@@ -40,6 +40,7 @@
            // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
             var index = $container.find(':input').length;
             changeInput();
+            $(".vich-image input").removeAttr('required'); //On rajoute l'attribut required au chaamps
 
            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
             $('#add_media').click(function(e) {
@@ -83,10 +84,9 @@
 
                 console.log(index);
                // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
-                $(".vich-image input").attr('required', 'required'); //On rajoute l'attribut required au chaamps
                changeInput();
 
-                
+                $(".vich-image input").removeAttr('required'); //On rajoute l'attribut required au chaamps
                 //On fait disparaitre le bouton pour que l'utilisateur puissse rentrer que 3 image
                 if(index > 2) 
                 {
@@ -112,37 +112,6 @@
                     return false;
                 });
             }
-
-            function changeInput()// permet de transformer le bouton parcourrir grace a bootstrap input
-            {
-                $(".vich-image input").fileinput(
-                {
-                    'showUpload':false,
-                    'showCaption':false,
-                    language: "fr"
-                });
-
-                $('.vich-image a img').each(function()
-                {
-                    var src =  $(this).attr("src");
-                    var asset = "{{asset("")}}";
-                    $(this).attr( "src", asset+ src ).css({
-                        width: '197px !important'
-                    }).addClass('test').addClass('img-responsive').addClass('img-thumbnail');
-                    src =  $(this).attr("src");
-                    console.log(src);
-                });
-
-                $('.vich-image a').each(function()
-                {
-                    var href =  $(this).attr("href");
-                    var asset = "{{asset("")}}";
-                    $(this).attr( "href", asset+ href ).addClass('test').addClass('col-xs-3');
-                    href =  $(this).attr("href");
-                    console.log(href);
-                });
-            }
-
         });
 </script>
 {% endblock %}

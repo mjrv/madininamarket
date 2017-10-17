@@ -8,6 +8,8 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       {# bootstrap file input #}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/css/fileinput.min.css" integrity="sha256-XS5qtMB+ty0Zekyi7Z95nyhewyocc88qF5THTXg1Plw=" crossorigin="anonymous" />
+      {# bootstrap sweetalert #}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" integrity="sha256-zuyRv+YsWwh1XR5tsrZ7VCfGqUmmPmqBjIvJgQWoSDo=" crossorigin="anonymous" />
       <link rel="stylesheet" href="{{asset("asset/css/variables.css")}}">
       <link rel="stylesheet" href="{{asset("asset/css/seller.css")}}">
       <style>
@@ -106,15 +108,101 @@
       {# bootstrap file input #}
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js" integrity="sha256-JfzBQ3ihFh9Hj51yhTbw/Xjwv7cpNvqSpRvpLHOg71w=" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/locales/fr.min.js" integrity="sha256-IhwAhbsEaxsjrjHlxOYn9r2b3zXsOC+X7DH8RTAQNyM=" crossorigin="anonymous"></script>
+      {# bootstrap sweetalert #}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha256-JirYRqbf+qzfqVtEE4GETyHlAbiCpC005yBTa4rj6xg=" crossorigin="anonymous"></script>
+
+
+      <script src="{{ asset('asset/js/functions.js') }}"></script>
+      <script>
+      $(function()
+      {
+        dropdownMenu();
+
+        $('form[name=form]').submit(function(e){
+            e.preventDefault();
+            var myForm = $(this);
+
+            var myUrl = myForm.attr('action');
+            // console.log(myUrl);
+
+            var myMethode = myForm.attr('method');
+            // console.log(myMethode);
+            
+            var formdata = (window.FormData) ? new FormData(myForm[0]) : null;
+            var datas = (formdata !== null) ?  myForm.serialize() : formdata;
+
+            swal({
+              title: "Etes vous sur de vouloir supprimer ?",
+              text: "Vous ne pourrez pas recuperer ce produit !",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "oui, je confirme",
+              closeOnConfirm: false
+            },
+            function(){
+
+              $.ajax({
+                url: myUrl,
+                type: myMethode,
+                // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+                data: datas,
+                success: function(return_url)
+                {
+                   swal("supprimer!", "Votre produit a bien été supprimé !", "success");
+                   setTimeout(function () {
+                    window.location.href = return_url;// url deredirection
+                  }, 2000);
+                      
+                },
+                error: function()
+                {
+                  console.log('toto');
+                }
+              });
+              
+              
+            });
+
+        }); //Fin 
+
+      }); //Fin jquery
+
+      function changeInput()// permet de transformer le bouton parcourrir grace a bootstrap input
+      {
+          $(".vich-image input").fileinput(
+          {
+              'showUpload':false,
+              'showCaption':false,
+              language: "fr"
+          });
+
+          $('.vich-image a img').each(function()
+          {
+              var src =  $(this).attr("src");
+              var asset = "{{asset("")}}";
+              $(this).attr( "src", asset+ src ).css({
+                  width: '197px !important'
+              }).addClass('test').addClass('img-responsive').addClass('img-thumbnail');
+              src =  $(this).attr("src");
+              console.log(src);
+          });
+
+          $('.vich-image a').each(function()
+          {
+              var href =  $(this).attr("href");
+              var asset = "{{asset("")}}";
+              $(this).attr( "href", asset+ href ).addClass('test').addClass('col-xs-3');
+              href =  $(this).attr("href");
+              console.log(href);
+          });
+
+          $(".vich-image input").attr('required', 'required'); //On rajoute l'attribut required au chaamps
+      }
+      </script>
+
 
 {% block javascripts %}
-<script src="{{ asset('asset/js/functions.js') }}"></script>
-<script>
-$(function()
-{
-  dropdownMenu();
-})
-</script>
 {% endblock %}
 </body>
 </html>
