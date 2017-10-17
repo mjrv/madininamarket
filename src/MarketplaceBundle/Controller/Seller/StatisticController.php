@@ -112,6 +112,7 @@ class StatisticController extends Controller
 				 	
 				];
 
+				# Premiere version
 				// $res[$sold['name']] = [
 				//  	// 'name' 	   => $sold['name'],
 				//  	'qte'	   => $sold['qte'],
@@ -127,7 +128,7 @@ class StatisticController extends Controller
 			}
 		}
 
-		$this->filterOrders($res);
+		// $this->filterOrders($res);
 
 		// foreach ($res as $key => $value) 
 		// {
@@ -157,11 +158,11 @@ class StatisticController extends Controller
 	/**
 	 * [statistic description]
 	 #* @param  Shop   $shop [description]
-	 * @Route("/", name="show_stat")
+	 * @Route("/{id}", name="show_stat")
 	 */
-	public function statistic()
+	public function statistic(Shop $shop)
 	{
-		return $this->render('seller/stat/statistic.html.twig');
-		// $this->render('seller/stat/stat.html.twig', ['shop' => $shop]);
+		// return $this->render('seller/stat/statistic.html.twig');
+		return $this->render('seller/stat/statistic.html.twig', ['shop' => $shop]);
 	}
 }

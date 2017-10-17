@@ -22,7 +22,9 @@
 
 					{% if current != previous %}
 						<div class="col-sm-12" style="padding-top: 3em;">
-							<h5>{{item.shop.commercialName}}</h5>
+							<h5>
+								<a href="{{path("shop_show_details",{"slug":item.shop.slug})}} ">{{item.shop.commercialName}}</a>
+								</h5>
 							<hr>
 						</div>
 						{% set previous = current %}
@@ -83,10 +85,10 @@
 					<h4>Montant :</h4>
 					Total ht: {{TotalHt}}<br>
 					Total tva: {{TotalTva}}	<br>	
-					Ttc: {{Total}} <br>
+					Ttc: {{Total}} <br> <br>
 					<a href="{{path('livraison')}}" class="btn btn-success">Valider mon pannier</a>
 			</div>
-			<div class="col-sm-12" style="padding-top: 3em;">
+			<div class="col-sm-12" style="padding: 3em;">
 					<a href="{{path('homepage')}}" class="btn btn-primary">Poursuivre mes achats</a>
 			</div>
 

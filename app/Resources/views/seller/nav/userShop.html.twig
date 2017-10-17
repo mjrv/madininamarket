@@ -26,6 +26,7 @@
     </li>
     
     <li><a href="#">gestion ventes</a></li>
+
 {% elseif user|length > 1 %}
 
 	<li class="dropdown">
@@ -60,7 +61,19 @@
       </ul>
     </li>
 
-    <li><a href="#">gestion ventes</a></li>
+    <li class="dropdown">
+      <a href="#">Gestion des ventes</a>
+      <ul class="dropdown-menu">
+		{% for mag in user %}
+    		<li>
+			{# <a href="{{ path('statistic', {'id':mag.id} ) }}">json {{mag.commercialName}}</a> #}
+    			<a href="{{ path('show_stat', {'id':mag.id} ) }}">{{mag.commercialName}}</a>
+    		</li>
+		{% endfor %}
+      </ul>
+    </li>
+	
+    
 <!--         <li><a href="#">Contact</a></li>
  -->  
 {% endif %}
