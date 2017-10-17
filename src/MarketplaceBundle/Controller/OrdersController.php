@@ -46,13 +46,32 @@ class OrdersController extends Controller
 				$order['tva']['%'.$tva] += round($priceTtc - $priceHt, 2);
 			}
 
+			# On enregistre le shop associé a l'item (plus facile a récuperer après)
+			$shop = $item->getShop(); # Abréger pour évité trop de répétition
+
 			$order['item'][$id] = [
 						'id' => $id,
 						'name' => $item->getName(),
 						'qte' => $cart[$id],
 						'priceHt' => $priceHt,
 						'priceTtc'=> $priceTtc,
-						'price' => $item->getPriceHT()
+						'price' => $item->getPriceHT(),
+						'reference' => $item->getReference(),
+						'shop' => [
+									'id' => $shop->getId(),
+									'slug' => $shop->getSlug(),
+									'name' => $shop->getCommercialName(),
+									'raisonSocial' => $shop->getRaisonSocial(),
+									'immatriculation' => $shop->getImmatriculation(),
+									'apeCode' => $shop->getApeCode(),
+									'nameGerant' => $shop->getNameGerant(),
+									'phone' => $shop->getPhone(),
+									'phone2' => $shop->getPhone2(),
+									'email' => $shop->getEmail(),
+									'adress' => $shop->getAdress(),
+									'city' => $shop->getCity(),
+									'zipcode' => $shop->getZipcode(),
+								],
 					];
 			}
 					
