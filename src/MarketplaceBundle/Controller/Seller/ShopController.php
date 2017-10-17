@@ -71,7 +71,7 @@ class ShopController extends Controller
         // die(var_dump($shop));
          if (!$shop) throw $this->createNotFoundException("la page est introuvable");
 
-        $editForm = $this->createForm('MarketplaceBundle\Form\ShopType', $shop);
+        $editForm = $this->createForm('MarketplaceBundle\Form\ShopSellerType', $shop);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

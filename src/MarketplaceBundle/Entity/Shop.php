@@ -137,6 +137,16 @@ class Shop
      */
     private $slug;
 
+    /**
+     * @ORM\Column(name="prefixeRef", type="string", length=3, unique=true)
+     */
+    private $prefixeRef;
+
+    /**
+     * @ORM\Column(name="generateAutoRef", type="integer",length=6)
+     */
+    private $generateAutoRef;
+
 
     /**
      * Get id
@@ -569,4 +579,46 @@ class Shop
     {
         return $this->slug;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGenerateAutoRef()
+    {
+        return $this->generateAutoRef;
+    }
+
+    /**
+     * @param mixed $generateAutoRef
+     *
+     * @return self
+     */
+    public function setGenerateAutoRef($generateAutoRef)
+    {
+        $this->generateAutoRef = $generateAutoRef;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrefixeRef()
+    {
+        return $this->prefixeRef;
+    }
+
+    /**
+     * @param mixed $prefixeRef
+     *
+     * @return self
+     */
+    public function setPrefixeRef($prefixeRef)
+    {
+        $this->prefixeRef = $prefixeRef;
+
+        return $this;
+    }
+
+   
 }

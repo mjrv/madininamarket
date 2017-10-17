@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class ShopType extends AbstractType
+class ShopSellerType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -15,11 +15,6 @@ class ShopType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('commercialName')
-            ->add('raisonSocial')
-            ->add('immatriculation')
-            ->add('apeCode')
-            ->add('nameGerant')
             ->add('phone')
             ->add('phone2')
             ->add('email')
@@ -27,15 +22,9 @@ class ShopType extends AbstractType
             ->add('city')
             ->add('zipcode')
             ->add('logo')
-            ->add('prefixeRef')
             ->add('cover')
             ->add('active')
-            ->add('user',EntityType::class, array(
-                                                'class'=> 'MarketplaceBundle\Entity\User',
-                                                'choice_label' => 'username',
-                                                'multiple' => true,
-                                                'expanded' => false,  
-                                                ))
+           
             ;
     }
     

@@ -61,6 +61,8 @@ class ItemsController extends Controller
             $item->setShop($shop);
             $item->setVerify(0);
             $em->persist($item);
+            $shop->setGenerateAutoRef($shop->getGenerateAutoRef()+1);
+            $em->persist($shop);
             $em->flush();
 
             $mediasClone = clone $item->getPicture();

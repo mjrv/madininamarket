@@ -1,9 +1,10 @@
 {% extends 'shop.html.twig' %}
 
 {% block body %}
-    <h1>Item creation</h1>
+    <h1>Creation d'un produit</h1>
 
     {{ form_start(form) }}
+        <a href="#" class="btn btn-default" id="generateRef">Référence automatique</a>
         {{ form_widget(form) }}
         <a href="#" id="add_media" class="btn btn-default">Ajouter une nouvelle image</a>
         <br>
@@ -14,7 +15,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('items_index', {'id': shop.id}) }}">Back to the list</a>
+            <a href="{{ path('items_index', {'id': shop.id}) }}">Retour à la liste</a>
         </li>
     </ul>
 {% endblock %}
@@ -29,9 +30,9 @@
 
            // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
             $('#add_media').click(function(e) {
+                e.preventDefault(); // évite qu'un # apparaisse dans l'URL
                 addMedia($container);
 
-               e.preventDefault(); // évite qu'un # apparaisse dans l'URL
                 return false;
             });
 
@@ -44,6 +45,17 @@
                     addDeleteLink($(this));
                 });
             }
+
+            $('#generateRef').click(function(e){
+                e.preventDefault();
+                var pref = "{{shop.prefixeRef}}";
+                var genRef = "{{shop.generateAutoRef}}";
+
+                $('#marketplacebundle_items_reference').val(pref+genRef).prop("readonly",true);//prop("readonly",true) pour empecher de changer la reference apres l avoir generate
+                $(this).hide();
+                console.log(pref);
+                console.log(genRef);
+            })
             
 
             // $(".vich-image input").attr('required', 'required');
