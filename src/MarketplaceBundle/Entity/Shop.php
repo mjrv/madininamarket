@@ -132,10 +132,20 @@ class Shop
     private $items;
 
     /**
+    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Orders",mappedBy="shop")
+    */
+    private $orders;
+
+    /**
      * @Gedmo\Slug(fields={"commercialName"})
      * @ORM\column(length=255, unique=true)
      */
     private $slug;
+
+    /**
+     * @ORM\column(name="refOrders", type="integer", options={"default" : 00000})
+     */
+    private $refOrders;
 
 
     /**
@@ -568,5 +578,73 @@ class Shop
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefOrders()
+    {
+        return $this->refOrders;
+    }
+
+    /**
+     * @param mixed $refOrders
+     *
+     * @return self
+     */
+    public function setRefOrders($refOrders)
+    {
+        $this->refOrders = $refOrders;
+
+        return $this;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Shop
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Add order
+     *
+     * @param \MarketplaceBundle\Entity\Orders $order
+     *
+     * @return Shop
+     */
+    public function addOrder(\MarketplaceBundle\Entity\Orders $order)
+    {
+        $this->orders[] = $order;
+
+        return $this;
+    }
+
+    /**
+     * Remove order
+     *
+     * @param \MarketplaceBundle\Entity\Orders $order
+     */
+    public function removeOrder(\MarketplaceBundle\Entity\Orders $order)
+    {
+        $this->orders->removeElement($order);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

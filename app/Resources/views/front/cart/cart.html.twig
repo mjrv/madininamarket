@@ -1,6 +1,5 @@
 {% extends 'front.html.twig' %}
 {% block body %}
-
 	{% if items|length == 0 %}
 		<div>
 			<h5>Aucun produit dans le pannier</h5>
@@ -25,6 +24,13 @@
 							<h5>
 								<a href="{{path("shop_show_details",{"slug":item.shop.slug})}} ">{{item.shop.commercialName}}</a>
 								</h5>
+								<p class="col-xs-3" style="float:left" style="display: inline">
+									<select name="shipment" id="shipment" class="selectpicker" style="height: 50% !important">
+										{% for ship in shipment %}
+											<option value="{{ship.id}}">{{ship.name}}</option>
+										{% endfor %}
+									</select>
+								</p>
 							<hr>
 						</div>
 						{% set previous = current %}

@@ -2,72 +2,104 @@
 {% block body %}
 	<div class="text-center">	
 		<legend>	
-			Recapitulatif
+			Récapitulatif
 		</legend>
+		{% set aPayer = 0 %}
 
-		<table class="table table-striped text-left">
-			<thead>	
-				<tr>	
-					<td>Nom</td>
-					<td>Prix unitaire Ht</td>
-					<td>Quantitée</td>
-					<td>Prix Ht</td>
-					<td>Prix Ttc</td>
-				</tr>
-			</thead>
-			<tbody>	
-				{% for 	item in order.orders.item %}
-					<tr>	
-						<td>{{item.name}}</td>
-						<td>{{item.priceHt}}</td>
-						<td>{{item.qte}}</td>
-						<td>{{item.price}}</td>
-						<td>{{item.priceTtc}}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		{% set 	ordered = order.orders %}
-		<div class="text-top" style="float-left !important;">
-			<div class="col-xs-6 well">
-				<h4>
-					Adresse de facturation
-				</h4>
-				<p>
-					{{ordered.facturation.firstname}} {{ordered.facturation.lastname}} <br>	
-					{{ordered.facturation.adress}} {{ordered.facturation.zipcode}} {{ordered.facturation.city}}
-				</p>
-			</div>
-			<div class="col-xs-6 well">
-				<h4>
-					Adresse de Livraison
-				</h4>
-				<p>
-					{{ordered.livraison.firstname}} {{ordered.livraison.lastname}} <br>	
-					{{ordered.livraison.adress}} {{ordered.livraison.zipcode}} {{ordered.livraison.city}}
-				</p>
-			</div>
-			<div class="col-xs-12">
-				<a href="{{path('livraison')}}" class="btn btn-primary">Changer l'adresse de livraison</a>
-				<a href="{{path('shipmentWay')}}" class="btn btn-info">Changer le moyen de livraison</a>
-			</div>
+		<div class="col-sm-3" style="float-left">
+
+				<div class="col-xs-12">
+					<h4>
+						Adresse de facturation
+					</h4>
+					<p>
+						{{facturation.firstname}} {{facturation.lastname}} <br>	
+						{{facturation.adress}} {{facturation.zipcode}} {{facturation.city}}
+					</p>
+					<hr>
+					<h4>
+						Adresse de Livraison
+					</h4>
+					<p>
+						{{livraison.firstname}} {{livraison.lastname}} <br>	
+						{{livraison.adress}} {{livraison.zipcode}} {{livraison.city}}
+					</p>
+					
+					<hr>
+						<a href="{{path('livraison')}}" class="btn btn-primary">Changer mes adresses</a>
+						<a href="{{path('shipmentWay')}}" class="btn btn-info">Changer le moyen de livraison</a>
+				</div>
+
 		</div>
-		<div style="float-right !important;">	
-			<div class="col-xs-12 well text-right">	
-				<h4>Montant</h4>
-				Total Ht:{{ordered.totalHt}} € <br>	
-				{% for key,tva	 in ordered.tva %}
-					Tva {{key}} : {{tva}} € <br>	
-				{% endfor %}
-				Expedition : {{ordered.shipmentWay.name}} {{ordered.shipmentWay.price}} €<br>	
-				Total Ttc : {{ordered.total}}
-			</div>
-			<div class="col-xs-12">	
-				<a href="{{path('payment_complete',{'id':order.id})}}" class="btn btn-danger">TEST TEST TEST</a>
-				<a href="{{path('paymentWay',{'id':order.id})}}" class="btn btn-success">Valider la commande</a>
-				{# <a href="#" class="btn btn-success">Valider la commande</a> #}
-			</div>
+		<div class="col-sm-6 center-block">
+		{% for order in orders %}
+			{% set detail = order.orders %}
+			{% set aPayer = aPayer + detail.total %}
+			{# <div class="col-sm-12">
+				<h5>{{detail.shop.name}}</h5>
+				<hr>
+			</div> #}
+			
+
+				<div class="col-sm-12">
+					<h5 class="text-left">{{detail.shop.name}}</h5>
+					<p class="text-left"> Expédition : {{detail.shipmentWay.name}} {{detail.shipmentWay.price}} €<br>	</p>
+					<hr>
+				</div>
+				<div class="col-sm-12">
+					<table class="table table-responsive">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Quantité</th>
+								<th>Montant</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for item in detail.item %}
+							<tr>
+								
+								<td>{{item.name}}</td>
+							{# <tr>
+								<th>Montant ht</th>
+								<td>{{item.priceHt}}</td>
+							</tr> #}
+								
+								<td>{{item.qte}}</td>
+							{# <tr>
+								<th>Prix unitaire sans taxe</th>
+								<td>{{item.price}}</td>
+							</tr> #}
+								
+								<td>{{item.priceTtc}}</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+					<hr>
+					<p class="text-right">Sous total: {{detail.total}} </p>
+				</div>	
+			
+
+		{% endfor %}
 		</div>
+		
+		<div class="col-sm-3" style="float-right">
+			<h4>Montant</h4>
+			{# Total Ht:{{detail.totalHt}} € <br>	 #}
+	{# 		{% for key,tva	 in detail.tva %}
+				Tva {{key}} : {{tva}} € <br>	
+			{% endfor %} #}
+			
+			Total Ttc : {{aPayer}} €
+			<br>
+			{# <hr>	 #}
+			<a href="#" class="btn btn-danger">TEST TEST TEST</a>
+			{# <a href="{{path('payment_complete',{'id':order.id})}}" class="btn btn-danger">TEST TEST TEST</a> #}
+			{# <a href="{{path('paymentWay',{'id':order.id})}}" class="btn btn-success">Valider la commande</a> #}
+			{# <a href="#" class="btn btn-success">Valider la commande</a> #}
+		</div>
+
 	</div>
 
 {% endblock %}

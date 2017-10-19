@@ -22,6 +22,12 @@ use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
 */
 class PaymentController extends Controller
 {
+	# Modification a faire le 18/10/2017
+	# Récuperer le tableau des commande passée
+	# Bouclé pour avoir la somme totale
+	# Faire le reste du paiement avec ce calcul
+	# Bouclé pour génerer les references via la ref de la boutique
+	
 	/**
 	* @Route("/choix-paiement/{id}",name="paymentWay")
 	*/

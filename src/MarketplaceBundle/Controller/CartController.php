@@ -23,11 +23,16 @@ class CartController extends Controller{
 		$cart = $session->get("cart");
 		$em = $this->getDoctrine()->getManager();
 		$items = $em->getRepository("MarketplaceBundle:Items")->findItemsInArray(array_keys($cart));
+		$shipments = $em->getRepository("MarketplaceBundle:ShipmentWay")->findAll();
+
+
 		$params =[
 			"items" => $items,
-			"cart"	=> $cart
+			"cart"	=> $cart,
+			// "shops"  => $shops,
+			"shipment" => $shipments
 		];
-		// dump($params);
+		dump($params);
 		return $this->render("front\cart\cart.html.twig",$params);
 	}
 

@@ -10,4 +10,18 @@ namespace MarketplaceBundle\Repository;
  */
 class OrdersRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findOrdersArray($array)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'
+				SELECT o
+				FROM  MarketplaceBundle:Orders o
+				WHERE o.id IN (:array)
+				'
+				)
+			->setParameter("array",$array);
+		return $query-> getResult();
+	}
 }

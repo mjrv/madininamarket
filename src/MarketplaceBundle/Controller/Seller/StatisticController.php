@@ -103,14 +103,35 @@ class StatisticController extends Controller
 				 								$jour => [
 												 	'qte'	   => $sold['qte'],
 												 	'priceTtc' => $sold['priceTtc'],
+												 	'price'    => $sold['price'], //Prix du produit hors taxe a l'unité
 												 	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
 												 	'reference'=> $req['reference'],
 												 	'stock'    => $req['stock'],
+												 	'date'     => $date,
 				 								],
 				 							],
 				 						],
 				 	
 				];
+
+				# Seconde version
+				// $res[$sold['name']] = 
+				// 					[
+				//  						$an => [
+				//  							$mois => [
+				//  								$jour => [
+				// 								 	'qte'	   => $sold['qte'],
+				// 								 	'priceTtc' => $sold['priceTtc'],
+				// 								 	'price'    => $sold['price'], //Prix du produit hors taxe a l'unité
+				// 								 	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
+				// 								 	'reference'=> $req['reference'],
+				// 								 	'stock'    => $req['stock'],
+				// 								 	'date'     => $date,
+				//  								],
+				//  							],
+				//  						],
+				 	
+				// ];
 
 				# Premiere version
 				// $res[$sold['name']] = [

@@ -1,22 +1,47 @@
 {% extends 'shop.html.twig' %}
 
 {% block body %}
-	{# <div class="container">
-	<br/>
-	<h2 class="text-center">Highcharts php mysql json example</h2>
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-                <div class="panel-body">
-                    <div id="container"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-	</div> #}
-	<div id="result"></div>
-	<canvas id="myChart"></canvas>
+	<div class="col-xs-12 text-center">
+		<h5 class="text-danger">Dernier rafraissisment: <span id="date"></span></h5>
+		<h5>Choix par date</h5>
+		<select name="periode" id="periode" class="selectpicker">
+			<option value="1">Jour</option>
+			<option value="2">Semaine</option>
+			<option value="3">Mois</option>
+			<option value="4">Année</option>
+			<option value="5">Depuis le debut</option>
+			<option value="6">Période indiqué</option>
+		</select>
+		<br>
+		<br>
+
+		<div id="custom" style="display: none">
+			<div class="col-xs-6" >
+				Debut: <input type="text" id="start" class="datepicker form-control">   
+			</div>
+			<div class="col-xs-6" id="div_end" style="display: none">
+				Fin: <input type="text" id="end" class="datepicker form-control">
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<div id="result"></div>
+		<table class="table table-responsive table-striped">
+			<thead>
+				<tr>
+					<th>Référence</th>
+					<th>Date</th>
+					<th>Heure</th>
+					<th>Client</th>
+					<th>Ttc</th>
+					<th>Marge</th>
+				</tr>
+			</thead>
+			<tbdoy id="data">				
+			</tbdoy>
+		</table>
+		<canvas id="myChart"></canvas>
+	</div>
 {% endblock %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/css/highcharts.css" integrity="sha256-ji+33kRPEXS0+FM/AbApEs8n5kT2UBiGyk36zs1F9gE=" crossorigin="anonymous" />
@@ -27,9 +52,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/highstock.js" integrity="sha256-ey/5yo1hzGfJgxENRS4EClXKyQPp6D+v/rYv+Dgn/2c=" crossorigin="anonymous"></script>
 	{# Moment.js #}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js" integrity="sha256-TbOIe++NbC9P3KTtUMJ5wcROlBdnRqrPleLdpPg3xxE=" crossorigin="anonymous"></script>
-	{# 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
-	#}
 
 	{# chart.js #}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js" integrity="sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc=" crossorigin="anonymous"></script>
@@ -38,9 +60,6 @@
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 	<script>
-	function l(data){console.log(data)}
-	function toStr(data){return JSON.stringify(data)}
-
 	$(function()
 	{
 		// Récuperer les commandes par boutique
@@ -48,23 +67,97 @@
 		// Faire une somme des qté de produits par jours/mois/an/custum
 		// Calculé le chiffre d'affaire par jours/mois/an/custum
 		// Affiché les élément dans le graphique
-		$.get("{{ path('statistic', {'id': 3} ) }}", function(data)
+		
+		// Lance la fonction après la durée rentrée, 5000 = 5 secondes //https://stackoverflow.com/questions/2170923/whats-the-easiest-way-to-call-a-function-every-5-seconds-in-jquery
+		getDateTime();
+		window.setInterval(function(){
+			// var toto= getData();
+			getDateTime();
+		}, 5000);
+
+		getData();
+		$( ".datepicker" ).datepicker();
+
+		var periode = $('#periode');
+		var debut = $("#start");
+		var fin = $("#end");
+		var custom = $("#custom");
+
+		periode.on("change", function()
+		{
+			var selected = $(this).val();
+			if(selected == 6)
+			{
+				custom.show();
+			}
+			else
+			{
+				custom.hide();
+				l('Récuperation des données de la bdd ~~');
+			}
+		});
+
+		debut.on("change", function()
+		{
+			var val_debut = $(this).val();
+			$("#div_end").show();
+			fin.val("");
+		
+			fin.on("change", function()
+			{
+				var val_fin = $(this).val();
+
+				if (val_debut > val_fin) 
+				{
+					fin.val("");
+				}
+				else
+				{
+					l('Récuperation des données de la bdd ~~');
+				}
+			});
+
+		});
+
+
+	}); //Fin jquery
+
+	function l(data){console.log(data)} //Console.log abreger
+	function toStr(data){return JSON.stringify(data)} //Transforme une entrée d'object en string
+	function getDateTime() //Récupere la date l'heure et les seconde actuelle
+	{
+		var dt = new Date(); 
+		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds(); 
+		$('#date').html(time); 
+	} 
+
+	function getData(an , mois, jour)
+	{
+		var dt = new Date(); 
+		// On verifie les variable
+		an = an || dt.getFullYear();
+		mois = mois || dt.getMonth();
+		jour = jour || dt.getDate();
+
+		$.get("{{ path('statistic', {'id': shop.id} ) }}", function(data)
 		{	
 			var i = 0;
 			var res = '';
 			var item = [];
 			$.each(data, function(index, el) 
 			{
-				res+= '<p>';
+				res += '<tr>';
+				// l('toto');
 
-				res+= '<br>';
-				res+= toStr(index);
+				// res+= '<br>';
+				// res+= toStr(index);
+				res+= index;
 
-				res+= '<br>';
-				res+= toStr(el);
-				l(index);
+				// res+= '<br>';
+				// res+= toStr(el);
+				// l(index);
 				
-				res+= '<br>';
+				// res+= '<br>';
 				$.each(el,function(key, val) 
 				{
 					
@@ -93,81 +186,19 @@
 					i++;	
 				});
 
-				res+= '</p>';
-			});
+				res+= '</tr>';
+			})
 			// l(qte);
 			// l(res);
 			// $("#result").html(res);
+			$("#data").append(res);
 			// http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html
-			// $('#container').highcharts({
-		 //        chart: {
-		 //            type: 'column'
-		 //        },
-		 //        title: {
-		 //            text: 'Yearly Website Ratio'
-		 //        },
-		 //        xAxis: {
-		 //            categories: ['2013','2014','2015', '2016']
-		 //        },
-		 //        yAxis: {
-		 //            title: {
-		 //                text: 'Rate'
-		 //            }
-		 //        },
-		 //        series: [{
-		 //            name: 'Click',
-		 //            data: res
-		 //        }
-		 //        // , {
-		 //        //     name: 'View',
-		 //        //     data: data_viewer
-		 //        // }
-		 //        ]
-		 //    });
-
-		    var ctx = document.getElementById("myChart").getContext('2d');
-			var myChart = new Chart(ctx, {
-			    type: 'bar',
-			    data: {
-			        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-			        datasets: [{
-			            label: '# of Votes',
-			            data: [12, 19, 3, 5, 2, 3],
-			            backgroundColor: [
-			                'rgba(255, 99, 132, 0.2)',
-			                'rgba(54, 162, 235, 0.2)',
-			                'rgba(255, 206, 86, 0.2)',
-			                'rgba(75, 192, 192, 0.2)',
-			                'rgba(153, 102, 255, 0.2)',
-			                'rgba(255, 159, 64, 0.2)'
-			            ],
-			            borderColor: [
-			                'rgba(255,99,132,1)',
-			                'rgba(54, 162, 235, 1)',
-			                'rgba(255, 206, 86, 1)',
-			                'rgba(75, 192, 192, 1)',
-			                'rgba(153, 102, 255, 1)',
-			                'rgba(255, 159, 64, 1)'
-			            ],
-			            borderWidth: 1
-			        }]
-			    },
-			    options: {
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero:true
-			                }
-			            }]
-			        }
-			    }
-			});
-
 		})
 		.fail(function(data)
 		{
 			l(toStr(data));
 		})
-	})
+	} //Fin getData
+
 	</script>
 {% endblock %}

@@ -122,15 +122,28 @@ class ValidationController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		//on fera appel a notre fonction de preparation de commenade
 		$prepareOrder = $this->forward('MarketplaceBundle:Orders:prepareOrder');
-		$orderId = intval($prepareOrder->getContent());
-		$order = $em->getRepository('MarketplaceBundle:Orders')->find($orderId);
-		dump($prepareOrder);
-		if ($order == null) {
+		# Modification a faire 18/10/2017
+		# recuperer les id des commmande de chaque boutique (array surement)
+		# recuperer les facture correspondante 
+		# Les envoyer dans la page de validation
+		$ordersId = explode(",",$prepareOrder->getContent());
+		$test = [15,16];
+		$orders = $em->getRepository('MarketplaceBundle:Orders')->findOrdersArray($test);
+
+		// die;
+		dump($orders);
+		if ($orders == null) {
 			throw new NotFoundHttpException("Session expiree..");
 		}
 
-		
-		return $this->render('front/validation/validation.html.twig',['order'=>$order]);
+
+		return $this->render('front/validation/validation.html.twig',[
+																		'orders'=>$orders,
+																		// 'ordersId' => $ordersId,
+																		'ordersId' => $test,
+																		'livraison' => $orders[0]->getOrders()['livraison'],
+																		'facturation' => $orders[0]->getOrders()['facturation'],
+																	]);
 	}
 
 	/*
