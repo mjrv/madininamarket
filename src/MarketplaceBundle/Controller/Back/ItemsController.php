@@ -49,30 +49,27 @@ class ItemsController extends Controller
     {
         $item = new Items();
         $form = $this->createForm('MarketplaceBundle\Form\ItemsType', $item);
-        // $form->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($request->getMethod() == 'POST')
-        {
-            dump($form->handleRequest($request));
-            // die(var_dump($form["medias"]));
-            if($form->isValid())
-            {
-                $mediasClone = clone $item->getPicture();
-                $item->getPicture()->clear();
+       if ($form->isSubmitted() && $form->isValid()) 
+       {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($item);
+            $em->flush();
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($item);
+            $mediasClone = clone $item->getPicture();
+            $item->getPicture()->clear();
+
+
+           foreach($mediasClone as $md){
+                $md->setItems($item);
+                $em->persist($md);
+                // $this->container->get('vich_uploader.storage')->upload($product);
                 $em->flush();
+           }
 
-               foreach($mediasClone as $md){
-                    $md->setItems($item);
-                    $em->persist($md);
-                    // $this->container->get('vich_uploader.storage')->upload($product);
-                    $em->flush();
-               }
-
-               return $this->redirectToRoute('items_show', array('id' => $item->getId()));
-            }
+            return $this->redirectToRoute('admin_items_index', array('id' => $item->getId()));
+            // }
         }
 
         return $this->render('back\items/new.html.twig', array(
@@ -114,7 +111,7 @@ class ItemsController extends Controller
              if($item->getStock() > 0)
                 $this->forward('MarketplaceBundle:Notification:notifyBack', ['id' => $id]);
 
-            return $this->redirectToRoute('items_edit', array('id' => $item->getId()));
+            return $this->redirectToRoute('admin_items_edit', array('id' => $item->getId()));
         }
 
         return $this->render('back\items/edit.html.twig', array(

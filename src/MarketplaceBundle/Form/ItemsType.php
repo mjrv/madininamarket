@@ -31,6 +31,12 @@ class ItemsType extends AbstractType
                 'max' => '10000',
                 )))
             ->add('verify')
+            ->add('shipmentType',EntityType::class, array(
+                                                'class' => 'MarketplaceBundle\Entity\ShipmentPrice',
+                                                'choice_label' => 'type',
+                                                'multiple' => false,
+                                                'expanded' => false,
+            ))
             ->add('tva',EntityType::class, array(
                                                 'class'=> 'MarketplaceBundle\Entity\Tva',
                                                 'choice_label' => 'value',
@@ -50,7 +56,7 @@ class ItemsType extends AbstractType
                                                 'expanded' => false,  
                                                 ))
             ->add('picture', CollectionType::class, array(
-                'entry_type' => VichImageType::class,
+                'entry_type' => PictureType::class,
                 'allow_add' =>true,
                 'allow_delete'=> true,
                 'required' =>true

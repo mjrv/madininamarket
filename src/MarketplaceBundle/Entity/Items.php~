@@ -4,12 +4,16 @@ namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Items
  *
  * @ORM\Table(name="items")
  * @ORM\Entity(repositoryClass="MarketplaceBundle\Repository\ItemsRepository")
+ * @UniqueEntity(fields="reference", message="Vous avez déjà utilisé cette référence, merci de bien vouloir la changer")
+ * 
  */
 class Items
 {
@@ -30,8 +34,7 @@ class Items
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="reference", type="string", length=255)
+     * @ORM\Column(name="reference", type="string", unique=true, length=255)
      */
     private $reference;
 
@@ -43,7 +46,7 @@ class Items
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Picture",mappedBy="Items", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Picture",mappedBy="items", cascade={"persist","remove"})
      * @var  Picture[]
      */
     private $picture;
@@ -77,13 +80,13 @@ class Items
     private $stock;
 
      /**
-     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Tva",cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Tva")
      */
     private $tva;
 
 
      /**
-     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Category",cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Category")
      */
     private $category;
 
@@ -95,8 +98,8 @@ class Items
     private $verify;//valeur acceptee 0 pour en attente 1 accepter 2 pour refuser
 
     /**
-    *@ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\HistoryItem", cascade={"persist"})
-    *@ORM\column(nullable=true)
+    *@ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\HistoryItem", mappedBy="item", cascade={"remove", "persist"})
+    *@ORM\JoinColumn(onDelete="CASCADE", nullable=true)
     */
     private $history;
 
@@ -106,13 +109,385 @@ class Items
     private $shop;
 
     /**
+     * @Gedmo\Slug(fields={"name","id"})
+     * @ORM\column(length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+    *@ORM\Column(name="shipmentType", type="string", length=255)
+    *ManyToOne(targetEntity="MarketplaceBundle\Entity\ShipmentPrice", inversedBy="items")
+    */
+    private $shipmentType;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+        // $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
         // $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Items
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set reference
+     *
+     * @param string $reference
+     *
+     * @return Items
+     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    /**
+     * Get reference
+     *
+     * @return string
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Items
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Items
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set priceHt
+     *
+     * @param float $priceHt
+     *
+     * @return Items
+     */
+    public function setPriceHt($priceHt)
+    {
+        $this->priceHt = $priceHt;
+
+        return $this;
+    }
+
+    /**
+     * Get priceHt
+     *
+     * @return float
+     */
+    public function getPriceHt()
+    {
+        return $this->priceHt;
+    }
+
+    /**
+     * Set discount
+     *
+     * @param float $discount
+     *
+     * @return Items
+     */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+
+        return $this;
+    }
+
+    /**
+     * Get discount
+     *
+     * @return float
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * Set stock
+     *
+     * @param integer $stock
+     *
+     * @return Items
+     */
+    public function setStock($stock)
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Get stock
+     *
+     * @return integer
+     */
+    public function getStock()
+    {
+        return $this->stock;
+    }
+
+    /**
+     * Set verify
+     *
+     * @param integer $verify
+     *
+     * @return Items
+     */
+    public function setVerify($verify)
+    {
+        $this->verify = $verify;
+
+        return $this;
+    }
+
+    /**
+     * Get verify
+     *
+     * @return integer
+     */
+    public function getVerify()
+    {
+        return $this->verify;
+    }
+
+    /**
+     * Set history
+     *
+     * @param string $history
+     *
+     * @return Items
+     */
+    public function setHistory($history)
+    {
+        $this->history = $history;
+
+        return $this;
+    }
+
+    /**
+     * Get history
+     *
+     * @return string
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * Add picture
+     *
+     * @param \MarketplaceBundle\Entity\Picture $picture
+     *
+     * @return Items
+     */
+    public function addPicture(\MarketplaceBundle\Entity\Picture $picture)
+    {
+        $this->picture[] = $picture;
+
+        return $this;
+    }
+
+    /**
+     * Remove picture
+     *
+     * @param \MarketplaceBundle\Entity\Picture $picture
+     */
+    public function removePicture(\MarketplaceBundle\Entity\Picture $picture)
+    {
+        $this->picture->removeElement($picture);
+    }
+
+    /**
+     * Get picture
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * Set tva
+     *
+     * @param \MarketplaceBundle\Entity\Tva $tva
+     *
+     * @return Items
+     */
+    public function setTva(\MarketplaceBundle\Entity\Tva $tva = null)
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    /**
+     * Get tva
+     *
+     * @return \MarketplaceBundle\Entity\Tva
+     */
+    public function getTva()
+    {
+        return $this->tva;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \MarketplaceBundle\Entity\Category $category
+     *
+     * @return Items
+     */
+    public function setCategory(\MarketplaceBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \MarketplaceBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param \MarketplaceBundle\Entity\Shop $shop
+     *
+     * @return Items
+     */
+    public function setShop(\MarketplaceBundle\Entity\Shop $shop = null)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return \MarketplaceBundle\Entity\Shop
+     */
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @return \MarketplaceBundle\Entity\ShipmentPrice
+     */
+    public function getShipmentType()
+    {
+        return $this->shipmentType;
+    }
+
+    /**
+     * @param \MarketplaceBundle\Entity\ShipmentPrice $shipmentType
+     *
+     * @return self
+     */
+    public function setShipmentType(\MarketplaceBundle\Entity\ShipmentPrice $shipmentType)
+    {
+        $this->shipmentType = $shipmentType;
+
+        return $this;
+    }
 }

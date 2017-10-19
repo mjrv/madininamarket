@@ -115,6 +115,11 @@ class Items
     private $slug;
 
     /**
+    *ManyToOne(targetEntity="MarketplaceBundle\Entity\ShipmentPrice", inversedBy="items")
+    */
+    private $shipmentType;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -463,5 +468,63 @@ class Items
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @return \MarketplaceBundle\Entity\ShipmentPrice
+     */
+    public function getShipmentType()
+    {
+        return $this->shipmentType;
+    }
+
+    /**
+     * @param \MarketplaceBundle\Entity\ShipmentPrice $shipmentType
+     *
+     * @return self
+     */
+    public function setShipmentType(\MarketplaceBundle\Entity\ShipmentPrice $shipmentType)
+    {
+        $this->shipmentType = $shipmentType;
+
+        return $this;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Items
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Add history
+     *
+     * @param \MarketplaceBundle\Entity\HistoryItem $history
+     *
+     * @return Items
+     */
+    public function addHistory(\MarketplaceBundle\Entity\HistoryItem $history)
+    {
+        $this->history[] = $history;
+
+        return $this;
+    }
+
+    /**
+     * Remove history
+     *
+     * @param \MarketplaceBundle\Entity\HistoryItem $history
+     */
+    public function removeHistory(\MarketplaceBundle\Entity\HistoryItem $history)
+    {
+        $this->history->removeElement($history);
     }
 }

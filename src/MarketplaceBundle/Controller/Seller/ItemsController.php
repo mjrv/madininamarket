@@ -57,6 +57,7 @@ class ItemsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // dump($form->getData());
             $em = $this->getDoctrine()->getManager();
             $item->setShop($shop);
             $item->setVerify(0);

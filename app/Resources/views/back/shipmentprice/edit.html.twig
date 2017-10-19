@@ -1,7 +1,7 @@
 {% extends 'back.html.twig' %}
 
 {% block body %}
-    <h1>Tva edit</h1>
+    <h1>Shipmentprice edit</h1>
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
@@ -10,7 +10,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('admin_tva_index') }}">Back to the list</a>
+            <a href="{{ path('admin_shipmentprice_index') }}">Back to the list</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

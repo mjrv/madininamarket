@@ -1,0 +1,56 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+    <h1>Shipmentprice</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ shipmentPrice.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ shipmentPrice.type }}</td>
+            </tr>
+            <tr>
+                <th>Typeinfo</th>
+                <td>{{ shipmentPrice.typeInfo }}</td>
+            </tr>
+            <tr>
+                <th>Price1</th>
+                <td>{{ shipmentPrice.price1 }}</td>
+            </tr>
+            <tr>
+                <th>Price2</th>
+                <td>{{ shipmentPrice.price2 }}</td>
+            </tr>
+            <tr>
+                <th>Price3</th>
+                <td>{{ shipmentPrice.price3 }}</td>
+            </tr>
+            <tr>
+                <th>Price4</th>
+                <td>{{ shipmentPrice.price4 }}</td>
+            </tr>
+            <tr>
+                <th>Nextitem</th>
+                <td>{{ shipmentPrice.nextItem }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_shipmentprice_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_shipmentprice_edit', { 'id': shipmentPrice.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+    <h1>Shipmentprices list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Typeinfo</th>
+                <th>Price1</th>
+                <th>Price2</th>
+                <th>Price3</th>
+                <th>Price4</th>
+                <th>Nextitem</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for shipmentPrice in shipmentPrices %}
+            <tr>
+                <td><a href="{{ path('admin_shipmentprice_show', { 'id': shipmentPrice.id }) }}">{{ shipmentPrice.id }}</a></td>
+                <td>{{ shipmentPrice.type }}</td>
+                <td>{{ shipmentPrice.typeInfo }}</td>
+                <td>{{ shipmentPrice.price1 }}</td>
+                <td>{{ shipmentPrice.price2 }}</td>
+                <td>{{ shipmentPrice.price3 }}</td>
+                <td>{{ shipmentPrice.price4 }}</td>
+                <td>{{ shipmentPrice.nextItem }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_shipmentprice_show', { 'id': shipmentPrice.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_shipmentprice_edit', { 'id': shipmentPrice.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_shipmentprice_new') }}">Create a new shipmentPrice</a>
+        </li>
+    </ul>
+{% endblock %}
