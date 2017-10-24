@@ -28,7 +28,7 @@ class ItemsSellerType extends AbstractType
                 'min' => '0',
                 'max' => '10000',
                 )))
-            ->add('shipmentType',EntityType::class, array(
+            ->add('shipmentPrice',EntityType::class, array(
                                                 'class' => 'MarketplaceBundle\Entity\ShipmentPrice',
                                                 'choice_label' => 'type',
                                                 'multiple' => false,

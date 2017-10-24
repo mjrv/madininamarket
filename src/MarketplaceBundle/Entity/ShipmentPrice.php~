@@ -23,7 +23,6 @@ class ShipmentPrice
 
     /**
      * @ORM\Column(name="type", type="string", length=255, unique=true)
-     * OneToMany(targetEntity="MarkedplaceBundle\Entity\Items", mappedBy="ShipmentPrice")
      */
     private $type;
 
@@ -69,6 +68,10 @@ class ShipmentPrice
      */
     private $nextItem;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MarkedplaceBundle\Entity\Items", mappedBy="shipmentPrice")
+     */
+    private $items;
 
     /**
      * Get id
@@ -243,5 +246,25 @@ class ShipmentPrice
 
         return $this;
     }
-}
 
+
+    /**
+     * @return mixed
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param mixed \MarketplaceBundle\Entity\Items $items
+     *
+     * @return self
+     */
+    public function setItems(\MarketplaceBundle\Entity\Items $items)
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+}

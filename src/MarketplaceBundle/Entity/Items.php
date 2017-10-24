@@ -115,20 +115,19 @@ class Items
     private $slug;
 
     /**
-    *ManyToOne(targetEntity="MarketplaceBundle\Entity\ShipmentPrice", inversedBy="items")
+    *@ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\ShipmentPrice", inversedBy="items")
     */
-    private $shipmentType;
+    private $shipmentPrice;
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        // $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
-        // $this->shop = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->picture = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->history = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-    
 
     /**
      * Get id
@@ -333,27 +332,27 @@ class Items
     }
 
     /**
-     * Set history
+     * Set slug
      *
-     * @param string $history
+     * @param string $slug
      *
      * @return Items
      */
-    public function setHistory($history)
+    public function setSlug($slug)
     {
-        $this->history = $history;
+        $this->slug = $slug;
 
         return $this;
     }
 
     /**
-     * Get history
+     * Get slug
      *
      * @return string
      */
-    public function getHistory()
+    public function getSlug()
     {
-        return $this->history;
+        return $this->slug;
     }
 
     /**
@@ -439,6 +438,40 @@ class Items
     }
 
     /**
+     * Add history
+     *
+     * @param \MarketplaceBundle\Entity\HistoryItem $history
+     *
+     * @return Items
+     */
+    public function addHistory(\MarketplaceBundle\Entity\HistoryItem $history)
+    {
+        $this->history[] = $history;
+
+        return $this;
+    }
+
+    /**
+     * Remove history
+     *
+     * @param \MarketplaceBundle\Entity\HistoryItem $history
+     */
+    public function removeHistory(\MarketplaceBundle\Entity\HistoryItem $history)
+    {
+        $this->history->removeElement($history);
+    }
+
+    /**
+     * Get history
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
      * Set shop
      *
      * @param \MarketplaceBundle\Entity\Shop $shop
@@ -463,68 +496,26 @@ class Items
     }
 
     /**
-     * @return mixed
+     * Set shipmentPrice
+     *
+     * @param \MarketplaceBundle\Entity\ShipmentPrice $shipmentPrice
+     *
+     * @return Items
      */
-    public function getSlug()
+    public function setShipmentPrice(\MarketplaceBundle\Entity\ShipmentPrice $shipmentPrice = null)
     {
-        return $this->slug;
+        $this->shipmentPrice = $shipmentPrice;
+
+        return $this;
     }
 
     /**
+     * Get shipmentPrice
+     *
      * @return \MarketplaceBundle\Entity\ShipmentPrice
      */
-    public function getShipmentType()
+    public function getShipmentPrice()
     {
-        return $this->shipmentType;
-    }
-
-    /**
-     * @param \MarketplaceBundle\Entity\ShipmentPrice $shipmentType
-     *
-     * @return self
-     */
-    public function setShipmentType(\MarketplaceBundle\Entity\ShipmentPrice $shipmentType)
-    {
-        $this->shipmentType = $shipmentType;
-
-        return $this;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return Items
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Add history
-     *
-     * @param \MarketplaceBundle\Entity\HistoryItem $history
-     *
-     * @return Items
-     */
-    public function addHistory(\MarketplaceBundle\Entity\HistoryItem $history)
-    {
-        $this->history[] = $history;
-
-        return $this;
-    }
-
-    /**
-     * Remove history
-     *
-     * @param \MarketplaceBundle\Entity\HistoryItem $history
-     */
-    public function removeHistory(\MarketplaceBundle\Entity\HistoryItem $history)
-    {
-        $this->history->removeElement($history);
+        return $this->shipmentPrice;
     }
 }

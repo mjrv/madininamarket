@@ -48,7 +48,7 @@ class ShopController extends Controller
             $em->persist($shop);
             $em->flush();
 
-            return $this->redirectToRoute('shop_show', array('id' => $shop->getId()));
+            return $this->redirectToRoute('admin_shop_show', array('id' => $shop->getId()));
         }
 
         return $this->render('back\shop/new.html.twig', array(
@@ -82,13 +82,13 @@ class ShopController extends Controller
     public function editAction(Request $request, Shop $shop)
     {
         $deleteForm = $this->createDeleteForm($shop);
-        $editForm = $this->createForm('MarketplaceBundle\Form\ShopType', $shop);
+        $editForm = $this->createForm('MarketplaceBundle\Form\ShopEditType', $shop);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('shop_edit', array('id' => $shop->getId()));
+            return $this->redirectToRoute('admin_shop_edit', array('id' => $shop->getId()));
         }
 
         return $this->render('back\shop/edit.html.twig', array(

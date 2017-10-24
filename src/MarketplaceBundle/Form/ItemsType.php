@@ -31,7 +31,7 @@ class ItemsType extends AbstractType
                 'max' => '10000',
                 )))
             ->add('verify')
-            ->add('shipmentType',EntityType::class, array(
+            ->add('shipmentPrice',EntityType::class, array(
                                                 'class' => 'MarketplaceBundle\Entity\ShipmentPrice',
                                                 'choice_label' => 'type',
                                                 'multiple' => false,

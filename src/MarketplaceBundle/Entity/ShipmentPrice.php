@@ -23,7 +23,6 @@ class ShipmentPrice
 
     /**
      * @ORM\Column(name="type", type="string", length=255, unique=true)
-     * OneToMany(targetEntity="MarkedplaceBundle\Entity\Items", mappedBy="ShipmentPrice")
      */
     private $type;
 
@@ -69,6 +68,10 @@ class ShipmentPrice
      */
     private $nextItem;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items", mappedBy="shipmentPrice")
+     */
+    private $items;
 
     /**
      * Get id
@@ -242,5 +245,57 @@ class ShipmentPrice
         $this->nextItem = $nextItem;
 
         return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param mixed \MarketplaceBundle\Entity\Items $items
+     *
+     * @return self
+     */
+    public function setItems(\MarketplaceBundle\Entity\Items $items)
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->items = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add item
+     *
+     * @param \MarketplaceBundle\Entity\Items $item
+     *
+     * @return ShipmentPrice
+     */
+    public function addItem(\MarketplaceBundle\Entity\Items $item)
+    {
+        $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
+     * Remove item
+     *
+     * @param \MarketplaceBundle\Entity\Items $item
+     */
+    public function removeItem(\MarketplaceBundle\Entity\Items $item)
+    {
+        $this->items->removeElement($item);
     }
 }

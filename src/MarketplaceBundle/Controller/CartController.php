@@ -23,11 +23,91 @@ class CartController extends Controller{
 		$cart = $session->get("cart");
 		$em = $this->getDoctrine()->getManager();
 		$items = $em->getRepository("MarketplaceBundle:Items")->findItemsInArray(array_keys($cart));
+		$shipment = $em->getRepository('MarketplaceBundle:ShipmentWay')->findALL();
+
+		$prixMax = [];
+		$max = 0;
+		$previous = null;
+		$cat = null;
+		$min = 50;
+		$middle = 150;
+		$hight = 300;
+		$priceLivraison = 0;
+		
+		foreach ($items as $item) {
+			# verifier la boutique actuelle
+			# Si c'est la meme boutique comparer les prix
+			# sinon enregistrer le nom de la nouvelleboutique
+			# puis faire la comparaison prixmax*
+			
+			$current = $item->getShop()->getSlug();
+			
+			if ($previous != $current) {
+
+				$max = 0;
+				$previous = $current;
+				$cat = $item->getshipmentPrice()->getType();
+
+				if ($max < $item->getPriceHt()) {
+
+					$max = $item ->getPriceHt();
+
+					if ($max < $min) {
+						# prix de la livraison est egal a type category price1
+						$priceLivraison = $item->getshipmentPrice()->getPrice1();
+					}elseif ($max >= $min && $max <$middle) {
+						$priceLivraison = $item->getshipmentPrice()->getPrice2();
+					}elseif ($max >= $middle && $max < $hight ) {
+						$priceLivraison = $item->getshipmentPrice()->getPrice3();
+					}else {
+						$priceLivraison = $item->getshipmentPrice()->getPrice4();
+					}
+
+					$prixMax[$item->getShop()->getCommercialName()] = [
+						'item' => $item,
+						'shop'=> $item->getShop()->getSlug(),
+						'prix' => $item->getPriceHt(),
+						'typeCategory' => $cat, 
+						'priceLivraison' => $priceLivraison,
+					];
+				}
+			}else{
+				if ($max < $item->getPriceHt()) {
+
+					$max = $item ->getPriceHt();
+
+					$cat = $item->getshipmentPrice()->getType();
+
+					if ($max < $min) {
+						# prix de la livraison est egal a type category price1
+						$priceLivraison = $item->getshipmentPrice()->getPrice1();
+					}elseif ($max >= $min && $max <$middle) {
+						$priceLivraison = $item->getshipmentPrice()->getPrice2();
+					}elseif ($max >= $middle && $max < $hight ) {
+						$priceLivraison = $item->getshipmentPrice()->getPrice3();
+					}else {
+						$priceLivraison = $item->getshipmentPrice()->getPrice4();
+					}
+
+					$prixMax[$item->getShop()->getCommercialName()] = [
+						'item' => $item,
+						'shop'=> $item->getShop()->getSlug(),
+						'prix' => $item->getPriceHt(),
+						'typeCategory' => $cat, 
+						'priceLivraison' => $priceLivraison,
+					];
+				}
+			}
+			
+		} //Fin foreach
+
 		$params =[
-			"items" => $items,
-			"cart"	=> $cart
+			"items" 		=> $items,
+			"cart"			=> $cart,
+			"shipment" 		=> $shipment,
+			"prixMaxItem" 	=> $prixMax,			
 		];
-		// dump($params);
+		dump($params);
 		return $this->render("front\cart\cart.html.twig",$params);
 	}
 

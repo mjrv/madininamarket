@@ -88,7 +88,7 @@ class ValidationController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$shipment = $em->getRepository('MarketplaceBundle:ShipmentWay')->findALL();
 
-		return $this->render('front/validation/shipmentValidation.html.twig',array('shipment' => $shipment));
+		return $this->render('front/cart/cart.html.twig',array('shipment' => $shipment));
 	}
 
 	public function setShipmentSession(Request $request)

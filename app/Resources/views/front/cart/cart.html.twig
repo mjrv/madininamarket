@@ -13,22 +13,51 @@
 		{% set Ttc = 0 %}
 		{% set Ht = 0 %}
 		{% set TotalHt = 0 %}
-		{% set previous = 0 %}
+		{% set previous = null %}
+		{% set livraison = 0 %}
+		{# {% set prixMax = 0 %} #}
 
 		<div class="col-sm-8">
 			{% for item in items %}
-
 				{% set current = item.shop.slug %}
 				{# current : {{current}} <br>
 				precedent : {{previous}} <br> #}
-				{% if not current == previous %}
+				{% if current != previous %}
 					<div class="col-sm-12" style="padding-top: 3em;">
-						<h5>{{item.shop.commercialName}}</h5>
+						<div class="col-xs-6">
+							<h5>{{item.shop.commercialName}}</h5>
+						</div>
+						
+						<div class="col-xs-6">
+
+							{% for pmi in prixMaxItem %}
+								{% if pmi.shop == current %}
+									{% set livraison = pmi.priceLivraison %}
+								{% endif %}
+							{% endfor %}
+
+							{% if item.shop.retraitMag == 1 %}
+								<select name="livraison" id="livraison">
+									{% for ship in shipment %}
+										{% if ship.name == "Retrait en magasin" %}
+											<option value="{{ship.id}}"> {{ship.name}} - {{ship.price}} €</option>
+										{% else %}
+											<option value="{{ship.id}}"> {{ship.name}} - {{livraison}} €</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+							{% elseif item.shop.retraitMag == 0 %} 
+								{# <p class="alert alter-danger text-danger">Prix calculé de la livraison</p> #}
+								<p>Expédition: {{livraison}} €</p> 
+							{% endif %}
+							
+						</div>
+						
 						<hr>
+						<br>
 					</div>
 					{% set previous = current %}
 				{% endif %}
-
 
 				{# Notre calcul se fait que  si on arrive ici #}
 				{% if cart[item.id] > item.stock %}
@@ -54,12 +83,13 @@
 								<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt=""></td>
 							{% endif %}
 						{% endfor %}
+
 					</div>
 
 					<div class="col-xs-7">
 						<div class="form-group">
 							<form action="{{path('addToCart',{'slug':item.slug})}}" method="GET" class="form-horizontal">
-								{% if item.stock < 10 %} <span class = "text-danger">{{item.stock}}</span>{% endif %}
+								{% if item.stock < 10 %} <span class = "text-danger">Il en reste seulement {{item.stock}} en stock</span>{% endif %}
 								<input type="number" class="form-control" name="qte" min=1 max={{item.stock}} id="qte{{item.id}}" step="1" 
 										{% if cart[item.id] > item.stock %}
 											value="{{item.stock}}"
@@ -75,71 +105,13 @@
 					</div>
 					<div class="col-xs-2">
 						{{Ht}} €
+						<br><br>
+						{# {{item.shipmentPrice.type}} #}
 					</div>
 				</div>
 
 			{% endfor %}
 
-			{# <table class="table table-responsive table-striped">
-				<thead>
-					<tr>
-						<th>picture</th>
-						<th>Name</th>
-						<th>Prix unitaire Ht</th>
-						<th>Qte</th>
-						<th>Total Ht</th>
-						
-					</tr>
-				</thead>
-				<tbody>
-					
-						
-
-					{% for item in items %}
-						{% set shop = item.shop.slug %}
-							<h5>{{shop}}</h5>
-							Notre calcul se fait que  si on arrive ici
-							{% if cart[item.id] > item.stock %}
-								{% set Ht = item.priceHt * item.stock %}
-							{% else %} 
-								{% set Ht = item.priceHt * cart[item.id] %}
-							{% endif %}
-
-							{% set TotalHt = TotalHt + Ht %}
-
-							{% set Ttc = Ht|tva(item.tva.value) %}
-
-							{% set TotalTva = TotalTva + (Ttc - Ht) %}
-
-							{% set Total = Total + Ttc %}
-
-							<tr>
-								{% for pic in item.picture %}
-									{% if loop.first %}
-										<td> <img src="{{asset(pic.url)}}" style="max-width:90px !important" alt=""></td>
-									{% endif %}
-								{% endfor %}
-								<td>{{item.name}}</td>
-								<td>{{item.priceHt}}</td>
-								<td>
-									<form action="{{path('addToCart',{'slug':item.slug})}}" method="GET" class="form-horizontal">
-										{% if item.stock < 10 %} <span class = "text-danger">{{item.stock}}</span>{% endif %}
-										<input type="number" class="form-control" name="qte" min=1 max={{item.stock}} id="qte{{item.id}}" step="1" 
-												{% if cart[item.id] > item.stock %}
-													value="{{item.stock}}"
-												{% else %}
-													value="{{cart[item.id]}}"
-												{% endif %}
-															>
-										<button type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-										<a href="{{path('deleteFromCart',{'id':item.id})}} "><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-									</form>
-								</td>
-								<td>{{Ht}} €</td>
-							</tr>
-					{% endfor %}
-				</tbody>
-			</table> #}
 		</div>
 
 		<div class="col-sm-4 right text-justify" style="padding-top: 8em; padding-left: 5em;">

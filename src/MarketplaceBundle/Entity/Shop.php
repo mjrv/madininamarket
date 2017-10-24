@@ -4,12 +4,17 @@ namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Shop
  *
  * @ORM\Table(name="shop")
  * @ORM\Entity(repositoryClass="MarketplaceBundle\Repository\ShopRepository")
+ * @UniqueEntity("commercialName",message="Ce nom commerciale est déjà utilisé!!")
+ * @UniqueEntity("immatriculation")
+ * @UniqueEntity("prefixeRef")
  */
 class Shop
 {
@@ -40,6 +45,7 @@ class Shop
      * @var string
      *
      * @ORM\Column(name="immatriculation", type="string", length=255, unique=true)
+     * 
      */
     private $immatriculation;
 
@@ -143,10 +149,15 @@ class Shop
     private $prefixeRef;
 
     /**
-     * @ORM\Column(name="generateAutoRef", type="integer",length=6)
+     * @ORM\Column(name="generateAutoRef", type="integer",length=6, options={"default":0})
      */
     private $generateAutoRef;
 
+    /**
+     * @ORM\Column(name="retrait", type="boolean")
+     * @Assert\NotNull(message="Merci de choisir entre oui et non")
+     */
+    private $retraitMag;
 
     /**
      * Get id
@@ -621,4 +632,24 @@ class Shop
     }
 
    
+
+    /**
+     * @return mixed
+     */
+    public function getRetraitMag()
+    {
+        return $this->retraitMag;
+    }
+
+    /**
+     * @param mixed $retraitMag
+     *
+     * @return self
+     */
+    public function setRetraitMag($retraitMag)
+    {
+        $this->retraitMag = $retraitMag;
+
+        return $this;
+    }
 }
