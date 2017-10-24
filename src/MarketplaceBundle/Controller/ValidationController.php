@@ -126,12 +126,12 @@ class ValidationController extends Controller
 		# recuperer les id des commmande de chaque boutique (array surement)
 		# recuperer les facture correspondante 
 		# Les envoyer dans la page de validation
-		$ordersId = explode(",",$prepareOrder->getContent());
-		$test = [15,16];
-		$orders = $em->getRepository('MarketplaceBundle:Orders')->findOrdersArray($test);
+		$ordersId = $prepareOrder->getContent();
+		// $test = [15,16];
+		$orders = $em->getRepository('MarketplaceBundle:Orders')->findOrdersArray(explode(",",$ordersId));
 
 		// die;
-		dump($orders);
+		dump($ordersId);
 		if ($orders == null) {
 			throw new NotFoundHttpException("Session expiree..");
 		}
@@ -139,8 +139,8 @@ class ValidationController extends Controller
 
 		return $this->render('front/validation/validation.html.twig',[
 																		'orders'=>$orders,
-																		// 'ordersId' => $ordersId,
-																		'ordersId' => $test,
+																		'ordersId' => $ordersId,
+																		// 'ordersId' => $test,
 																		'livraison' => $orders[0]->getOrders()['livraison'],
 																		'facturation' => $orders[0]->getOrders()['facturation'],
 																	]);

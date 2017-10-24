@@ -160,14 +160,17 @@ class OrdersController extends Controller
 					->setOrders($commande)
 					->setShop($commande['shop']['id']);
 
-					// if (!$session->has('orders')) {
+					if (!$session->has('orders')) {
 						$em->persist($order);
-					// }
-					$em->flush();
-					$ordersId[] = $order->getId();
+						$em->flush();
+						$ordersId[] = $order->getId();
+					}
 
 			}
-			$session->set('orders',$ordersId);
+
+			if (!$session->has('orders')) {
+				$session->set('orders',$ordersId);
+			}
 		}
 		else
 		{
@@ -199,24 +202,20 @@ class OrdersController extends Controller
 							->setShop($em->getRepository('MarketplaceBundle:Shop')->find($commande['shop']['id']));
 				}
 
-					// if (!$session->has('orders')) {
+					if (!$session->has('orders')) {
 						$em->persist($order);
-					// }
-					$em->flush();
-					$ordersId[] = $order->getId(); 
+						$em->flush();
+						$ordersId[] = $order->getId(); 
+					}
 			}
 
-			$session->set('orders',$ordersId);
+			if (!$session->has('orders')) {
+				$session->set('orders',$ordersId);
+			}
 			
 		}
 		
-		
-
-		
-
-		
-			
-			return new Response(implode(",",$ordersId));
-			// return new JsonResponse(implode(",",$ordersId));
+		return new Response(implode(",",$session->get('orders')));
+		// return new JsonResponse(implode(",",$ordersId));
 		
 }}

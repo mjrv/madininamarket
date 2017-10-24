@@ -21,16 +21,24 @@
 
 					{% if current != previous %}
 						<div class="col-sm-12" style="padding-top: 3em;">
-							<h5>
+							<div class="col-xs-6">
+								<h5>
 								<a href="{{path("shop_show_details",{"slug":item.shop.slug})}} ">{{item.shop.commercialName}}</a>
 								</h5>
-								<p class="col-xs-3" style="float:left" style="display: inline">
+							</div>
+							<div class="col-xs-6">
+								<label for="shipment">Livraison :</label>
 									<select name="shipment" id="shipment" class="selectpicker" style="height: 50% !important">
 										{% for ship in shipment %}
 											<option value="{{ship.id}}">{{ship.name}}</option>
 										{% endfor %}
 									</select>
-								</p>
+							</div>
+							
+								{# <p class="col-xs-3" style="float:left" style="display: inline"> #}
+									
+								{# </p> #}
+								<br><br>
 							<hr>
 						</div>
 						{% set previous = current %}

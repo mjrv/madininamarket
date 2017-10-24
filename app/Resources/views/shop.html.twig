@@ -3,7 +3,8 @@
 <head>
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />  <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="{{asset('asset/img/logo1.png')}}" />
+    <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       {# JQuery-ui #}
@@ -60,7 +61,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="{{ path('homepage')}}">Logo</a>
+      <a class="navbar-brand" href="{{ path('homepage')}}"><img src="{{asset('asset/img/logo1.png')}}" alt="Logo"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">

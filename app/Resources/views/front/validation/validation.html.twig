@@ -42,7 +42,7 @@
 			
 
 				<div class="col-sm-12">
-					<h5 class="text-left">{{detail.shop.name}}</h5>
+					{# <h5 class="text-left">{{detail.shop.name}}</h5> #}
 					<p class="text-left"> Expédition : {{detail.shipmentWay.name}} {{detail.shipmentWay.price}} €<br>	</p>
 					<hr>
 				</div>
@@ -94,9 +94,8 @@
 			Total Ttc : {{aPayer}} €
 			<br>
 			{# <hr>	 #}
-			<a href="#" class="btn btn-danger">TEST TEST TEST</a>
-			{# <a href="{{path('payment_complete',{'id':order.id})}}" class="btn btn-danger">TEST TEST TEST</a> #}
-			{# <a href="{{path('paymentWay',{'id':order.id})}}" class="btn btn-success">Valider la commande</a> #}
+			<a href="{{ path('payment_complete', {'ordersId':ordersId} ) }}" class="btn btn-danger">TEST TEST TEST</a>
+			<a href="{{ path('paymentWay',{'id':order.id, 'montant': aPayer} ) }}" class="btn btn-success">Valider la commande</a>
 			{# <a href="#" class="btn btn-success">Valider la commande</a> #}
 		</div>
 
