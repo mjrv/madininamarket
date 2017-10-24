@@ -24,24 +24,11 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="col-xs-12">
-		<div id="result"></div>
-		<table class="table table-responsive table-striped">
-			<thead>
-				<tr>
-					<th>Référence</th>
-					<th>Date</th>
-					<th>Heure</th>
-					<th>Client</th>
-					<th>Ttc</th>
-					<th>Marge</th>
-				</tr>
-			</thead>
-			<tbdoy id="data">				
-			</tbdoy>
-		</table>
-		<canvas id="myChart"></canvas>
+		<div id="result"></div>		
 	</div>
+
 {% endblock %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/css/highcharts.css" integrity="sha256-ji+33kRPEXS0+FM/AbApEs8n5kT2UBiGyk36zs1F9gE=" crossorigin="anonymous" />
@@ -142,56 +129,63 @@
 		$.get("{{ path('statistic', {'id': shop.id} ) }}", function(data)
 		{	
 			var i = 0;
-			var res = '';
+
+			var res = '<table class="table table-responsive table-striped">'
+			res += '<thead>'
+			res += '<tr>'
+			res += '<th>Référence</th>'
+			res += '<th>Date</th>'
+			res += '<th>Heure</th>'
+			res += '<th>Client</th>'
+			res += '<th>Ttc</th>'
+			res += '<th>Marge</th>'
+			res += '<th>Voir</th>'
+			res += '</tr>'
+			res += '</thead>'
+			res += '<tbdoy id="data"'			
+			res += '</tbdoy>'
+
 			var item = [];
+
 			$.each(data, function(index, el) 
 			{
-				res += '<tr>';
-				// l('toto');
+				l(el);
+				res+= '<tr>';
+				// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
+				var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
+				route = route.replace("id", index);
+				l(route);
+				// res += "<a href="+ route +">";
 
-				// res+= '<br>';
-				// res+= toStr(index);
-				res+= index;
-
-				// res+= '<br>';
-				// res+= toStr(el);
-				// l(index);
-				
-				// res+= '<br>';
-				$.each(el,function(key, val) 
+				$.each(el, function(key, val) 
 				{
-					
-					// l(key);
-					// l(val);
+					res += '<td>';
 
-					// key = toStr(key); //Plus besoin
-					// val = toStr(val); //Plus besoin
-					
-					// res+= key;
-					// res+= '<br>';
-					
-					if(key == 'qte')
+					if(key == "id")
 					{
-						// qte.push([key, val]);
-						// qte
-						// l('toto');
+						res += "<a href="+ route +">Voir</a>";
 					}
+					else
+					{
+						
+						res += val;
+					}
+					
+					res += '</td>';
 
-					// qte.push([key, val]);
-					// '<br>';
-					// l(qte+'\n')
-					// l(qte[i])
-					// res+= val;
-					// res+= '<br>';
-					i++;	
 				});
 
+				// res += "</a>";
+
 				res+= '</tr>';
-			})
+			});
+
+			res += '</table>';
+
 			// l(qte);
 			// l(res);
 			// $("#result").html(res);
-			$("#data").append(res);
+			$("#result").append(res);
 			// http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html
 		})
 		.fail(function(data)

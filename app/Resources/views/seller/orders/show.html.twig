@@ -1,0 +1,90 @@
+{% extends 'seller.html.twig' %}
+
+{% block body %}
+<div class="container-full">
+
+    <div class="col-sm-12">
+        
+        <legend class="text-center">Commande #{{commande.reference}} du {{commande.date|date('d/m/Y')}}</legend>
+
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>nom</th>
+                    <th>prix unitaire</th>
+                    <th>quantite</th>
+                    <th>prix ht</th>
+                    <th>prix ttc</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in commande.orders.item %}
+                    <tr>
+                        <td>
+                            {{ product.name }}
+                        </td>
+                        <td>
+                            {{product.price}} €
+                        </td>
+                        <td>
+                            <label>{{ product.qte }}</label>
+                        </td>
+                        <td>{{ product.priceHt }} €</td>
+
+
+                        <td>{{ product.priceTtc }}€</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <div class="text-top">
+            <div class="col-sx-12 well text-left">
+                <h4>Montant</h4>
+                Total HT: {{ commande.orders.totalHt }} € <br>
+                {% for key, tva in commande.orders.tva %}
+                    Tva {{key}} : {{ tva }} € <br>
+                {% endfor %}
+                Expédidtion : {{commande.orders.shipmentWay.name}}  {{commande.orders.shipmentWay.price}}€ <br> {# alt 0160 pour le caractere invisible #}
+                Total TTC: {{ commande.orders.total }} €
+            </div>
+            <div class="col-xs-6 well">
+                <h4>
+                Adresse de livraison
+                </h4>
+                <p>
+                    {{commande.orders.livraison.firstname}}  {{commande.orders.livraison.lastname}} <br>
+                    {{commande.orders.livraison.adress}}, {{commande.orders.livraison.zipcode}} {{commande.orders.livraison.city}}
+                </p>
+            </div>
+
+            <div class="col-xs-6 well">
+                <h4>
+                Adresse de Facturation
+                </h4>
+                <p>
+                    {{commande.orders.facturation.firstname}}  {{commande.orders.facturation.lastname}} <br>
+                    {{commande.orders.facturation.adress}}, {{commande.orders.facturation.zipcode}} {{commande.orders.facturation.city}}
+                </p>
+            </div>
+
+           {% if commande.traking %}
+                <div class="col-xs-12">
+                    <label for="suivi">Livraison par {{commande.oders.shipmentWay.name}} </label>
+                    <input type="text" id="suivi" class="form-control" readonly value="{{commande.suivi}}">
+                </div>
+            {% endif %}
+            <div class="col-xs-12">
+                <div class="col-sm-6">
+                    <a href="{{ path('facture') }}" class="btn btn-info">Retour à la liste de mes commandes</a>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="{{ path('get_pdf', {'id': commande.id} ) }}" target="_blank" class="btn btn-info">Imprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

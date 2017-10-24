@@ -27,153 +27,57 @@ class StatisticController extends Controller
 	 * @Route("/{id}/api", name="statistic")
 	 * @param integer id [id de la boutique]
 	 */
-	public function listOrders(Request $request, $id = 3)
+	public function listOrders(Request $request, $id)
 	{
 		// if($request->isXmlHttpRequest())
 		// {
 			$em = $this->getDoctrine()->getManager();
-			$orders = $em->getRepository('MarketplaceBundle:Orders')->findAll();
+			$orders = $em->getRepository('MarketplaceBundle:Orders')->findBy([
+																		"shop"  => $id,
+																		"valid" => '1'
+																	]);
 
-			// $query = $em->createQuery(
-			// 					'SELECT o
-			// 					FROM MarketplaceBundle:Orders o'
-			// 				);
+			// $query = $em
+			// 		->createQuery(
+			// 					'
+			// 					SELECT o.reference, DATE_FORMAT(o.date, %d "%M %Y"), DATE_FORMAT(o.date, %k %i %s"), o.user, o.orders.totalTtc
+			// 					FROM MarketplaceBundle:Orders o
+			// 					WHERE o.shop = :shop
+			// 					AND o.valid = 1
+			// 					'
+			// 				)
+			// 		->setParameter('shop', $id)
+			// 				;
 			// $ordersArray = $query->getArrayResult();
+			// $ordersParsed = $this->parseOrders($orders);
 
-			$items= $this->parseOrders($orders, $id);
+			$res = [];
+			foreach ($orders as $key => $value) 
+			{
+				$res[$value->getId()] = [ 
+					"ref" 	=> $value->getReference(),
+					"date"  => $value->getDate()->format('Y-m-d'),
+					"heure" => $value->getDate()->format('H'),
+					"user" 	=> $value->getUser(),
+					"ttc" 	=> $value->getOrders()["totalTtc"],
+					"marge" => "Marge à calculé",
+					"id"    => $value->getId(),
+				];
 
-			$params = [
-				'items' => $items,
-				// 'orders' => $orders
-			];
+			}
+			// $items= $this->parseOrders($orders, $id);
 
-			// var_dump($params);
+			// $params = [
+			// 	// 'items' => $items,
+			// 	'orders' => $orders,
+			// ];
+
+			// dump($params);
 			// die;
-			return new JsonResponse($items);
+			return new JsonResponse($res);
 		// }
 		// else
 		// 	throw new NotFoundHttpException("La page demandée n'existe pas");
-	}
-
-	/**
-	 * [parseOrders description]
-	 * @param  [Orders] $orders   [Le resultat de la requete]
-	 * @param  [integer] $userShop [id de la boutique]
-	 * @return [array]           [Renvoie un tableau de json]
-	 */
-	private function parseOrders($orders, $userShop)
-	{
-		$em = $this->getDoctrine()->getManager();
-		$res = [];
-		$serializer = \JMS\Serializer\SerializerBuilder::create()->build(); //Transorme les objet en tableau, mais la sortie est DEGEULASSE
-
-		foreach ($orders as $key => $value) 
-		{
-			$itemId = array_keys($value->getOrders()['item'])[0];
-			$date = $value->getDate()->format('Y-m-d');
-			$an = $value->getDate()->format('Y');
-			$mois = $value->getDate()->format('m');
-			$jour = $value->getDate()->format('d');
-
-			// $t = ['date' => $date, 'an' => $an, 'mois' => $mois, 'jour' => $jour];
-			// dump($t);
-			// die;
-
-			$item = $em->getRepository('MarketplaceBundle:Items')->find($itemId);
-		
-			$shopId = $item->getShop()->getId();
-
-			if($userShop == $shopId) 
-			{
-			 	$query = $em->createQuery(
-								'SELECT i
-								FROM MarketplaceBundle:Items i
-								WHERE i.id = :id'
-							)
-							->setParameter('id', $itemId);
-				 // $res[] = $query->getArrayResult();
-				 
-				$sold = $value->getOrders()['item'][$itemId];
-				$req = $query->getArrayResult()[0];
-
-				$res[$sold['name']] = 
-									[
-				 						$an => [
-				 							$mois => [
-				 								$jour => [
-												 	'qte'	   => $sold['qte'],
-												 	'priceTtc' => $sold['priceTtc'],
-												 	'price'    => $sold['price'], //Prix du produit hors taxe a l'unité
-												 	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
-												 	'reference'=> $req['reference'],
-												 	'stock'    => $req['stock'],
-												 	'date'     => $date,
-				 								],
-				 							],
-				 						],
-				 	
-				];
-
-				# Seconde version
-				// $res[$sold['name']] = 
-				// 					[
-				//  						$an => [
-				//  							$mois => [
-				//  								$jour => [
-				// 								 	'qte'	   => $sold['qte'],
-				// 								 	'priceTtc' => $sold['priceTtc'],
-				// 								 	'price'    => $sold['price'], //Prix du produit hors taxe a l'unité
-				// 								 	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
-				// 								 	'reference'=> $req['reference'],
-				// 								 	'stock'    => $req['stock'],
-				// 								 	'date'     => $date,
-				//  								],
-				//  							],
-				//  						],
-				 	
-				// ];
-
-				# Premiere version
-				// $res[$sold['name']] = [
-				//  	// 'name' 	   => $sold['name'],
-				//  	'qte'	   => $sold['qte'],
-				//  	'priceTtc' => $sold['priceTtc'],
-				//  	// 'reference'=> $query->getOrders()['item'][$itemId]['reference'],
-				//  	'reference'=> $req['reference'],
-				//  	'stock'    => $req['stock'],
-				//  	'date' 	   => $date,
-				//  	'an' 	   => $an,
-				//  	'mois' 	   => $mois,
-				//  	'jour' 	   => $jour,
-				// ];
-			}
-		}
-
-		// $this->filterOrders($res);
-
-		// foreach ($res as $key => $value) 
-		// {
-		// 	dump($key);
-		// 	dump($value);
-		// }
-		// die;
-
-		return $res;
-	}
-
-	private function filterOrders($array)
-	{
-		dump($array);
-		$item = [];
-		$itemAn = [];
-		$itemMois = [];
-		$itemJour = [];
-		foreach ($array as $key => $value) 
-		{
-			// $item[$key] = 
-		}
-
-		die;
 	}
 
 	/**
@@ -183,7 +87,6 @@ class StatisticController extends Controller
 	 */
 	public function statistic(Shop $shop)
 	{
-		// return $this->render('seller/stat/statistic.html.twig');
 		return $this->render('seller/stat/statistic.html.twig', ['shop' => $shop]);
 	}
 }
