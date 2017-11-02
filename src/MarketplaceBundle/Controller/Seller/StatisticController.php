@@ -24,55 +24,78 @@ class StatisticController extends Controller
 	
 	/**
 	 * [doc: https://stackoverflow.com/questions/28141192/return-a-json-array-from-a-controller-in-symfony]
-	 * @Route("/{id}/api", name="statistic")
+	 * @Route("/{id}/{periode}/{debut}/{fin}/api", name="statistic")
 	 * @param integer id [id de la boutique]
 	 */
-	public function listOrders(Request $request, $id)
+	public function listOrders(Request $request, $id, $periode, $debut = "1965-01-01", $fin = "9999-12-31")
 	{
 		// if($request->isXmlHttpRequest())
 		// {
-			// $date = new \Datetime();
+			
+			// $periode = $request->get("periode");
+			// $debut = $request->get("debut");
+			// $fin = $request->get("fin");
 
-			// $an = $date->format("Y");
-			// $mois = $date->format("m");
-			// $jour = $date->format("d");
+			# https://stackoverflow.com/questions/5174789/php-add-7-days-to-date-format-mm-dd-yyyy
+			#Si les parametres n'existe paas (null), on leurs donnent des valeurs par defaut
+			// if(!$periode) $periode = 1;
+			if(!$fin) $fin = date("Y-m-d"); //Date du jour
 
-			// $debut = $date->format("Y-m-d 00:00:00.00");
-			// $fin = $date->format("Y-m-d 23:59:59.999");
+			switch($periode) // En fonction de la periode on modifie les paramettre
+			{
+				case 1: //Toutes les factures
+					$debut = "1965-01-01";
+					$fin = "9999-12-31";
+					break;
+				
+				case 2: //Aujourd'hui
+					$debut = date("Y-m-d");
+					break;
+			
+				case 3: //La semaine
+					$debut = date("Y-m-d", strtotime("$fin - 7 day"));
+					break;
+				
+				case 4: //Le mois
+					$debut = date("Y-m-d", strtotime("$fin - 1 month"));
+					break;
+				
+				case 5: //L'année
+					$debut = date("Y-m-d", strtotime("$fin - 1 year"));
+					break;
 
-			// $dates = [
-			// 	$debut,
-			// 	$fin,
-			// 	$an,
-			// 	$mois,
-			// 	$jour
-			// ];
+				case 6: //Custum
+					$debut = $debut;
+					$fin = $fin;
+					break;
+			}
 
-			// dump($dates);
+			$params = [
+				$periode,
+				$debut,
+				$fin
+			];
+
+			dump($params);
 
 			$em = $this->getDoctrine()->getManager();
-			$orders = $em->getRepository('MarketplaceBundle:Orders')->findBy([
-																		"shop"  => $id,
-																		"valid" => '1'
-																	]);
+			$orders = $em->getRepository('MarketplaceBundle:Orders')->findOrdersByDate($id, $debut." 00:00:00.00", $fin." 23:59:59.999");
 
 
 			$res = [];
 			foreach ($orders as $key => $value) 
 			{
-				$res[$value->getDate()->format('Y-m-d')] =
-						[$value->getId() => [ 
-						"ref" 	=> $value->getReference(),
-						"date"  => $value->getDate()->format('Y-m-d'),
-						"heure" => $value->getDate()->format('H'),
-						"user" 	=> $value->getUser(),
-						"ttc" 	=> $value->getOrders()["totalTtc"],
-						"marge" => "Marge à calculer",
-						"id"    => $value->getId(),
-						"an"    => $value->getDate()->format('Y'),
-						"mois"  => $value->getDate()->format('m'),
-						"jour"  => $value->getDate()->format('j'),
-					]
+				$res[$value->getId()] = [ 
+					"ref" 	=> $value->getReference(),
+					"date"  => $value->getDate()->format('Y-m-d'),
+					"heure" => $value->getDate()->format('H'),
+					"user" 	=> $value->getUser(),
+					"ttc" 	=> $value->getOrders()["totalTtc"],
+					"marge" => "Marge à calculer",
+					"id"    => $value->getId(),
+					// "an"    => $value->getDate()->format('Y'),
+					// "mois"  => $value->getDate()->format('m'),
+					// "jour"  => $value->getDate()->format('j'),
 				];
 
 			}
@@ -88,7 +111,7 @@ class StatisticController extends Controller
 	 #* @param  Shop   $shop [description]
 	 * @Route("/{id}", name="show_stat")
 	 */
-	public function statistic(Shop $shop)
+	public function statistic(Request $resquest, Shop $shop)
 	{
 		return $this->render('seller/stat/statistic.html.twig', ['shop' => $shop]);
 	}

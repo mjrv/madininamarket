@@ -2,8 +2,9 @@
 
 {% block body %}
 	<div class="col-xs-12 text-center">
-		<h5 class="text-danger">Dernier rafraichissement: <span id="date"></span></h5>
-		{# <form action="" method="GET" class="form-horizontal"> #}
+		<h5 class="text-danger">Dernier rafraissisment: <span id="date"></span></h5>
+		{# <form action="{{ path('statistic', {'id': shop.id} ) }}" method="GET" class="form-horizontal" id="myForm"> #}
+			
 			<h5>Choix par date</h5>
 			<select name="periode" id="periode" class="selectpicker">
 				<option value="1">Depuis le debut</option>
@@ -18,12 +19,13 @@
 
 			<div id="custom" style="display: none">
 				<div class="col-xs-6" >
-					Debut: <input type="text" name="start" id="start" class="datepicker form-control">   
+					Debut: <input type="text" id="debut" name="debut" class="datepicker form-control">   
 				</div>
 				<div class="col-xs-6" id="div_end" style="display: none">
-					Fin: <input type="text" name="end" id="end" class="datepicker form-control">
+					Fin: <input type="text" id="fin" name="fin" class="datepicker form-control">
 				</div>
 			</div>
+
 		{# </form> #}
 	</div>
 
@@ -57,63 +59,91 @@
 		// Calculé le chiffre d'affaire par jours/mois/an/custum
 		// Affiché les élément dans le graphique
 		
-		getDateTime();
-		getData();
-
-		$( ".datepicker" ).datepicker();
-
 		var periode = $('#periode');
-		var debut = $("#start");
-		var fin = $("#end");
+		var debut = $("#debut");
+		var fin = $("#fin");
 		var custom = $("#custom");
-		var val_debut, val_fin, selected;
+		var myForm = $("#myForm");
+		var periodeVal = periode.val();
+		var debutVal = debut.val() || null; 
+		var finVal = fin.val() || null;
+		// var dt = new Date(); 
+
+		getDateTime();
+		getData(periodeVal, debutVal, finVal);
+
+		$( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+
 
 		periode.on("change", function()
 		{
-			selected = $(this).val();
-			if(selected == 6)
+			periodeVal = $(this).val();
+			$("#periode option[value="+periodeVal+"]").attr("selected", "selected");
+			if(periodeVal == 6)
 			{
 				custom.show();
 			}
 			else
 			{
 				custom.hide();
-				val_debut = null;
-				val_fin = null;
-				getData(selected);
+				debut.val("");
+				fin.val("");
+				getData(periodeVal, debutVal, finVal);
 			}
 		});
 
 		debut.on("change", function()
 		{
-			val_debut = $(this).val();
+			debutVal = $(this).val();
+			// $(this).val(val_debut);
 			$("#div_end").show();
 			fin.val("");
 		
 			fin.on("change", function()
 			{
-				val_fin = $(this).val();
+				finVal = $(this).val();
 
-				if (val_debut > val_fin) 
+				if (debutVal > finVal) 
 				{
 					fin.val("");
 				}
 				else
 				{
-					getData(6, new Date(val_debut), new Date(val_fin));
+					// $(this).val(val_fin);
+					getData(6, debutVal, finVal);
 				}
 			});
 
 		});
 
+		myForm.on("submit", function(e)
+		{
+			e.preventDefault();
+			submitForm(myForm);
+		})
+
 		// Lance la fonction après la durée rentrée, 5000 = 5 secondes //https://stackoverflow.com/questions/2170923/whats-the-easiest-way-to-call-a-function-every-5-seconds-in-jquery
 		window.setInterval(function(){
-			getData(selected, new Date(val_debut), new Date(val_fin));
+			l(periodeVal)
+			l(debutVal)
+			l(finVal)
+			getData(periodeVal, debutVal, finVal);
 			getDateTime();
 		}, 5000);
 
+
 	}); //Fin jquery
 
+	// source : https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
 	function l(data){console.log(data)} //Console.log abreger
 	function toStr(data){return JSON.stringify(data)} //Transforme une entrée d'object en string
 	function getDateTime() //Récupere la date l'heure et les seconde actuelle
@@ -122,54 +152,13 @@
 		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds(); 
 		$('#date').html(time); 
 	} 
-	// https://www.youtube.com/playlist?list=PL0u86Fjj-xSvKKTm62ZFMDCYluO87E7Jl
-	function getData(periode, debut, fin)
+
+	function getData(periodeVal, debutVal, finVal)
 	{
-		var dt = new Date(); 
-		periode = periode || 1; //Défini la valeur par defaut pout la periode
-		var an = dt.getFullYear();
-		var mois = dt.getMonth();
-		var jour = dt.getDate();
-
-		switch(periode) // En fonction de la periode on modifie les paramettre
-		{
-			case 1: //Toutes les factures
-				debut = dt.setFullYear((an - 2000), 0, 01);
-				fin = dt.setFullYear((an + 2000), 12, 31);
-				break;
-			
-			case 2: //Aujourd'hui
-				debut = dt.setFullYear(an, mois, jour);
-				fin = dt.setFullYear(an, mois, jour);
-
-				break;
-		
-			case 3: //La semaine
-				debut = dt.setFullYear(an, mois, jour);
-				fin = dt.setFullYear(an, mois,(jour - 7));				
-				break;
-			
-			case 4: //Le mois
-				debut = dt.setFullYear(an, (mois - 1), jour);
-				fin = dt.setFullYear(an, mois, jour);
-				break;
-			
-			case 5: //L'année
-				debut = dt.setFullYear((an - 1), mois, jour);
-				fin = dt.setFullYear(an, mois, jour);
-				break;
-
-			case 6: //Custum
-				debut = debut;
-				fin = fin;
-				break;
-		}
-
-		l(periode)
-		l(debut)
-		l(fin)
-		
-		$.get("{{ path('statistic', {'id': shop.id} ) }}", function(data)
+		var route = "{{ path('statistic', {'id': shop.id, 'periode': 'periodeVal', 'debut': 'debutVal', 'fin': 'finVal'} ) }}";
+		route = route.replace("debutVal", debutVal).replace("finVal", finVal).replace("periodeVal", periodeVal);
+		l(route)
+		$.get(route, function(data)
 		{	
 			var i = 0;
 
@@ -192,43 +181,35 @@
 
 			$.each(data, function(index, el) 
 			{
-				if(new Date(index) >= debut && new Date(index) <= fin)
+				l(el);
+				res+= '<tr>';
+				// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
+				var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
+				route = route.replace("id", index);
+				l(route);
+				// res += "<a href="+ route +">";
+
+				$.each(el, function(key, val) 
 				{
-					$.each(el, function(items, content) 
-					{				
-				
-						res+= '<tr>';
-						// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
-						var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
-						route = route.replace("id", items);
-						l(route);
-						// res += "<a href="+ route +">";
+					res += '<td>';
 
-						$.each(content, function(key, val) 
-						{
-							res += '<td>';
-							
-								if(key == "id")
-								{
-									res += "<a href="+ route +">Voir</a>";
-								}
-								else if(key != "an" && key != "mois" && key != "jour")
-								{
-									res += val;
-								}
-							
-							
-							res += '</td>';
+					if(key == "id")
+					{
+						res += "<a href="+ route +">Voir</a>";
+					}
+					else
+					{
+						
+						res += val;
+					}
+					
+					res += '</td>';
 
-						});
+				});
 
-						// res += "</a>";
+				// res += "</a>";
 
-						res+= '</tr>';
-
-
-					});
-				}
+				res+= '</tr>';
 			});
 
 			res += '</table>';
