@@ -24,4 +24,32 @@ class OrdersRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter("array",$array);
 		return $query-> getResult();
 	}
+
+	public function findOrdersByDate($shop, $debut, $fin)
+	{
+		// ($debut) ? $debut : $debut = new \Datetime(); #si la date est remplie on l'utilise sinon on lui donne 1 an en moins
+		// ($fin) ? $fin : $fin = new \Datetime();
+
+		$params = [
+			'debut' => $debut,
+			'fin'   => $fin,
+			'shop'  => $shop
+		];
+
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'
+				SELECT o
+				FROM  MarketplaceBundle:Orders o
+				WHERE o.shop = :shop
+				AND o.valid = 1
+				AND o.date BETWEEN :debut AND :fin
+				'
+				)
+			->setParameters($params);
+		return $query-> getResult();
+	}
+
+
 }

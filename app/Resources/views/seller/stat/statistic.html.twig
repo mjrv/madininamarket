@@ -2,27 +2,29 @@
 
 {% block body %}
 	<div class="col-xs-12 text-center">
-		<h5 class="text-danger">Dernier rafraissisment: <span id="date"></span></h5>
-		<h5>Choix par date</h5>
-		<select name="periode" id="periode" class="selectpicker">
-			<option value="1">Jour</option>
-			<option value="2">Semaine</option>
-			<option value="3">Mois</option>
-			<option value="4">Année</option>
-			<option value="5">Depuis le debut</option>
-			<option value="6">Période indiqué</option>
-		</select>
-		<br>
-		<br>
+		<h5 class="text-danger">Dernier rafraichissement: <span id="date"></span></h5>
+		{# <form action="" method="GET" class="form-horizontal"> #}
+			<h5>Choix par date</h5>
+			<select name="periode" id="periode" class="selectpicker">
+				<option value="1">Depuis le debut</option>
+				<option value="2">Jour</option>
+				<option value="3">Semaine</option>
+				<option value="4">Mois</option>
+				<option value="5">Année</option>
+				<option value="6">Période indiqué</option>
+			</select>
+			<br>
+			<br>
 
-		<div id="custom" style="display: none">
-			<div class="col-xs-6" >
-				Debut: <input type="text" id="start" class="datepicker form-control">   
+			<div id="custom" style="display: none">
+				<div class="col-xs-6" >
+					Debut: <input type="text" name="start" id="start" class="datepicker form-control">   
+				</div>
+				<div class="col-xs-6" id="div_end" style="display: none">
+					Fin: <input type="text" name="end" id="end" class="datepicker form-control">
+				</div>
 			</div>
-			<div class="col-xs-6" id="div_end" style="display: none">
-				Fin: <input type="text" id="end" class="datepicker form-control">
-			</div>
-		</div>
+		{# </form> #}
 	</div>
 
 	<div class="col-xs-12">
@@ -55,24 +57,20 @@
 		// Calculé le chiffre d'affaire par jours/mois/an/custum
 		// Affiché les élément dans le graphique
 		
-		// Lance la fonction après la durée rentrée, 5000 = 5 secondes //https://stackoverflow.com/questions/2170923/whats-the-easiest-way-to-call-a-function-every-5-seconds-in-jquery
 		getDateTime();
-		window.setInterval(function(){
-			// var toto= getData();
-			getDateTime();
-		}, 5000);
-
 		getData();
+
 		$( ".datepicker" ).datepicker();
 
 		var periode = $('#periode');
 		var debut = $("#start");
 		var fin = $("#end");
 		var custom = $("#custom");
+		var val_debut, val_fin, selected;
 
 		periode.on("change", function()
 		{
-			var selected = $(this).val();
+			selected = $(this).val();
 			if(selected == 6)
 			{
 				custom.show();
@@ -80,19 +78,21 @@
 			else
 			{
 				custom.hide();
-				l('Récuperation des données de la bdd ~~');
+				val_debut = null;
+				val_fin = null;
+				getData(selected);
 			}
 		});
 
 		debut.on("change", function()
 		{
-			var val_debut = $(this).val();
+			val_debut = $(this).val();
 			$("#div_end").show();
 			fin.val("");
 		
 			fin.on("change", function()
 			{
-				var val_fin = $(this).val();
+				val_fin = $(this).val();
 
 				if (val_debut > val_fin) 
 				{
@@ -100,12 +100,17 @@
 				}
 				else
 				{
-					l('Récuperation des données de la bdd ~~');
+					getData(6, new Date(val_debut), new Date(val_fin));
 				}
 			});
 
 		});
 
+		// Lance la fonction après la durée rentrée, 5000 = 5 secondes //https://stackoverflow.com/questions/2170923/whats-the-easiest-way-to-call-a-function-every-5-seconds-in-jquery
+		window.setInterval(function(){
+			getData(selected, new Date(val_debut), new Date(val_fin));
+			getDateTime();
+		}, 5000);
 
 	}); //Fin jquery
 
@@ -117,15 +122,53 @@
 		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds(); 
 		$('#date').html(time); 
 	} 
-
-	function getData(an , mois, jour)
+	// https://www.youtube.com/playlist?list=PL0u86Fjj-xSvKKTm62ZFMDCYluO87E7Jl
+	function getData(periode, debut, fin)
 	{
 		var dt = new Date(); 
-		// On verifie les variable
-		an = an || dt.getFullYear();
-		mois = mois || dt.getMonth();
-		jour = jour || dt.getDate();
+		periode = periode || 1; //Défini la valeur par defaut pout la periode
+		var an = dt.getFullYear();
+		var mois = dt.getMonth();
+		var jour = dt.getDate();
 
+		switch(periode) // En fonction de la periode on modifie les paramettre
+		{
+			case 1: //Toutes les factures
+				debut = dt.setFullYear((an - 2000), 0, 01);
+				fin = dt.setFullYear((an + 2000), 12, 31);
+				break;
+			
+			case 2: //Aujourd'hui
+				debut = dt.setFullYear(an, mois, jour);
+				fin = dt.setFullYear(an, mois, jour);
+
+				break;
+		
+			case 3: //La semaine
+				debut = dt.setFullYear(an, mois, jour);
+				fin = dt.setFullYear(an, mois,(jour - 7));				
+				break;
+			
+			case 4: //Le mois
+				debut = dt.setFullYear(an, (mois - 1), jour);
+				fin = dt.setFullYear(an, mois, jour);
+				break;
+			
+			case 5: //L'année
+				debut = dt.setFullYear((an - 1), mois, jour);
+				fin = dt.setFullYear(an, mois, jour);
+				break;
+
+			case 6: //Custum
+				debut = debut;
+				fin = fin;
+				break;
+		}
+
+		l(periode)
+		l(debut)
+		l(fin)
+		
 		$.get("{{ path('statistic', {'id': shop.id} ) }}", function(data)
 		{	
 			var i = 0;
@@ -149,35 +192,43 @@
 
 			$.each(data, function(index, el) 
 			{
-				l(el);
-				res+= '<tr>';
-				// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
-				var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
-				route = route.replace("id", index);
-				l(route);
-				// res += "<a href="+ route +">";
-
-				$.each(el, function(key, val) 
+				if(new Date(index) >= debut && new Date(index) <= fin)
 				{
-					res += '<td>';
+					$.each(el, function(items, content) 
+					{				
+				
+						res+= '<tr>';
+						// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
+						var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
+						route = route.replace("id", items);
+						l(route);
+						// res += "<a href="+ route +">";
 
-					if(key == "id")
-					{
-						res += "<a href="+ route +">Voir</a>";
-					}
-					else
-					{
-						
-						res += val;
-					}
-					
-					res += '</td>';
+						$.each(content, function(key, val) 
+						{
+							res += '<td>';
+							
+								if(key == "id")
+								{
+									res += "<a href="+ route +">Voir</a>";
+								}
+								else if(key != "an" && key != "mois" && key != "jour")
+								{
+									res += val;
+								}
+							
+							
+							res += '</td>';
 
-				});
+						});
 
-				// res += "</a>";
+						// res += "</a>";
 
-				res+= '</tr>';
+						res+= '</tr>';
+
+
+					});
+				}
 			});
 
 			res += '</table>';
@@ -185,7 +236,7 @@
 			// l(qte);
 			// l(res);
 			// $("#result").html(res);
-			$("#result").append(res);
+			$("#result").html(res);
 			// http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html
 		})
 		.fail(function(data)

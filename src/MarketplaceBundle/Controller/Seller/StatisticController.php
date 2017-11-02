@@ -31,49 +31,52 @@ class StatisticController extends Controller
 	{
 		// if($request->isXmlHttpRequest())
 		// {
+			// $date = new \Datetime();
+
+			// $an = $date->format("Y");
+			// $mois = $date->format("m");
+			// $jour = $date->format("d");
+
+			// $debut = $date->format("Y-m-d 00:00:00.00");
+			// $fin = $date->format("Y-m-d 23:59:59.999");
+
+			// $dates = [
+			// 	$debut,
+			// 	$fin,
+			// 	$an,
+			// 	$mois,
+			// 	$jour
+			// ];
+
+			// dump($dates);
+
 			$em = $this->getDoctrine()->getManager();
 			$orders = $em->getRepository('MarketplaceBundle:Orders')->findBy([
 																		"shop"  => $id,
 																		"valid" => '1'
 																	]);
 
-			// $query = $em
-			// 		->createQuery(
-			// 					'
-			// 					SELECT o.reference, DATE_FORMAT(o.date, %d "%M %Y"), DATE_FORMAT(o.date, %k %i %s"), o.user, o.orders.totalTtc
-			// 					FROM MarketplaceBundle:Orders o
-			// 					WHERE o.shop = :shop
-			// 					AND o.valid = 1
-			// 					'
-			// 				)
-			// 		->setParameter('shop', $id)
-			// 				;
-			// $ordersArray = $query->getArrayResult();
-			// $ordersParsed = $this->parseOrders($orders);
 
 			$res = [];
 			foreach ($orders as $key => $value) 
 			{
-				$res[$value->getId()] = [ 
-					"ref" 	=> $value->getReference(),
-					"date"  => $value->getDate()->format('Y-m-d'),
-					"heure" => $value->getDate()->format('H'),
-					"user" 	=> $value->getUser(),
-					"ttc" 	=> $value->getOrders()["totalTtc"],
-					"marge" => "Marge à calculer",
-					"id"    => $value->getId(),
+				$res[$value->getDate()->format('Y-m-d')] =
+						[$value->getId() => [ 
+						"ref" 	=> $value->getReference(),
+						"date"  => $value->getDate()->format('Y-m-d'),
+						"heure" => $value->getDate()->format('H'),
+						"user" 	=> $value->getUser(),
+						"ttc" 	=> $value->getOrders()["totalTtc"],
+						"marge" => "Marge à calculer",
+						"id"    => $value->getId(),
+						"an"    => $value->getDate()->format('Y'),
+						"mois"  => $value->getDate()->format('m'),
+						"jour"  => $value->getDate()->format('j'),
+					]
 				];
 
 			}
-			// $items= $this->parseOrders($orders, $id);
 
-			// $params = [
-			// 	// 'items' => $items,
-			// 	'orders' => $orders,
-			// ];
-
-			// dump($params);
-			// die;
 			return new JsonResponse($res);
 		// }
 		// else
