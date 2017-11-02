@@ -1,28 +1,8 @@
 {% extends 'front.html.twig' %}
 {% block description %}{{category}}{% endblock %}
 {% block keywords %}{% endblock %}
+	
 {% block body %}
 	<h1 class="text-center"> {{category}} </h1>
-<div class="products-content">
-
-	{% for item in items %}
-		<div class="col-sm-3 item">
-			{% for pic in item.picture %}
-				{% if loop.first %}
-					<a href="{{path('show_product_details',{'slug': item.slug})}}">
-						<img src="{{asset(pic.url)}}" alt="{{item.name}}" class="img-responsive text-center"> <br>
-					</a>
-				{% endif %}
-			{% endfor %}
-				<p>{{item.name}}</p>
-					{{item.priceHt|tva(item.tva.value)}} €
-					   {# alt 0160 = caractere invisible #}
-				<a href="{{path('addToCart', {'slug': item.slug})}}" class="btn item-button">Ajout au pannier</a>
-		</div>
-	{% endfor %}
-	<div class="navigation">
-        {{ knp_pagination_render(items) }}
-    </div>
-</div>
-{#     Detail de la boutique (liste des iitems)
- #}{% endblock %}
+	{{ include('front/shop/shop_content.html.twig') }}
+{% endblock %}

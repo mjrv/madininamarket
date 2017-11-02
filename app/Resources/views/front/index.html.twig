@@ -1,30 +1,6 @@
 {% extends 'front.html.twig' %}
 {% block body %}
-<div class="products-content">
-	{% for item in items %}
-		<div class= "item col-sm-3">
-			{% for pic in item.picture %}
-				{% if loop.first %}
-					<a href="{{path("show_product_details",{'slug': item.slug})}} "> <img src="{{asset(pic.url)}}" alt="{{item.name}}" class="img-responsive"></a>
-				{% endif %}
-			{% endfor %}
-
-			<p>{{item.name}}</p> 	
-			{{item.priceHt|tva(item.tva.value)}} €
-
-			{% if item.stock > 0 %}
-				<a href="{{path("addToCart",{'slug': item.slug} )}} " class="btn item-button">Ajouter au panier</a>
-			{% else %}
-				<a href="{{path('notifyMe',{'slug': item.slug})}}" class="btn item-stock">Plus de stock... <span>souhaitez vous etre informé d'un retour en stock</span></a>
-			{% endif %}
-		</div>
-	{% endfor %}
-	<div class="navigation">
-        {{ knp_pagination_render(items) }}
-    </div>
-
-</div>
-
+	{{ include('front/shop/shop_content.html.twig') }}
 {% endblock %}
 
 {% block banderole %}

@@ -60,7 +60,7 @@ class StatisticController extends Controller
 					"heure" => $value->getDate()->format('H'),
 					"user" 	=> $value->getUser(),
 					"ttc" 	=> $value->getOrders()["totalTtc"],
-					"marge" => "Marge à calculé",
+					"marge" => "Marge à calculer",
 					"id"    => $value->getId(),
 				];
 
