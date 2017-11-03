@@ -30,7 +30,8 @@
 	</div>
 
 	<div class="col-xs-12">
-		<div id="result"></div>		
+		<div id="result" class="col-xs-12"></div>	
+		<div id="total" class="col-xs-offset-10"></div>	
 	</div>
 
 {% endblock %}
@@ -52,13 +53,8 @@
 
 	<script>
 	$(function()
-	{
-		// Récuperer les commandes par boutique
-		// Faire une boucle pour récuperer les éléments
-		// Faire une somme des qté de produits par jours/mois/an/custum
-		// Calculé le chiffre d'affaire par jours/mois/an/custum
-		// Affiché les élément dans le graphique
-		
+	{		
+		// Assignation de propriété a des variable pour pouvoir les manipuler partour dans le jquery (question de porté des variables)
 		var periode = $('#periode');
 		var debut = $("#debut");
 		var fin = $("#fin");
@@ -67,7 +63,6 @@
 		var periodeVal = periode.val();
 		var debutVal = debut.val() || null; 
 		var finVal = fin.val() || null;
-		// var dt = new Date(); 
 
 		getDateTime();
 		getData(periodeVal, debutVal, finVal);
@@ -124,9 +119,6 @@
 
 		// Lance la fonction après la durée rentrée, 5000 = 5 secondes //https://stackoverflow.com/questions/2170923/whats-the-easiest-way-to-call-a-function-every-5-seconds-in-jquery
 		window.setInterval(function(){
-			l(periodeVal)
-			l(debutVal)
-			l(finVal)
 			getData(periodeVal, debutVal, finVal);
 			getDateTime();
 		}, 5000);
@@ -153,15 +145,18 @@
 		$('#date').html(time); 
 	} 
 
-	function getData(periodeVal, debutVal, finVal)
+	function getData(periodeVal, debutVal, finVal) //Récupere les données des commandes
 	{
+		// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
+		// Etant en js, il y a une subtlité a creer des routes via twig
 		var route = "{{ path('statistic', {'id': shop.id, 'periode': 'periodeVal', 'debut': 'debutVal', 'fin': 'finVal'} ) }}";
 		route = route.replace("debutVal", debutVal).replace("finVal", finVal).replace("periodeVal", periodeVal);
-		l(route)
-		$.get(route, function(data)
+		// l(route)
+		$.get(route, function(data) // Récupération des commandes
 		{	
-			var i = 0;
+			var total = 0; // Total du montant des commandes
 
+			// Génération du tableau en js
 			var res = '<table class="table table-responsive table-striped">'
 			res += '<thead>'
 			res += '<tr>'
@@ -177,30 +172,32 @@
 			res += '<tbdoy id="data"'			
 			res += '</tbdoy>'
 
-			var item = [];
-
-			$.each(data, function(index, el) 
+			$.each(data, function(index, el) // On boucle sur nos commandes
 			{
-				l(el);
+				// l(el);
 				res+= '<tr>';
-				// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
+				
 				var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
 				route = route.replace("id", index);
 				l(route);
 				// res += "<a href="+ route +">";
 
-				$.each(el, function(key, val) 
+				$.each(el, function(key, val) // On boucle sur le contenu de nos commandes
 				{
 					res += '<td>';
 
-					if(key == "id")
+					if(key == "id") // Rajoute le lien vers le detail de la commande
 					{
 						res += "<a href="+ route +">Voir</a>";
 					}
 					else
 					{
-						
 						res += val;
+					}
+
+					if(key == "ttc") // Somme du total
+					{
+						total += val;
 					}
 					
 					res += '</td>';
@@ -211,14 +208,10 @@
 
 				res+= '</tr>';
 			});
-
 			res += '</table>';
 
-			// l(qte);
-			// l(res);
-			// $("#result").html(res);
 			$("#result").html(res);
-			// http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html
+			$("#total").html("<p> Total: "+total+" €"+"</p>");
 		})
 		.fail(function(data)
 		{
