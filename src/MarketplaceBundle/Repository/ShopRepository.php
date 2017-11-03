@@ -11,18 +11,30 @@ namespace MarketplaceBundle\Repository;
 class ShopRepository extends \Doctrine\ORM\EntityRepository
 {
 	# Récuperer les items lié aux shop
-	// public function findItems($id)
-	// {
-	// 	$query = $this
-	// 		->getEntityManager()
-	// 		->createQuery(
-	// 			'SELECT p 
-	// 			FROM MarketplaceBundle:Items i, MarketplaceBundle:Picture p
-	// 			WHERE i.id = p.items
-	// 			AND i.shop = :id
-	// 			')
-	// 		->setParameter('id',$id)
-	// 		;
-	// 	return $query->getResult();
-	// }
+	public function findItemShop($array)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'
+				SELECT s
+				FROM  MarketplaceBundle:Items i, MarketplaceBundle:Shop s
+				WHERE i.shop = s.id
+				AND i.id IN (:array)
+				ORDER BY i.shop	
+				'
+				)
+			->setParameter("array",$array);
+		$res = $query-> getResult();
+
+		// $shop = [];
+
+		// foreach ($res as  $value) 
+		// {
+		// 	$shop[] = $value->getShop();
+		// }
+
+		// return $shop;
+		return $res;
+	}
 }

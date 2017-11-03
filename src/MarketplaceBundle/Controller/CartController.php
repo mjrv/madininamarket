@@ -23,6 +23,7 @@ class CartController extends Controller{
 		$cart = $session->get("cart");
 		$em = $this->getDoctrine()->getManager();
 		$items = $em->getRepository("MarketplaceBundle:Items")->findItemsInArray(array_keys($cart));
+
 		$shipment = $em->getRepository('MarketplaceBundle:ShipmentWay')->findALL();
 
 		$prixMax = [];
@@ -114,13 +115,12 @@ class CartController extends Controller{
 	/**
 	* @Route("/ajouter/{slug}",name ="addToCart")
 	*/
-	public function addAction(Request $request, $slug) //verifie l existence de la session panier et du produit dans la session panier redirige sur le panier
+	public function addAction(Request $request, $slug)
 	{
 		$session = new Session();
 		$em = $this->getDoctrine()->getManager();
 		$item = $em->getRepository("MarketplaceBundle:Items")->findOneBySlug($slug);
-		// dump($item);
-		// die;
+
 		$stock = $item->getStock();
 		$id = $item->getId();
 		$qte = intval($request->get("qte"));

@@ -3,6 +3,7 @@
 namespace MarketplaceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Shop
@@ -126,9 +127,25 @@ class Shop
     private $active;
 
     /**
-    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop",)
+    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Items",mappedBy="shop")
     */
     private $items;
+
+    /**
+    * @ORM\OneToMany(targetEntity="MarketplaceBundle\Entity\Orders",mappedBy="shop")
+    */
+    private $orders;
+
+    /**
+     * @Gedmo\Slug(fields={"commercialName"})
+     * @ORM\column(length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @ORM\column(name="refOrders", type="integer", options={"default" : 00000})
+     */
+    private $refOrders;
 
 
     /**
@@ -462,4 +479,124 @@ class Shop
     }
 
     
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Shop
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \MarketplaceBundle\Entity\User $user
+     *
+     * @return Shop
+     */
+    public function addUser(\MarketplaceBundle\Entity\User $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \MarketplaceBundle\Entity\User $user
+     */
+    public function removeUser(\MarketplaceBundle\Entity\User $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add item
+     *
+     * @param \MarketplaceBundle\Entity\Items $item
+     *
+     * @return Shop
+     */
+    public function addItem(\MarketplaceBundle\Entity\Items $item)
+    {
+        $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
+     * Remove item
+     *
+     * @param \MarketplaceBundle\Entity\Items $item
+     */
+    public function removeItem(\MarketplaceBundle\Entity\Items $item)
+    {
+        $this->items->removeElement($item);
+    }
+
+    /**
+     * Get items
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefOrders()
+    {
+        return $this->refOrders;
+    }
+
+    /**
+     * @param mixed $refOrders
+     *
+     * @return self
+     */
+    public function setRefOrders($refOrders)
+    {
+        $this->refOrders = $refOrders;
+
+        return $this;
+    }
 }

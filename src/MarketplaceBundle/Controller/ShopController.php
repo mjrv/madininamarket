@@ -52,11 +52,10 @@ class ShopController extends Controller
 	{
 	    $em = $this->getDoctrine()->getManager();
 	    $product = $em->getRepository('MarketplaceBundle:Items')->findOneBySlug($slug);
+
 	    $params = [
 	        'product' => $product,
 	    ];
-
-	    // dump($params);
 
 	    if (!$product) throw $this->createNotFoundException("la page demandee n'existe pas");
 

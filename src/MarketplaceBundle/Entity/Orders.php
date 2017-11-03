@@ -73,6 +73,12 @@ class Orders
     */
     private $user;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="MarketplaceBundle\Entity\Shop")
+    * @ORM\Column(name="shop")
+    */
+    private $shop;
+
 
     function __construct()
     {
@@ -264,5 +270,29 @@ class Orders
     public function setPaymentInstruction(PaymentInstruction $instruction)
     {
         $this->paymentInstruction = $instruction;
+    }
+
+    /**
+     * Set shop
+     *
+     * @param string $shop
+     *
+     * @return Orders
+     */
+    public function setShop($shop)
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
+    /**
+     * Get shop
+     *
+     * @return string
+     */
+    public function getShop()
+    {
+        return $this->shop;
     }
 }

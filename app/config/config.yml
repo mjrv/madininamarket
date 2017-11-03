@@ -43,7 +43,7 @@ twig:
         - 'bootstrap_3_layout.html.twig'
     globals:
         shop_name: MadininaMarket
-        shop_tel: 'Tel: +596 696 732 272'
+        shop_tel: '+596 696 732 272'
         shop_email: contact@madininamarket.com
         shop_siret: '#siret ici'
 

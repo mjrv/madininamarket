@@ -1,30 +1,16 @@
 {% extends 'front.html.twig' %}
 {% block description %}{{shop.commercialName}}{% endblock %}
 {% block keywords %}{{shop.commercialName}}{% endblock %}
+
 {% block body %}
 	<h1 class="text-center">{{shop.commercialName}}</h1>
-<div class="products-content">
-	{% for item in items %}
-			
-			<!-- On arrive ici que si l'item n'est pas encore affiché -->
-		<div class="col-sm-3 item">
-			{% for pic in item.picture %}
-				{% if loop.first %}
-					<a href="{{path('show_product_details',{'slug': item.slug})}}">
-						<img src="{{asset(pic.url)}}" alt="{{item.name}}" class="img-responsive text-center">
-					{% endif %}
-				</a>
-			{% endfor %}
-			<p>{{item.name}}</p>
-			{{item.priceHt|tva(item.tva.value)}} €
-				   {# alt 0160 = caractere invisible #}
-			<a href="{{path('addToCart', {'slug' : item.slug})}}" class="btn item-button">Ajout au pannier</a>
-		</div>
+	{{ include('front/shop/shop_content.html.twig') }}
+{% endblock %}
 
-	{% endfor %}
-	<div class="navigation">
-        {{ knp_pagination_render(items) }}
-    </div>
-</div>
-{#     Detail de la boutique (liste des iitems)
- #}{% endblock %}
+ {% block seller %}
+ 	<ul>
+ 		<li>
+	    	<a href="{{path("shop_show_details",{"slug":shop.slug})}} "><img src="{{shop.logo}} "  alt="{{shop.slug}}"></a>
+	    </li>
+ 	</ul>
+ {% endblock %}

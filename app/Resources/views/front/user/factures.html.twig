@@ -1,0 +1,80 @@
+{% extends "front.html.twig" %}
+
+{% block body %}
+	{% for flashMessage in app.session.flashbag.get('success') %}
+	    <div class="alert alert-success">
+	        {{ flashMessage }}
+	    </div>
+	{% endfor %}
+	{% for flashMessage in app.session.flashbag.get('error') %}
+	    <div class="alert alert-errors">
+	        {{ flashMessage }}
+	    </div>
+	{% endfor %}
+	 <div class="container-full">
+
+		<div class="col-sm-2">
+	        <ul class="text-left well" style="margin-top:5em !important">
+	            <li>
+	                <a href=" {{ path('adress') }} ">Mes adresses</a>
+	            </li>
+
+	            <li>
+	                <a href=" {{ path('facture') }} ">Mes factures</a>
+	            </li>
+	        </ul>
+		</div>
+
+		<div class="col-sm-10">
+			 <h2>Factures</h2>
+				 <table class="table table-responsive table-hover">
+						 <thead>
+							 <tr>
+								 <th>Références</th>
+								 <th>Date</th>
+								 <th>Montant</th>
+							 </tr>
+						 </thead>
+						 <tbody>
+							 {% if factures|length == 0 %}
+									 <tr>
+											 <td colspan="4"><center>Aucune commandes effectuées.... <br> <a href="{{ path('shop_index') }}">Faire des achats</a></center></td>
+									 </tr>
+							 {% endif %}
+							 {% for facture in factures %}
+							 {% set statut = facture.statut %}
+								 <tr
+								 {# choix des couleurs #}
+								 {% if statut == 1 %}
+										 class="alert-warning"
+								 {% elseif statut == 2 %}
+										 class="alert-success"
+								 {% elseif statut == 3 %}
+										 class="alert-danger"
+								 {% endif %}
+								 >
+									 <td>ref : {{ facture.reference }}</td>
+									 <td>{{ facture.date|date('d/m/Y') }}</td>
+									 <td>{{ facture.orders.totalTtc }} €</td>
+									 <td>
+										 <a href="{{ path('get_pdf', {'id': facture.id} ) }}" target="_blank">
+											 <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  Imprimer
+										 </a>
+										 <br>
+										 <a href="{{path('facture_details',{'id':facture.id})}}"><i class="fa fa-eye" aria-hidden="true"></i>  Voir détails</a>
+									 </td>
+							 </tr>
+							 {% endfor %}
+						 </tbody>
+				 </table>
+
+			</div>
+			
+		    
+		<div class="navigation col-sm-12">
+			 {{ knp_pagination_render(factures) }}
+		</div>
+	 </div>
+
+{% endblock %}
+

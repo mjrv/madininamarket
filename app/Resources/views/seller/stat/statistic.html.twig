@@ -1,0 +1,223 @@
+{% extends 'shop.html.twig' %}
+
+{% block body %}
+	<div class="col-xs-12 text-center">
+		<h5 class="text-danger">Dernier rafraissisment: <span id="date"></span></h5>
+		{# <form action="{{ path('statistic', {'id': shop.id} ) }}" method="GET" class="form-horizontal" id="myForm"> #}
+			
+			<h5>Choix par date</h5>
+			<select name="periode" id="periode" class="selectpicker">
+				<option value="1">Depuis le debut</option>
+				<option value="2">Jour</option>
+				<option value="3">Semaine</option>
+				<option value="4">Mois</option>
+				<option value="5">Année</option>
+				<option value="6">Période indiqué</option>
+			</select>
+			<br>
+			<br>
+
+			<div id="custom" style="display: none">
+				<div class="col-xs-6" >
+					Debut: <input type="text" id="debut" name="debut" class="datepicker form-control">   
+				</div>
+				<div class="col-xs-6" id="div_end" style="display: none">
+					Fin: <input type="text" id="fin" name="fin" class="datepicker form-control">
+				</div>
+			</div>
+
+		{# </form> #}
+	</div>
+
+	<div class="col-xs-12">
+		<div id="result" class="col-xs-12"></div>	
+		<div id="total" class="col-xs-offset-10"></div>	
+	</div>
+
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/css/highcharts.css" integrity="sha256-ji+33kRPEXS0+FM/AbApEs8n5kT2UBiGyk36zs1F9gE=" crossorigin="anonymous" />
+{% endblock %}
+{% block javascripts %}
+	{# http://itsolutionstuff.com/post/simple-highcharts-chart-example-using-php-mysql-databaseexample.html #}
+	{# <script src="https://code.highcharts.com/highcharts.js"></script> #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highstock/6.0.1/highstock.js" integrity="sha256-ey/5yo1hzGfJgxENRS4EClXKyQPp6D+v/rYv+Dgn/2c=" crossorigin="anonymous"></script>
+	{# Moment.js #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js" integrity="sha256-TbOIe++NbC9P3KTtUMJ5wcROlBdnRqrPleLdpPg3xxE=" crossorigin="anonymous"></script>
+
+	{# chart.js #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js" integrity="sha256-UGwvyUFH6Qqn0PSyQVw4q3vIX0wV1miKTracNJzAWPc=" crossorigin="anonymous"></script>
+	
+	{# Google graph #}
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script>
+	$(function()
+	{		
+		// Assignation de propriété a des variable pour pouvoir les manipuler partour dans le jquery (question de porté des variables)
+		var periode = $('#periode');
+		var debut = $("#debut");
+		var fin = $("#fin");
+		var custom = $("#custom");
+		var myForm = $("#myForm");
+		var periodeVal = periode.val();
+		var debutVal = debut.val() || null; 
+		var finVal = fin.val() || null;
+
+		getDateTime();
+		getData(periodeVal, debutVal, finVal);
+
+		$( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+
+
+		periode.on("change", function()
+		{
+			periodeVal = $(this).val();
+			$("#periode option[value="+periodeVal+"]").attr("selected", "selected");
+			if(periodeVal == 6)
+			{
+				custom.show();
+			}
+			else
+			{
+				custom.hide();
+				debut.val("");
+				fin.val("");
+				getData(periodeVal, debutVal, finVal);
+			}
+		});
+
+		debut.on("change", function()
+		{
+			debutVal = $(this).val();
+			// $(this).val(val_debut);
+			$("#div_end").show();
+			fin.val("");
+		
+			fin.on("change", function()
+			{
+				finVal = $(this).val();
+
+				if (debutVal > finVal) 
+				{
+					fin.val("");
+				}
+				else
+				{
+					// $(this).val(val_fin);
+					getData(6, debutVal, finVal);
+				}
+			});
+
+		});
+
+		myForm.on("submit", function(e)
+		{
+			e.preventDefault();
+			submitForm(myForm);
+		})
+
+		// Lance la fonction après la durée rentrée, 5000 = 5 secondes //https://stackoverflow.com/questions/2170923/whats-the-easiest-way-to-call-a-function-every-5-seconds-in-jquery
+		window.setInterval(function(){
+			getData(periodeVal, debutVal, finVal);
+			getDateTime();
+		}, 5000);
+
+
+	}); //Fin jquery
+
+	// source : https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+	function l(data){console.log(data)} //Console.log abreger
+	function toStr(data){return JSON.stringify(data)} //Transforme une entrée d'object en string
+	function getDateTime() //Récupere la date l'heure et les seconde actuelle
+	{
+		var dt = new Date(); 
+		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds(); 
+		$('#date').html(time); 
+	} 
+
+	function getData(periodeVal, debutVal, finVal) //Récupere les données des commandes
+	{
+		// Generate url : https://stackoverflow.com/questions/7626792/generating-routes-in-javascript-with-twig-and-symfony2
+		// Etant en js, il y a une subtlité a creer des routes via twig
+		var route = "{{ path('statistic', {'id': shop.id, 'periode': 'periodeVal', 'debut': 'debutVal', 'fin': 'finVal'} ) }}";
+		route = route.replace("debutVal", debutVal).replace("finVal", finVal).replace("periodeVal", periodeVal);
+		// l(route)
+		$.get(route, function(data) // Récupération des commandes
+		{	
+			var total = 0; // Total du montant des commandes
+
+			// Génération du tableau en js
+			var res = '<table class="table table-responsive table-striped">'
+			res += '<thead>'
+			res += '<tr>'
+			res += '<th>Référence</th>'
+			res += '<th>Date</th>'
+			res += '<th>Heure</th>'
+			res += '<th>Client</th>'
+			res += '<th>Ttc</th>'
+			res += '<th>Marge</th>'
+			res += '<th>Voir</th>'
+			res += '</tr>'
+			res += '</thead>'
+			res += '<tbdoy id="data"'			
+			res += '</tbdoy>'
+
+			$.each(data, function(index, el) // On boucle sur nos commandes
+			{
+				// l(el);
+				res+= '<tr>';
+				
+				var route = "{{ path('seller_orders_show', {'id': 'id'} ) }}";
+				route = route.replace("id", index);
+				l(route);
+				// res += "<a href="+ route +">";
+
+				$.each(el, function(key, val) // On boucle sur le contenu de nos commandes
+				{
+					res += '<td>';
+
+					if(key == "id") // Rajoute le lien vers le detail de la commande
+					{
+						res += "<a href="+ route +">Voir</a>";
+					}
+					else
+					{
+						res += val;
+					}
+
+					if(key == "ttc") // Somme du total
+					{
+						total += val;
+					}
+					
+					res += '</td>';
+
+				});
+
+				// res += "</a>";
+
+				res+= '</tr>';
+			});
+			res += '</table>';
+
+			$("#result").html(res);
+			$("#total").html("<p> Total: "+total+" €"+"</p>");
+		})
+		.fail(function(data)
+		{
+			l(toStr(data));
+		})
+	} //Fin getData
+
+	</script>
+{% endblock %}

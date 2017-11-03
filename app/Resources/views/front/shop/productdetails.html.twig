@@ -24,6 +24,14 @@
 	</div>
 {% endblock %}
 
+{% block seller %}
+	<ul>
+		<li>
+    	<a href="{{path("shop_show_details",{"slug":shop.slug})}} "><img src="{{shop.logo}} "  alt="{{shop.slug}}"></a>
+    </li>
+	</ul>
+{% endblock %}
+
 {% block javascripts %}
 <script>
 	var myIndex = 0;

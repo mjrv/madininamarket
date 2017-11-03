@@ -1,0 +1,30 @@
+{% extends "front.html.twig" %}
+
+{% block body %}
+<div class="col-xs-4">
+		{% if user.adress|length > 0 %}
+			<form method="POST">
+				<legend>Liste des adresses</legend>
+				{% for item in user.adress %}
+					<label class="radio">
+						<input type="radio" name="facturation" value="{{item.id}}"{% if loop.first %}checked="checked"{% endif %}>
+						{{item.firstname}} {{item.lastname}} <br>
+						{{item.adress}} {{item.zipCode}} {{item.city}}   {# - {{item.pays}} #}
+						{# Caractere invisible : alt 0160 #}
+						<a href="{{path('deleteAdress',{'id':item.id})}}"><i class="fa fa-trash-o" aria-hidden=true></i></a>
+					</label>
+				{% endfor %}
+			</form>
+		{% else %}
+			<legend>Aucunes adresses enregistrées</legend> 
+		{% endif %}
+	</div>
+	<div class="col-xs-4" style = "float:right">
+		<legend>Ajouter une nouvelle adresse</legend>
+		<form method="POST" class = "form-horizontal">
+			{{form_widget(form)}}
+			<input type="submit" class = "btn btn-primary" value = "valider">
+		</form>
+	</div>
+
+{% endblock %}

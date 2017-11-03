@@ -22,7 +22,29 @@ class ItemsRepository extends \Doctrine\ORM\EntityRepository
 				ORDER BY i.shop
 				'
 				)
-			->setParameter("array",$array);
+			->setParameters([
+							"array" => $array,
+						]);
+		return $query-> getResult();
+	}
+
+	public function findItemsForOrders($array, $shopId)
+	{
+		$query = $this
+			->getEntityManager()
+			->createQuery(
+				'
+				SELECT i
+				FROM  MarketplaceBundle:Items i
+				WHERE i.id IN (:array)
+				AND i.shop = :shopId
+				ORDER BY i.shop
+				'
+				)
+			->setParameters([
+							"array" => $array,
+							"shopId" => $shopId
+						]);
 		return $query-> getResult();
 	}
 

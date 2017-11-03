@@ -35,4 +35,25 @@ class ApiController extends Controller
 		else
 			throw new NotFoundHttpException("La page demandée n'existe pas");
 	}
+	/**
+	 * [doc: https://stackoverflow.com/questions/28141192/return-a-json-array-from-a-controller-in-symfony]
+	 * @Route("/list-shop", name="listShop")
+	 */
+	public function listSop(Request $request)
+	{
+		if($request->isXmlHttpRequest())
+		{
+			$em = $this->getDoctrine()->getManager();
+			$query = $em->createQuery(
+			    'SELECT s
+			    FROM MarketplaceBundle:Shop s'
+			);
+			$shop = $query->getArrayResult();
+
+			return new JsonResponse($shop);
+			// return new JsonResponse($this->getDoctrine()->getManager()->getRepository("MarketplaceBundle:Items")->findAll());
+		}
+		else
+			throw new NotFoundHttpException("La page demandée n'existe pas");
+	}
 }
