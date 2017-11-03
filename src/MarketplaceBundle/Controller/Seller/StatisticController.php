@@ -29,61 +29,57 @@ class StatisticController extends Controller
 	 */
 	public function listOrders(Request $request, $id, $periode, $debut = "1965-01-01", $fin = "9999-12-31")
 	{
-		// if($request->isXmlHttpRequest())
-		// {
-			
-			// $periode = $request->get("periode");
-			// $debut = $request->get("debut");
-			// $fin = $request->get("fin");
+		if($request->isXmlHttpRequest()) # Si c'est unr requete ajax, traitement
+		{
 
 			# https://stackoverflow.com/questions/5174789/php-add-7-days-to-date-format-mm-dd-yyyy
 			#Si les parametres n'existe paas (null), on leurs donnent des valeurs par defaut
-			// if(!$periode) $periode = 1;
-			if(!$fin) $fin = date("Y-m-d"); //Date du jour
+			
+			if(!$fin) $fin = date("Y-m-d"); #Date du jour
 
-			switch($periode) // En fonction de la periode on modifie les paramettre
+			switch($periode) # En fonction de la periode on modifie les paramettre
 			{
-				case 1: //Toutes les factures
+				case 1: #Toutes les factures
 					$debut = "1965-01-01";
 					$fin = "9999-12-31";
 					break;
 				
-				case 2: //Aujourd'hui
+				case 2: #Aujourd'hui
 					$debut = date("Y-m-d");
 					break;
 			
-				case 3: //La semaine
+				case 3: #La semaine
 					$debut = date("Y-m-d", strtotime("$fin - 7 day"));
 					break;
 				
-				case 4: //Le mois
+				case 4: #Le mois
 					$debut = date("Y-m-d", strtotime("$fin - 1 month"));
 					break;
 				
-				case 5: //L'année
+				case 5: #L'année
 					$debut = date("Y-m-d", strtotime("$fin - 1 year"));
 					break;
 
-				case 6: //Custum
+				case 6: #Custum
 					$debut = $debut;
 					$fin = $fin;
 					break;
 			}
 
-			$params = [
-				$periode,
-				$debut,
-				$fin
-			];
+			// $params = [
+			// 	$periode,
+			// 	$debut,
+			// 	$fin
+			// ];
 
-			dump($params);
+			// dump($params);
 
 			$em = $this->getDoctrine()->getManager();
-			$orders = $em->getRepository('MarketplaceBundle:Orders')->findOrdersByDate($id, $debut." 00:00:00.00", $fin." 23:59:59.999");
+			$orders = $em->getRepository('MarketplaceBundle:Orders')->findOrdersByDate($id, $debut." 00:00:00.00", $fin." 23:59:59.999"); # Requete su la boutique, et des dates (pour comparer les datetime il faut obligatoirement des datetime)
 
 
 			$res = [];
-			foreach ($orders as $key => $value) 
+			foreach ($orders as $key => $value) # On boucle sur les commade pour les renvoyer en tant que string et non plus objet
 			{
 				$res[$value->getId()] = [ 
 					"ref" 	=> $value->getReference(),
@@ -100,10 +96,10 @@ class StatisticController extends Controller
 
 			}
 
-			return new JsonResponse($res);
-		// }
-		// else
-		// 	throw new NotFoundHttpException("La page demandée n'existe pas");
+			return new JsonResponse($res); # Renvoie le tableau de commande en Json
+		}
+		else
+			throw new NotFoundHttpException("La page demandée n'existe pas"); # Sinon on renvoie une erreur sympa
 	}
 
 	/**
