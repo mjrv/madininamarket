@@ -8,12 +8,14 @@
 	<li class="dropdown">
       <a href="#">Gestion produits</a>
       <ul class="dropdown-menu">
-        <li>
-          <a href="{{ path('items_new') }}">Creer</a>
-        </li>
-        <li>
-          <a href="{{ path('items_index') }}">Liste</a>
-        </li>
+        {% for mag in user %}
+          <li>
+            <a href="{{ path('items_new', {'id':mag.id} ) }}">Creer</a>
+          </li>
+          <li>
+            <a href="{{ path('items_index', {'id':mag.id} ) }}">Liste</a>
+          </li>
+        {% endfor %}
       </ul>
     </li>
 
@@ -32,20 +34,20 @@
 	<li class="dropdown">
       <a href="#">Gestion produits</a>
       <ul class="dropdown-menu">
-      	{% for mag in user %}
-			<li class="dropdown-submenu">
-				<a href="{{ path('shop_show',{'id':mag.id} ) }} ">{{mag.commercialName}}<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li>
-			          <a href="{{ path('items_new',{'id':mag.id}) }}"  tabindex="-1">Creer</a>
-			        </li>
+      {% for mag in user %}
+  			<li class="dropdown-submenu">
+  				<a href="{{ path('shop_show',{'id':mag.id} ) }} ">{{mag.commercialName}}<span class="caret"></span></a>
+  				<ul class="dropdown-menu">
+  					<li>
+  			          <a href="{{ path('items_new',{'id':mag.id}) }}"  tabindex="-1">Creer</a>
+  			        </li>
 
-			        <li>
-			          <a href="{{ path('items_index',{'id':mag.id}) }}" tabindex="-1">Liste</a>
-			       	</li>
-				</ul>
-			</li>
-		{% endfor %}
+  			        <li>
+  			          <a href="{{ path('items_index',{'id':mag.id}) }}" tabindex="-1">Liste</a>
+  			       	</li>
+  				</ul>
+  			</li>
+		  {% endfor %}
       
       </ul>
     </li>

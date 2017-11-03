@@ -21,6 +21,7 @@ class ShopType extends AbstractType
             ->add('raisonSocial')
             ->add('immatriculation')
             ->add('apeCode')
+            ->add('prefixeRef')
             ->add('nameGerant')
             ->add('phone')
             ->add('phone2')
@@ -29,10 +30,12 @@ class ShopType extends AbstractType
             ->add('city')
             ->add('zipcode')
             ->add('logo')
-            ->add('prefixeRef')
             ->add('cover')
             ->add('active')
             ->add('generateAutoRef',HiddenType::class,[
+                'data' => '00000',
+            ])
+            ->add('refOrders',HiddenType::class,[
                 'data' => '00000',
             ])
             ->add('retraitMag',ChoiceType::class,[

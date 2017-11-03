@@ -617,6 +617,8 @@ class Shop
     public function setGenerateAutoRef($generateAutoRef)
     {
         $this->generateAutoRef = $generateAutoRef;
+    }
+
     public function getRefOrders()
     {
         return $this->refOrders;
@@ -696,8 +698,7 @@ class Shop
     public function setRetraitMag($retraitMag)
     {
         $this->retraitMag = $retraitMag;
-
-        return $this;
+    }
     /**
      * Remove order
      *
